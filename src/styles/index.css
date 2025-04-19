@@ -4,16 +4,16 @@
 
 @theme {
   /* Modo claro */
-  --color-sun: #F9CB40;
-  --color-sky: #A2D2FF;
-  --color-heart: #FF6B6B;
-  --color-leaf: #B8E4C9;
-  --color-cloud: #F4F4F4;
+  --color-accent: #FFC107;
+  --color-background: #FFF8F0;
+  --color-card: #FDE7C1;
+  --color-primary: #F57C00;
+  --color-text: #6D4C41;
 
   /* Dark theme */
-  --color-dk-sun: #C89F43;
-  --color-dk-sky: #4361EE;
-  --color-dk-heart: #B0413E;
-  --color-dk-leaf: #1E5A41;
-  --color-dk-cloud: #1B1B1B;
+  --color-dk-accent: #FFCA28;
+  --color-dk-background: #2E2E2E;
+  --color-dk-card: #4E342E;
+  --color-dk-primary: #FF9800;
+  --color-dk-text: #D7CCC8;
 }
