@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Modo claro */
+  --color-sun: #F9CB40;
+  --color-sky: #A2D2FF;
+  --color-heart: #FF6B6B;
+  --color-leaf: #B8E4C9;
+  --color-cloud: #F4F4F4;
+
+  /* Dark theme */
+  --color-dk-sun: #C89F43;
+  --color-dk-sky: #4361EE;
+  --color-dk-heart: #B0413E;
+  --color-dk-leaf: #1E5A41;
+  --color-dk-cloud: #1B1B1B;
+}
