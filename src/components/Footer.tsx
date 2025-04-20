@@ -2,6 +2,15 @@ import { Link } from 'react-router-dom';
 import { Typography } from '@material-tailwind/react';
 
 import { menuItems } from './Navbar';
+import { WEB_ROUTES } from '@utils/routes';
+
+const menuItemsUpdated = [
+  {
+    name: 'Principal',
+    link: WEB_ROUTES.home,
+  },
+  ...menuItems,
+];
 
 const Footer = () => {
   return (
@@ -10,7 +19,7 @@ const Footer = () => {
         &copy; {new Date().getFullYear()} Raices solidarias.
       </Typography>
       <ul className="flex flex-wrap items-center gap-y-2 gap-x-8">
-        {menuItems.map((item) => (
+        {menuItemsUpdated.map((item) => (
           <Typography
             as="li"
             className="transition-colors hover:text-text dark:hover:text-dk-text"

@@ -1,7 +1,10 @@
 import { Button, Typography } from '@material-tailwind/react';
 import { Flag } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const NotFound = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="flex items-center justify-center mt-20">
       <div className="flex flex-col items-center text-center">
@@ -18,9 +21,10 @@ const NotFound = () => {
           vuelve a la página de inicio.
         </Typography>
         <Button
+          className="cursor-pointer w-full bg-primary px-4 md:w-[8rem] rounded-lg"
           color="red"
+          onClick={() => navigate('/')}
           size="sm"
-          className="w-full bg-primary px-4 md:w-[8rem] rounded-lg"
         >
           Volver al inicio
         </Button>

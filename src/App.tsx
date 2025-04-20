@@ -3,26 +3,30 @@ import { ThemeProvider } from '@material-tailwind/react';
 
 import Layout from '@components/Layout';
 
+import About from '@pages/About';
+import Contact from '@pages/Contact';
+import Deliveries from '@pages/Deliveries';
+import Delivery from '@pages/Delivery';
 import Home from '@pages/Home';
+import NotFound from '@pages/NotFound';
 
 import { WEB_ROUTES } from '@utils/routes';
-import NotFound from '@pages/NotFound';
 
 export const routes: RouteProps[] = [
   {
-    Component: Home,
+    Component: About,
     path: WEB_ROUTES.about,
   },
   {
-    Component: Home,
+    Component: Contact,
     path: WEB_ROUTES.contact,
   },
   {
-    Component: Home,
+    Component: Delivery,
     path: WEB_ROUTES.delivery,
   },
   {
-    Component: Home,
+    Component: Deliveries,
     path: WEB_ROUTES.deliveries,
   },
   {
