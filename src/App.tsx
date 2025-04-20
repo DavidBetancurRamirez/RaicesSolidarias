@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, RouteProps, Routes } from 'react-router-dom';
-import { ThemeProvider } from '@material-tailwind/react';
 
 import Layout from '@components/Layout';
 
@@ -11,6 +10,7 @@ import Home from '@pages/Home';
 import NotFound from '@pages/NotFound';
 
 import { WEB_ROUTES } from '@utils/routes';
+import { ThemeProvider } from '@material-tailwind/react';
 
 export const routes: RouteProps[] = [
   {

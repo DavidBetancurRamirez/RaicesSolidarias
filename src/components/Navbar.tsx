@@ -4,9 +4,10 @@ import {
   Typography,
   IconButton,
 } from '@material-tailwind/react';
-import { WEB_ROUTES } from '@utils/routes';
 import { Moon, Sun } from 'lucide-react';
 import { Link } from 'react-router-dom';
+
+import { WEB_ROUTES } from '@utils/routes';
 
 export const menuItems = [
   { link: WEB_ROUTES.about, name: 'Nosotros' },
@@ -18,13 +19,10 @@ const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <MtNavbar
-      className="bg-primary dark:bg-dk-primary w-full px-4 py-6"
-      variant="filled"
-    >
+    <MtNavbar className="bg-primary dark:bg-dk_primary min-w-full m-0 px-4 py-6 rounded-none border-none shadow-none">
       <div className="flex flex-wrap items-center justify-between text-white">
         <Typography
-          className="transition-colors hover:text-text dark:hover:text-dk-text"
+          className="transition-colors duration-500 ease-in-out  hover:text-text dark:hover:text-dk_text"
           variant="lead"
         >
           <Link to="/">Raices Solidarias</Link>
@@ -35,7 +33,7 @@ const Navbar = () => {
             {menuItems.map((item) => (
               <Typography
                 as="li"
-                className="transition-colors hover:text-text dark:hover:text-dk-text"
+                className="transition-colors duration-300 ease-in-out hover:text-text dark:hover:text-dk_text"
                 key={item.name}
                 variant="small"
               >
@@ -45,7 +43,7 @@ const Navbar = () => {
           </ul>
 
           <IconButton
-            className="cursor-pointer transition-colors hover:text-text dark:hover:text-dk-text"
+            className="transition-colors bg-transparent shadow-none"
             onClick={toggleTheme}
           >
             {theme === 'dark' ? <Moon /> : <Sun />}
