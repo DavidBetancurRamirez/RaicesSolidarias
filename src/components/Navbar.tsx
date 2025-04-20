@@ -19,7 +19,7 @@ const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <MtNavbar className="bg-primary dark:bg-dk_primary min-w-full m-0 px-4 py-6 rounded-none border-none shadow-none">
+    <MtNavbar className="bg-primary min-w-full m-0 px-4 py-6 rounded-none border-none shadow-none">
       <div className="flex flex-wrap items-center justify-between text-white">
         <Typography
           className="transition-colors duration-500 ease-in-out  hover:text-text dark:hover:text-dk_text"
