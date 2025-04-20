@@ -22,6 +22,7 @@ export default defineConfig([
       prettier,
     },
     rules: {
+      'sort-keys': ['warn', 'asc', { caseSensitive: false, natural: true }],
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-unused-vars': [
         'warn',
