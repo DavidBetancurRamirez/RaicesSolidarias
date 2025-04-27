@@ -28,7 +28,6 @@ export default defineConfig([
         'warn',
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
       ],
-
       'prettier/prettier': [
         'error',
         {

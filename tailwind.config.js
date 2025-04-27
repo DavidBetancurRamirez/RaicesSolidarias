@@ -1,14 +1,16 @@
 import withMT from '@material-tailwind/react/utils/withMT';
+import scrollbar from 'tailwind-scrollbar';
 
 export default withMT({
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        /* Modo claro */
+        /* Default Theme */
         accent: '#E6A700',
         background: '#FFF8F0',
         card: '#FDE7C1',
@@ -25,5 +27,5 @@ export default withMT({
       },
     },
   },
-  plugins: [],
+  plugins: [scrollbar({ nocompatible: true })],
 });

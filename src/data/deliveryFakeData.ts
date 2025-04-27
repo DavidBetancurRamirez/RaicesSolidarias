@@ -3,7 +3,8 @@ import houseImage from '@assets/images/2022/2022_casa.jpeg';
 export const fakeData = [
   {
     buttonText: 'Ver más',
-    description: 'Entrega de alimentos y ropa a comunidades rurales en 2024.',
+    description:
+      'Entrega de alimentos y ropa a comunidades rurales en 2024. Entrega de alimentos y ropa a comunidades rurales en 2024. Entrega de alimentos y ropa a comunidades rurales en 2024. Entrega de alimentos y ropa a comunidades rurales en 2024. Entrega de alimentos y ropa a comunidades rurales en 2024. Entrega de alimentos y ropa a comunidades rurales en 2024. Entrega de alimentos y ropa a comunidades rurales en 2024. Entrega de alimentos y ropa a comunidades rurales en 2024. Entrega de alimentos y ropa a comunidades rurales en 2024. Entrega de alimentos y ropa a comunidades rurales en 2024. Entrega de alimentos y ropa a comunidades rurales en 2024. Entrega de alimentos y ropa a comunidades rurales en 2024. Entrega de alimentos y ropa a comunidades rurales en 2024.',
     fallbackImage: houseImage,
     imageSources: [
       { media: '(max-width: 768px)', srcSet: houseImage },

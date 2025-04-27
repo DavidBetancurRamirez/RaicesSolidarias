@@ -1,4 +1,3 @@
-// src/hooks/useTheme.ts
 import { useEffect, useState } from 'react';
 
 export type Theme = 'light' | 'dark';
