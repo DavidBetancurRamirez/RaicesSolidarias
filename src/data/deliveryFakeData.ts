@@ -2,61 +2,61 @@ import houseImage from '@assets/images/2022/2022_casa.jpeg';
 
 export const fakePlaces = [
   {
-    date: '2024-01-15',
+    date: new Date('2024-01-15T00:00:00Z'),
     description: 'Entrega de alimentos y ropa a familias necesitadas.',
     image: houseImage,
     place: 'Comunidad A',
   },
   {
-    date: '2024-03-10',
+    date: new Date('2024-03-10T00:00:00Z'),
     description: 'Distribución de kits escolares para niños.',
     image: houseImage,
     place: 'Comunidad B',
   },
   {
-    date: '2023-02-20',
+    date: new Date('2023-02-20T00:00:00Z'),
     description: 'Reparación de viviendas afectadas por inundaciones.',
     image: houseImage,
     place: 'Comunidad C',
   },
   {
-    date: '2023-05-05',
+    date: new Date('2023-05-05T00:00:00Z'),
     description: 'Entrega de alimentos y agua potable.',
     image: houseImage,
     place: 'Comunidad D',
   },
   {
-    date: '2022-04-12',
+    date: new Date('2022-04-12T00:00:00Z'),
     description: 'Entrega de útiles escolares a estudiantes.',
     image: houseImage,
     place: 'Escuela E',
   },
   {
-    date: '2022-07-18',
+    date: new Date('2022-07-18T00:00:00Z'),
     description: 'Distribución de alimentos básicos.',
     image: houseImage,
     place: 'Comunidad F',
   },
   {
-    date: '2021-03-22',
+    date: new Date('2021-03-22T00:00:00Z'),
     description: 'Campaña de vacunación contra enfermedades comunes.',
     image: houseImage,
     place: 'Centro de Salud G',
   },
   {
-    date: '2021-08-30',
+    date: new Date('2021-08-30T00:00:00Z'),
     description: 'Entrega de alimentos a familias vulnerables.',
     image: houseImage,
     place: 'Comunidad H',
   },
   {
-    date: '2020-06-15',
+    date: new Date('2020-06-15T00:00:00Z'),
     description: 'Distribución de kits de higiene personal.',
     image: houseImage,
     place: 'Comunidad I',
   },
   {
-    date: '2020-11-10',
+    date: new Date('2020-11-10T00:00:00Z'),
     description: 'Entrega de alimentos durante la pandemia.',
     image: houseImage,
     place: 'Comunidad J',
@@ -66,7 +66,7 @@ export const fakePlaces = [
 export const fakeDeliveries = [
   {
     description:
-      'lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+      'lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     image: houseImage,
     places: fakePlaces,
     year: '2024',

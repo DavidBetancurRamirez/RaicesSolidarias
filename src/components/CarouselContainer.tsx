@@ -38,7 +38,7 @@ const CarouselContainer: React.FC<CarouselContainerProps> = ({ children }) => {
 
       <div
         ref={containerRef}
-        className="flex gap-4 overflow-x-auto overflow-y-hidden scroll-smooth pb-2 w-full"
+        className="flex gap-4 overflow-x-auto overflow-y-hidden scroll-smooth pb-2 w-full snap-x snap-mandatory"
       >
         {children}
       </div>

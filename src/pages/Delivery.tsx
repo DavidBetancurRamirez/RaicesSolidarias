@@ -1,11 +1,11 @@
 import { Typography } from '@material-tailwind/react';
 
 import CarouselContainer from '@components/CarouselContainer';
+import GridTwoColumns from '@components/GridTwoColumns';
 import PlaceCard from '@components/PlaceCard';
 import Title from '@components/Title';
 
 import { fakeDeliveries } from '@/data/deliveryFakeData';
-import GridTwoColumns from '@components/GridTwoColumns';
 
 const Delivery = () => {
   const delivery = fakeDeliveries[0];
@@ -46,17 +46,19 @@ const Delivery = () => {
         </div>
       </GridTwoColumns>
 
-      <CarouselContainer>
-        {delivery.places.map((place, index) => (
-          <PlaceCard
-            key={index}
-            date={new Date(place.date)}
-            description={place.description}
-            image={place.image}
-            place={place.place}
-          />
-        ))}
-      </CarouselContainer>
+      {delivery.places?.length > 0 && (
+        <CarouselContainer>
+          {delivery.places.map((place, index) => (
+            <PlaceCard
+              key={index}
+              date={place.date}
+              description={place.description}
+              image={place.image}
+              place={place.place}
+            />
+          ))}
+        </CarouselContainer>
+      )}
     </div>
   );
 };

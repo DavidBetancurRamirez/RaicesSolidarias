@@ -22,7 +22,7 @@ const PlaceCard: React.FC<PlaceCardProps> = ({
   place,
 }) => {
   return (
-    <Card className="rounded-xl min-w-96 bg-card dark:bg-dk_card">
+    <Card className="flex-shrink-0 snap-center basis-full md:min-w-[300px] md:max-w-[300px] rounded-xl bg-card dark:bg-dk_card">
       <CardHeader
         shadow={false}
         floated={false}
@@ -34,7 +34,7 @@ const PlaceCard: React.FC<PlaceCardProps> = ({
       <CardBody className="p-4 w-full text-text dark:text-dk_text h-72">
         <ButtonWithIcon
           className="w-full"
-          text={`${place} ${date.toLocaleString()}`}
+          text={`${place} - ${date.toLocaleDateString()}`}
         />
         <div className="mt-4 overflow-y-auto max-h-[calc(100%-4rem)] pr-2">
           <Typography
