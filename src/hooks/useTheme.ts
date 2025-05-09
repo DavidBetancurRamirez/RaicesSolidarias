@@ -1,4 +1,3 @@
-// src/hooks/useTheme.ts
 import { useEffect, useState } from 'react';
 
 export type Theme = 'light' | 'dark';
@@ -6,9 +5,9 @@ export type Theme = 'light' | 'dark';
 export const useTheme = () => {
   const [theme, setTheme] = useState<Theme>(() => {
     if (typeof window !== 'undefined') {
-      return (localStorage.getItem('theme') as Theme) || 'dark';
+      return (localStorage.getItem('theme') as Theme) || 'light';
     }
-    return 'dark';
+    return 'light';
   });
 
   useEffect(() => {
