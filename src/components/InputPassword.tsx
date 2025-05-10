@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Input, InputProps, Typography } from '@material-tailwind/react';
 import { Eye, EyeOff, Info } from 'lucide-react';
+import { Input, InputProps, Typography } from '@material-tailwind/react';
 
 interface InputPasswordProps extends Omit<InputProps, 'type'> {
   info?: boolean;
@@ -18,7 +18,10 @@ const InputPassword: React.FC<InputPasswordProps> = ({
     <div>
       <Input
         {...props}
-        className={`!border-t-blue-gray-200 focus:!border-t-gray-900 ${props.className}`}
+        className={`!text-text dark:!text-dk_text !border-text dark:!border-dk_text ${props.className}`}
+        placeholder={placeholder}
+        size="lg"
+        type={showPassword ? 'text' : 'password'}
         icon={
           showPassword ? (
             <Eye
@@ -32,20 +35,17 @@ const InputPassword: React.FC<InputPasswordProps> = ({
             />
           )
         }
-        placeholder={placeholder}
-        size="lg"
-        type={showPassword ? 'text' : 'password'}
         labelProps={{
           className: 'before:content-none after:content-none',
         }}
       />
       {info && (
         <Typography
-          variant="small"
           className="mt-2 flex items-center gap-2 text-text dark:text-dk_text"
+          variant="small"
         >
           <Info />
-          Usa almenos 6 caracteres, una mayuscula y un caracter especial.
+          Usa al menos 6 caracteres, una mayúscula y un carácter especial.
         </Typography>
       )}
     </div>
