@@ -11,6 +11,7 @@ import NotFound from '@pages/NotFound';
 
 import { WEB_ROUTES } from '@utils/routes';
 import { ThemeProvider } from '@material-tailwind/react';
+import Session from '@pages/Session';
 
 export const routes: RouteProps[] = [
   {
@@ -22,16 +23,20 @@ export const routes: RouteProps[] = [
     path: WEB_ROUTES.contact,
   },
   {
-    Component: Delivery,
-    path: WEB_ROUTES.delivery,
-  },
-  {
     Component: Deliveries,
     path: WEB_ROUTES.deliveries,
   },
   {
+    Component: Delivery,
+    path: WEB_ROUTES.delivery,
+  },
+  {
     Component: Home,
     path: WEB_ROUTES.home,
+  },
+  {
+    Component: Session,
+    path: WEB_ROUTES.session,
   },
   {
     Component: NotFound,
