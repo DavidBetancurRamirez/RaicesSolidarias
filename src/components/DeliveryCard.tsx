@@ -4,15 +4,13 @@ import {
   CardHeader,
   Typography,
 } from '@material-tailwind/react';
-import { ArrowRight } from 'lucide-react';
 
 import ButtonWithIcon from './ButtonWithIcon';
 
 interface DeliveryCardProps {
   buttonText?: string;
   description: string;
-  fallbackImage: string;
-  imageSources: { srcSet: string; media: string }[];
+  image: string;
   onClick: () => void;
   reverse?: boolean;
   year: string;
@@ -21,8 +19,7 @@ interface DeliveryCardProps {
 const DeliveryCard: React.FC<DeliveryCardProps> = ({
   buttonText = 'Ver más',
   description,
-  fallbackImage,
-  imageSources,
+  image,
   onClick,
   reverse = false,
   year,
@@ -40,16 +37,7 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({
           reverse ? 'md:rounded-r-xl' : 'md:rounded-l-xl'
         } bg-card dark:bg-dk_card h-48 md:h-full`}
       >
-        <picture>
-          {imageSources.map((source, index) => (
-            <source key={index} srcSet={source.srcSet} media={source.media} />
-          ))}
-          <img
-            src={fallbackImage}
-            alt="card-image"
-            className="h-full w-full object-cover"
-          />
-        </picture>
+        <img className="w-full object-cover h-full" src={image} />
       </CardHeader>
 
       <CardBody className="p-4 flex flex-col justify-between gap-4 h-72 w-full text-text dark:text-dk_text">
@@ -59,12 +47,7 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({
             {description}
           </Typography>
         </div>
-        <ButtonWithIcon
-          className="w-fit"
-          text={buttonText}
-          icon={<ArrowRight />}
-          onClick={onClick}
-        />
+        <ButtonWithIcon className="w-fit" text={buttonText} onClick={onClick} />
       </CardBody>
     </Card>
   );
