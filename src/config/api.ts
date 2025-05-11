@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useAuthStore } from '@/stores/authStore';
 
 import { API_BASE_URL, API_ROUTES } from '@utils/routes';
+import { useUIStore } from '@/stores/uiStore';
 
 export interface ResponseData<T extends object | unknown> {
   data: T;
@@ -47,7 +48,7 @@ const responseApiTokens = [
 
 api.interceptors.response.use(
   (response) => {
-    let responseData = JSON.parse(response.data);
+    const responseData = JSON.parse(response.data);
 
     if (
       response?.config?.url &&
@@ -63,10 +64,7 @@ api.interceptors.response.use(
 
         const { refreshToken: _refreshToken, ...rest } = responseData.data;
 
-        responseData = {
-          ...responseData,
-          data: rest.data,
-        };
+        responseData.data = rest.data;
       } catch (error) {
         console.error('Interceptor error', error);
         throw new Error('Error parsing response data');
@@ -78,32 +76,40 @@ api.interceptors.response.use(
     return response.data;
   },
   async (error) => {
-    const originalRequest = error.config;
-    const { refreshToken, setToken, logout } = useAuthStore.getState();
+    const responseError = JSON.parse(error.response.data);
 
-    if (
-      error.response?.status === 401 &&
-      !originalRequest._retry &&
-      refreshToken
-    ) {
-      originalRequest._retry = true;
-      try {
-        const res = await axios.post(API_ROUTES.refresh, {
-          refreshToken,
-        });
-
-        const newToken = res.data.token;
-        setToken(newToken);
-
-        originalRequest.headers.Authorization = `Bearer ${newToken}`;
-        return api(originalRequest);
-      } catch (err) {
-        logout();
-        return Promise.reject(err);
-      }
+    if (responseError?.message) {
+      const { setAlert } = useUIStore.getState();
+      setAlert(responseError.message);
     }
 
-    return Promise.reject(error);
+    return Promise.reject(responseError);
+
+    //? With refresh token
+    // const originalRequest = error.config;
+    // const { refreshToken, setToken, logout } = useAuthStore.getState();
+
+    // if (
+    //   error.response?.status === 401 &&
+    //   !originalRequest._retry &&
+    //   refreshToken
+    // ) {
+    //   originalRequest._retry = true;
+    //   try {
+    //     const res = await axios.post(API_ROUTES.refresh, {
+    //       refreshToken,
+    //     });
+
+    //     const newToken = res.data.token;
+    //     setToken(newToken);
+
+    //     originalRequest.headers.Authorization = `Bearer ${newToken}`;
+    //     return api(originalRequest);
+    //   } catch (err) {
+    //     logout();
+    //     return Promise.reject(err);
+    //   }
+    // }
   },
 );
 

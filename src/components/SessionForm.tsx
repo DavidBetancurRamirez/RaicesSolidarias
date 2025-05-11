@@ -67,7 +67,6 @@ const SessionForm = () => {
       navigate(WEB_ROUTES.home);
     } catch (error) {
       console.error('Error al enviar el formulario:', error);
-      setAlert('Error al enviar el formulario, intenta de nuevo');
     }
   };
 
@@ -117,6 +116,7 @@ const SessionForm = () => {
                 Nombre de usuario
               </Typography>
               <Input
+                autoComplete="on"
                 className=" !text-text dark:!text-dk_text !border-text dark:!border-dk_text"
                 name="userName"
                 onChange={handleChange}
@@ -137,6 +137,7 @@ const SessionForm = () => {
             Correo electronico
           </Typography>
           <Input
+            autoComplete="on"
             className=" !text-text dark:!text-dk_text !border-text dark:!border-dk_text"
             name="email"
             onChange={handleChange}
