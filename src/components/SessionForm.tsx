@@ -6,16 +6,21 @@ import {
   Input,
   Typography,
 } from '@material-tailwind/react';
+import { useNavigate } from 'react-router-dom';
+
+import api, { ResponseData } from '@/config/api';
 
 import InputPassword from './InputPassword';
-import { API_ROUTES, WEB_ROUTES } from '@utils/routes';
+
 import { useAuthStore, User } from '@/stores/authStore';
+import { useUIStore } from '@/stores/uiStore';
+
+import { API_ROUTES, WEB_ROUTES } from '@utils/routes';
 import { validatePassword } from '@utils/validations';
-import api, { ResponseData } from '@/config/api';
-import { useNavigate } from 'react-router-dom';
 
 const SessionForm = () => {
   const navigate = useNavigate();
+  const setAlert = useUIStore((state) => state.setAlert);
 
   const [login, setLogin] = useState<boolean>(true);
   const [formData, setFormData] = useState({
@@ -34,7 +39,12 @@ const SessionForm = () => {
     e.preventDefault();
 
     try {
-      validateForm();
+      const error = validateForm();
+
+      if (error) {
+        setAlert(error);
+        return;
+      }
 
       const response = (await api.post(
         API_ROUTES[login ? 'login' : 'register'],
@@ -42,14 +52,22 @@ const SessionForm = () => {
       )) as ResponseData<User>;
 
       if (response.statusCode !== 201) {
-        throw new Error('Error al enviar el formulario');
+        setAlert('Error al enviar el formulario, intenta de nuevo');
+        return;
       }
 
       useAuthStore.getState().setUser(response.data);
 
+      setAlert(
+        login
+          ? 'Iniciaste sesión correctamente'
+          : 'Te registraste correctamente',
+      );
+
       navigate(WEB_ROUTES.home);
     } catch (error) {
       console.error('Error al enviar el formulario:', error);
+      setAlert('Error al enviar el formulario, intenta de nuevo');
     }
   };
 
@@ -57,17 +75,15 @@ const SessionForm = () => {
     const { email, password, checkPassword } = formData;
 
     if (!email || !password) {
-      throw new Error('Correo electronico y Contraseña son obligatorios');
+      return 'Correo electronico y Contraseña son obligatorios';
     }
 
     if (!validatePassword(password)) {
-      throw new Error(
-        'La contraseña debe tener al menos 6 caracteres, una mayúscula y un carácter especial',
-      );
+      return 'La contraseña debe tener al menos 6 caracteres, una mayúscula y un carácter especial';
     }
 
-    if (password !== checkPassword) {
-      throw new Error('Las contraseñas no coinciden');
+    if (!login && password !== checkPassword) {
+      return 'Las contraseñas no coinciden';
     }
   };
 
