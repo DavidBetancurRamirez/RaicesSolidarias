@@ -1,15 +1,9 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import { UserRoles } from '@/constants/roles';
-import { useUIStore } from './uiStore';
+import { User } from '@/constants/interfaces';
 
-export interface User {
-  _id: string;
-  email: string;
-  roles: UserRoles[];
-  userName: string;
-}
+import { useUIStore } from './uiStore';
 
 interface AuthState {
   logout: () => void;

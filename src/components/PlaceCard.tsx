@@ -7,6 +7,7 @@ import {
 } from '@material-tailwind/react';
 
 import ButtonWithIcon from './ButtonWithIcon';
+import SafeImage from './SafeImage';
 
 interface PlaceCardProps {
   date: Date;
@@ -21,6 +22,8 @@ const PlaceCard: React.FC<PlaceCardProps> = ({
   image,
   place,
 }) => {
+  const text = `${place} - ${date?.toLocaleDateString()}`;
+
   return (
     <Card className="flex-shrink-0 snap-center basis-full md:min-w-[300px] md:max-w-[300px] rounded-xl bg-card dark:bg-dk_card">
       <CardHeader
@@ -28,14 +31,15 @@ const PlaceCard: React.FC<PlaceCardProps> = ({
         floated={false}
         className="m-0 w-full shrink-0 rounded-t-xl rounded-b-none bg-card dark:bg-dk_card h-60"
       >
-        <img className="w-full object-cover h-full" src={image} />
+        <SafeImage
+          alt={text}
+          className="w-full object-cover h-full"
+          src={image}
+        />
       </CardHeader>
 
       <CardBody className="p-4 w-full text-text dark:text-dk_text h-72">
-        <ButtonWithIcon
-          className="w-full"
-          text={`${place} - ${date.toLocaleDateString()}`}
-        />
+        <ButtonWithIcon className="w-full" text={text} />
         <div className="mt-4 overflow-y-auto max-h-[calc(100%-4rem)] pr-2">
           <Typography
             variant="small"
