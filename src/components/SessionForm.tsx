@@ -78,7 +78,7 @@ const SessionForm = () => {
       return 'Correo electronico y Contraseña son obligatorios';
     }
 
-    if (!validatePassword(password)) {
+    if (!login && !validatePassword(password)) {
       return 'La contraseña debe tener al menos 6 caracteres, una mayúscula y un carácter especial';
     }
 

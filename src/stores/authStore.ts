@@ -23,7 +23,7 @@ interface AuthState {
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
-      logout: () => set({ token: null, user: null }),
+      logout: () => set({ refreshToken: null, token: null, user: null }),
       refreshToken: null,
       setRefreshToken: (refreshToken) => set({ refreshToken }),
       setToken: (token) => set({ token }),

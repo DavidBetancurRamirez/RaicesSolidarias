@@ -8,6 +8,7 @@ declare module '@material-tailwind/react' {
     placeholder?: never;
   }
 
+  interface BreadcrumbsProps extends MTProps {}
   interface ButtonProps extends MTProps {}
   interface CardProps extends MTProps {}
   interface CardHeaderProps extends MTProps {}

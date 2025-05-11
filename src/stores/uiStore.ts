@@ -11,9 +11,9 @@ interface AlertState {
 export const useUIStore = create<AlertState>()(
   persist(
     (set) => ({
-      closeAlert: () => set({ open: false }),
+      closeAlert: () => set({ message: '', open: false }),
       message: '',
-      open: true,
+      open: false,
       setAlert: (message) => set({ message, open: true }),
     }),
     { name: 'ui-store' },
