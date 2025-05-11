@@ -13,6 +13,7 @@ import api, { ResponseData } from '@/config/api';
 import { Delivery, initialStateDelivery } from '@/constants/interfaces';
 
 import { API_ROUTES } from '@utils/routes';
+import PageLayout from '@components/PageLayout';
 
 const DeliveryPage = () => {
   const { id } = useParams<{ id?: string }>();
@@ -37,72 +38,75 @@ const DeliveryPage = () => {
   }, [id]);
 
   return (
-    <div className="py-4 px-2 sm:px-4 md:px-6 lg:px-10 xl:px-16 flex flex-col gap-4 md:gap-6 xl:gap-8">
-      <Title title={String(delivery.year)} />
-
-      <GridTwoColumns>
-        <SafeImage
-          alt="Imagen principal de la entrega"
-          className="w-full object-cover rounded-lg h-80"
-          src={delivery.mainImageUrl}
-        />
-        <DeliveryDescription text={delivery.description} maxHeight="max-h-80" />
-      </GridTwoColumns>
-
-      <GridTwoColumns>
-        <div className="flex flex-col gap-4">
-          <Title
-            containerClassName="md:mb-2"
-            variant="h4"
-            title={`Mensaje ${delivery.year}`}
+    <PageLayout title={String(delivery.year)}>
+      <div className="flex flex-col gap-4 md:gap-6 xl:gap-8">
+        <GridTwoColumns>
+          <SafeImage
+            alt="Imagen principal de la entrega"
+            className="w-full object-cover rounded-lg h-80"
+            src={delivery.mainImageUrl}
           />
-          {delivery?.statistics?.length ? (
-            <GridTwoColumns>
-              <SafeImage
-                alt="Imagen de agradecimiento"
-                className="w-full object-cover rounded-lg h-60"
-                src={delivery.thankYou.imageUrl}
-              />
+          <DeliveryDescription
+            text={delivery.description}
+            maxHeight="max-h-80"
+          />
+        </GridTwoColumns>
+
+        <GridTwoColumns>
+          <div className="flex flex-col gap-4">
+            <Title
+              containerClassName="md:mb-2"
+              variant="h4"
+              title={`Mensaje ${delivery.year}`}
+            />
+            {delivery?.statistics?.length ? (
+              <GridTwoColumns>
+                <SafeImage
+                  alt="Imagen de agradecimiento"
+                  className="w-full object-cover rounded-lg h-60"
+                  src={delivery.thankYou.imageUrl}
+                />
+                <DeliveryDescription
+                  text={delivery.thankYou.message}
+                  maxHeight="max-h-60"
+                />
+              </GridTwoColumns>
+            ) : (
               <DeliveryDescription
                 text={delivery.thankYou.message}
                 maxHeight="max-h-60"
               />
-            </GridTwoColumns>
+            )}
+          </div>
+
+          {delivery?.statistics?.length ? (
+            <div className="bg-card dark:bg-dk_card rounded-lg p-4">
+              <p className="text-text dark:text-dk_text">Estadísticas</p>
+            </div>
           ) : (
-            <DeliveryDescription
-              text={delivery.thankYou.message}
-              maxHeight="max-h-60"
+            <SafeImage
+              alt="Imagen de agradecimiento"
+              className="w-full object-cover rounded-lg h-80"
+              src={delivery.thankYou.imageUrl}
             />
           )}
-        </div>
+        </GridTwoColumns>
 
-        {delivery?.statistics?.length ? (
-          <div className="bg-card dark:bg-dk_card rounded-lg p-4">
-            <p className="text-text dark:text-dk_text">Estadísticas</p>
-          </div>
-        ) : (
-          <SafeImage
-            alt="Imagen de agradecimiento"
-            className="w-full object-cover rounded-lg h-80"
-            src={delivery.thankYou.imageUrl}
-          />
+        {delivery?.places && delivery?.places?.length > 0 && (
+          <CarouselContainer>
+            {delivery?.places.map((place, index) => (
+              <PlaceCard
+                key={index}
+                date={new Date(place.deliveryDate)}
+                description={place.description}
+                image={place.mainImageUrl}
+                place={place.name}
+              />
+            ))}
+          </CarouselContainer>
         )}
-      </GridTwoColumns>
-
-      {delivery?.places && delivery?.places?.length > 0 && (
-        <CarouselContainer>
-          {delivery?.places.map((place, index) => (
-            <PlaceCard
-              key={index}
-              date={new Date(place.deliveryDate)}
-              description={place.description}
-              image={place.mainImageUrl}
-              place={place.name}
-            />
-          ))}
-        </CarouselContainer>
-      )}
-    </div>
+      </div>
+    </PageLayout>
   );
 };
 

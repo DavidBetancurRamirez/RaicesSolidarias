@@ -7,8 +7,8 @@ import { WEB_ROUTES } from '@utils/routes';
 
 const menuItemsUpdated = [
   {
-    name: 'Principal',
     link: WEB_ROUTES.home,
+    name: 'Principal',
   },
   ...menuItems,
 ];

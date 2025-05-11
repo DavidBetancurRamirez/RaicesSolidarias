@@ -6,7 +6,7 @@ import api, { ResponseData } from '@/config/api';
 import { Delivery } from '@/constants/interfaces';
 
 import DeliveryCard from '@components/DeliveryCard';
-import Title from '@components/Title';
+import PageLayout from '@components/PageLayout';
 
 import { API_ROUTES, WEB_ROUTES } from '@utils/routes';
 
@@ -33,8 +33,7 @@ const Deliveries = () => {
   }, []);
 
   return (
-    <div className="py-4 px-2 sm:px-4 md:px-6 lg:px-10 xl:px-16">
-      <Title containerClassName="mb-4" title="Entregas" />
+    <PageLayout title="Entregas">
       <div className="flex flex-wrap gap-4 md:gap-6 xl:gap-8">
         {deliveries.map((data, index) => (
           <DeliveryCard
@@ -49,7 +48,7 @@ const Deliveries = () => {
           />
         ))}
       </div>
-    </div>
+    </PageLayout>
   );
 };
 

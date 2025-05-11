@@ -15,6 +15,7 @@ import { useTheme } from '@hooks/useTheme';
 import { useAuthStore } from '@/stores/authStore';
 
 import { WEB_ROUTES } from '@utils/routes';
+import { UserRoles } from '@/constants/roles';
 
 export const menuItems = [
   { link: WEB_ROUTES.about, name: 'Nosotros' },
@@ -39,13 +40,27 @@ const Navbar = () => {
     );
   }, []);
 
+  const adminRouteIndex = menuItems.findIndex(
+    (item) => item.link === WEB_ROUTES.admin,
+  );
+
+  if (user?.roles.includes(UserRoles.ADMIN)) {
+    if (adminRouteIndex === -1) {
+      menuItems.push({ link: WEB_ROUTES.admin, name: 'Administrar' });
+    }
+  } else {
+    if (adminRouteIndex !== -1) {
+      menuItems.splice(adminRouteIndex, 1);
+    }
+  }
+
   return (
     <MtNavbar
       className="bg-primary dark:bg-dk_primary px-4 py-6 border-none"
       fullWidth
     >
-      <div className="flex items-center justify-between text-white">
-        <div className="flex items-center gap-5">
+      <div className="flex items-center justify-between text-white gap-2">
+        <div className="flex items-center gap-2">
           <Typography
             className="transition-colors duration-500 ease-in-out hover:text-text dark:hover:text-dk_text"
             variant="lead"
@@ -53,7 +68,7 @@ const Navbar = () => {
             <Link to="/">Raices Solidarias</Link>
           </Typography>
           <Breadcrumbs
-            className="bg-transparent hidden md:flex items-center"
+            className="bg-transparent hidden md:flex items-center p-2"
             separator={<Slash size={10} color="white" />}
           >
             {menuItems.map((item) => (
@@ -68,10 +83,10 @@ const Navbar = () => {
           </Breadcrumbs>
         </div>
 
-        <div className="hidden md:flex items-center gap-2">
+        <div className="hidden md:flex items-center gap-1">
           {user?._id ? (
-            <div className="flex flex-col items-end gap-0">
-              <Typography className="text-white" variant="small">
+            <div className="flex flex-col items-end w-fit">
+              <Typography className="text-white text-end w-fit" variant="small">
                 Bienvenido de nuevo: {user?.userName || user.email}
               </Typography>
               <Typography

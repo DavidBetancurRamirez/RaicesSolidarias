@@ -1,9 +1,7 @@
+import PageLayout from '@components/PageLayout';
+
 const Home = () => {
-  return (
-    <div>
-      <h2>Home Page</h2>
-    </div>
-  );
+  return <PageLayout title="Bienvenido a la aplicación" />;
 };
 
 export default Home;

@@ -1,5 +1,7 @@
+import PageLayout from '@components/PageLayout';
+
 const About = () => {
-  return <div>Nosotros</div>;
+  return <PageLayout title="Sobre nosotros" />;
 };
 
 export default About;

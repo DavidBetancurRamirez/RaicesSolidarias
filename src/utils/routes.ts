@@ -13,6 +13,7 @@ export const API_ROUTES = {
 
 export const WEB_ROUTES = {
   about: '/nosotros',
+  admin: '/admin',
   contact: '/contacto',
   deliveries: '/entregas',
   delivery: '/entregas/:id',

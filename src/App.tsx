@@ -1,48 +1,11 @@
-import { BrowserRouter, Route, RouteProps, Routes } from 'react-router-dom';
+import { createElement } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { ThemeProvider } from '@material-tailwind/react';
 
 import Layout from '@components/Layout';
+import PrivateRoute from '@components/PrivateRoute';
 
-import About from '@pages/About';
-import Contact from '@pages/Contact';
-import Deliveries from '@pages/Deliveries';
-import Delivery from '@pages/Delivery';
-import Home from '@pages/Home';
-import NotFound from '@pages/NotFound';
-
-import { WEB_ROUTES } from '@utils/routes';
-import { ThemeProvider } from '@material-tailwind/react';
-import Session from '@pages/Session';
-
-export const routes: RouteProps[] = [
-  {
-    Component: About,
-    path: WEB_ROUTES.about,
-  },
-  {
-    Component: Contact,
-    path: WEB_ROUTES.contact,
-  },
-  {
-    Component: Deliveries,
-    path: WEB_ROUTES.deliveries,
-  },
-  {
-    Component: Delivery,
-    path: WEB_ROUTES.delivery,
-  },
-  {
-    Component: Home,
-    path: WEB_ROUTES.home,
-  },
-  {
-    Component: Session,
-    path: WEB_ROUTES.session,
-  },
-  {
-    Component: NotFound,
-    path: '*',
-  },
-];
+import { publicRoutes, privateRoutes } from './constants/routes';
 
 const App = () => {
   return (
@@ -50,8 +13,20 @@ const App = () => {
       <BrowserRouter>
         <Layout>
           <Routes>
-            {routes.map((route) => (
+            {publicRoutes.map((route) => (
               <Route key={route.path} {...route} />
+            ))}
+
+            {privateRoutes.map(({ path, Component, requiredRoles }) => (
+              <Route
+                key={path}
+                path={path}
+                element={
+                  <PrivateRoute requiredRoles={requiredRoles}>
+                    {Component ? createElement(Component) : null}
+                  </PrivateRoute>
+                }
+              />
             ))}
           </Routes>
         </Layout>

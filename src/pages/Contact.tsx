@@ -1,5 +1,7 @@
+import PageLayout from '@components/PageLayout';
+
 const Contact = () => {
-  return <div>Contacto</div>;
+  return <PageLayout title="Contacto" />;
 };
 
 export default Contact;
