@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 import { UserRoles } from '@/constants/roles';
+import { useUIStore } from './uiStore';
 
 export interface User {
   _id: string;
@@ -23,7 +24,10 @@ interface AuthState {
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
-      logout: () => set({ refreshToken: null, token: null, user: null }),
+      logout: () => {
+        set({ refreshToken: null, token: null, user: null });
+        useUIStore.getState().setAlert('Sesión cerrada correctamente');
+      },
       refreshToken: null,
       setRefreshToken: (refreshToken) => set({ refreshToken }),
       setToken: (token) => set({ token }),
