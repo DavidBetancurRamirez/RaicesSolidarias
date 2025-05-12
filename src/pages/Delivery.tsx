@@ -10,7 +10,10 @@ import Title from '@components/Title';
 
 import api, { ResponseData } from '@/config/api';
 
-import { Delivery, initialStateDelivery } from '@/constants/interfaces';
+import {
+  DeliveryPlaces,
+  initialStateDeliveryPlaces,
+} from '@/constants/interfaces';
 
 import { API_ROUTES } from '@utils/routes';
 import PageLayout from '@components/PageLayout';
@@ -18,13 +21,15 @@ import PageLayout from '@components/PageLayout';
 const DeliveryPage = () => {
   const { id } = useParams<{ id?: string }>();
 
-  const [delivery, setDelivery] = useState<Delivery>(initialStateDelivery);
+  const [delivery, setDelivery] = useState<DeliveryPlaces>(
+    initialStateDeliveryPlaces,
+  );
 
   useEffect(() => {
     const fetchDelivery = async () => {
       const response = (await api.get(
         API_ROUTES.deliveryByYear(id as string),
-      )) as ResponseData<Delivery>;
+      )) as ResponseData<DeliveryPlaces>;
 
       if (response.statusCode !== 200) {
         console.error('Error fetching delivery:', response);

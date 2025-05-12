@@ -21,22 +21,29 @@ export interface Delivery {
   _id?: string;
   description: string;
   mainImageUrl?: string;
-  places?: Place[];
   statistics?: StatisticDto[];
   thankYou: ThankYouDto;
-  year: number;
+  year: string | number;
 }
 
 export const initialStateDelivery: Delivery = {
   description: '',
   mainImageUrl: '',
-  places: [],
   statistics: [],
   thankYou: {
     imageUrl: '',
     message: '',
   },
-  year: 0,
+  year: new Date().getFullYear(),
+};
+
+export interface DeliveryPlaces extends Delivery {
+  places: Place[];
+}
+
+export const initialStateDeliveryPlaces: DeliveryPlaces = {
+  ...initialStateDelivery,
+  places: [],
 };
 
 export interface Testimonial {
@@ -46,7 +53,7 @@ export interface Testimonial {
 export interface Place {
   _id?: string;
   deliveryDate: Date;
-  deliveryId: Delivery | string;
+  deliveryId: string;
   description: string;
   galleryImageUrls: string[];
   mainImageUrl: string;
@@ -55,3 +62,15 @@ export interface Place {
   statistics: StatisticDto[];
   testimonials: Testimonial[];
 }
+
+export const initialStatePlace: Place = {
+  deliveryDate: new Date(),
+  deliveryId: '',
+  description: '',
+  galleryImageUrls: [],
+  mainImageUrl: '',
+  name: '',
+  secondaryImageUrl: '',
+  statistics: [],
+  testimonials: [],
+};

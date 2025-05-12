@@ -8,11 +8,13 @@ import {
 } from '@material-tailwind/react';
 import { useNavigate } from 'react-router-dom';
 
-import api, { ResponseData } from '@/config/api';
-
 import InputPassword from './InputPassword';
 
-import { useAuthStore, User } from '@/stores/authStore';
+import api, { ResponseData } from '@/config/api';
+
+import { User } from '@/constants/interfaces';
+
+import { useAuthStore } from '@/stores/authStore';
 import { useUIStore } from '@/stores/uiStore';
 
 import { API_ROUTES, WEB_ROUTES } from '@utils/routes';

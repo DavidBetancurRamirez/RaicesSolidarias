@@ -21,5 +21,6 @@ declare module '@material-tailwind/react' {
   interface TabsBodyProps extends MTProps {}
   interface TabsHeaderProps extends MTProps {}
   interface TabsProps extends MTProps {}
+  interface TextareaProps extends MTProps {}
   interface TypographyProps extends MTProps {}
 }
