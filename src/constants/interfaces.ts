@@ -52,7 +52,7 @@ export interface Testimonial {
 
 export interface Place {
   _id?: string;
-  deliveryDate: Date;
+  deliveryDate: string;
   deliveryId: string;
   description: string;
   galleryImageUrls: string[];
@@ -64,7 +64,7 @@ export interface Place {
 }
 
 export const initialStatePlace: Place = {
-  deliveryDate: new Date(),
+  deliveryDate: '',
   deliveryId: '',
   description: '',
   galleryImageUrls: [],

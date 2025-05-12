@@ -53,7 +53,7 @@ const PlaceForm = () => {
         onChange={handleChange}
       />
       <Button
-        className="bg-primary dark:bg-dk_primary text-white mt-4"
+        className="bg-primary dark:bg-dk_primary text-white mt-2"
         fullWidth
       >
         Guardar

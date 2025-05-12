@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff, Info } from 'lucide-react';
-import { Input, InputProps, Typography } from '@material-tailwind/react';
+import { InputProps, Typography } from '@material-tailwind/react';
+
+import CustomInput from './CustomInput';
 
 interface InputPasswordProps extends Omit<InputProps, 'type'> {
   info?: boolean;
+  label?: string;
   placeholder?: string;
 }
 
 const InputPassword: React.FC<InputPasswordProps> = ({
   info = true,
+  label = 'Contraseña',
   placeholder = '******',
   ...props
 }) => {
@@ -16,11 +20,10 @@ const InputPassword: React.FC<InputPasswordProps> = ({
 
   return (
     <div>
-      <Input
+      <CustomInput
         {...props}
-        className={`!text-text dark:!text-dk_text !border-text dark:!border-dk_text ${props.className}`}
+        label={label}
         placeholder={placeholder}
-        size="lg"
         type={showPassword ? 'text' : 'password'}
         icon={
           showPassword ? (
@@ -35,9 +38,6 @@ const InputPassword: React.FC<InputPasswordProps> = ({
             />
           )
         }
-        labelProps={{
-          className: 'before:content-none after:content-none',
-        }}
       />
       {info && (
         <Typography

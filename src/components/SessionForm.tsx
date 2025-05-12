@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
-import {
-  Button,
-  Card,
-  CardHeader,
-  Input,
-  Typography,
-} from '@material-tailwind/react';
+import { Button, Card, CardHeader, Typography } from '@material-tailwind/react';
 import { useNavigate } from 'react-router-dom';
 
+import CustomInput from './CustomInput';
 import InputPassword from './InputPassword';
 
 import api, { ResponseData } from '@/config/api';
@@ -110,76 +105,41 @@ const SessionForm = () => {
       >
         <div className="mb-1 flex flex-col gap-6">
           {!login && (
-            <React.Fragment>
-              <Typography
-                className="-mb-3 text-text dark:text-dk_text"
-                variant="h6"
-              >
-                Nombre de usuario
-              </Typography>
-              <Input
-                autoComplete="on"
-                className=" !text-text dark:!text-dk_text !border-text dark:!border-dk_text"
-                name="userName"
-                onChange={handleChange}
-                placeholder="Raices Solidarias"
-                size="lg"
-                value={formData.userName}
-                labelProps={{
-                  className: 'before:content-none after:content-none',
-                }}
-              />
-            </React.Fragment>
+            <CustomInput
+              label="Nombre de usuario"
+              name="userName"
+              onChange={handleChange}
+              placeholder="Raices Solidarias"
+              value={formData.userName}
+            />
           )}
 
-          <Typography
-            className="-mb-3 text-text dark:text-dk_text"
-            variant="h6"
-          >
-            Correo electronico
-          </Typography>
-          <Input
+          <CustomInput
             autoComplete="on"
-            className=" !text-text dark:!text-dk_text !border-text dark:!border-dk_text"
+            label="Correo electronico"
             name="email"
             onChange={handleChange}
             placeholder="raices-solidarias@gmail.com"
-            size="lg"
             type="email"
             value={formData.email}
-            labelProps={{
-              className: 'before:content-none after:content-none',
-            }}
           />
 
-          <Typography
-            className="-mb-3 text-text dark:text-dk_text"
-            variant="h6"
-          >
-            Contraseña
-          </Typography>
           <InputPassword
             info={!login}
+            label="Contraseña"
             name="password"
             onChange={handleChange}
             value={formData.password}
           />
 
           {!login && (
-            <React.Fragment>
-              <Typography
-                className="-mb-3 text-text dark:text-dk_text"
-                variant="h6"
-              >
-                Repetir contraseña
-              </Typography>
-              <InputPassword
-                info={false}
-                name="checkPassword"
-                onChange={handleChange}
-                value={formData.checkPassword}
-              />
-            </React.Fragment>
+            <InputPassword
+              info={false}
+              label="Repetir contraseña"
+              name="checkPassword"
+              onChange={handleChange}
+              value={formData.checkPassword}
+            />
           )}
         </div>
 
