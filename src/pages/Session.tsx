@@ -1,4 +1,4 @@
-import SessionForm from '@components/SessionForm';
+import SessionForm from '@components/session/SessionForm';
 
 const Session = () => {
   return (

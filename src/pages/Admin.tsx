@@ -8,9 +8,9 @@ import {
 } from '@material-tailwind/react';
 import { LandPlot, Truck } from 'lucide-react';
 
-import DeliveryForm from '@components/DeliveryForm';
-import PageLayout from '@components/PageLayout';
-import PlaceForm from '@components/PlaceForm';
+import DeliveryForm from '@components/deliveries/DeliveryForm';
+import PageLayout from '@components/common/PageLayout';
+import PlaceForm from '@components/places/PlaceForm';
 
 const data = [
   {

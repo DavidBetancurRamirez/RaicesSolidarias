@@ -2,11 +2,11 @@ import { Typography } from '@material-tailwind/react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import CarouselContainer from '@components/CarouselContainer';
-import GridTwoColumns from '@components/GridTwoColumns';
-import PlaceCard from '@components/PlaceCard';
-import SafeImage from '@components/SafeImage';
-import Title from '@components/Title';
+import CarouselContainer from '@components/common/CarouselContainer';
+import GridTwoColumns from '@components/common/GridTwoColumns';
+import PlaceCard from '@components/places/PlaceCard';
+import SafeImage from '@components/common/SafeImage';
+import Title from '@components/common/Title';
 
 import api, { ResponseData } from '@/config/api';
 
@@ -16,7 +16,7 @@ import {
 } from '@/constants/interfaces';
 
 import { API_ROUTES } from '@utils/routes';
-import PageLayout from '@components/PageLayout';
+import PageLayout from '@components/common/PageLayout';
 
 const DeliveryPage = () => {
   const { id } = useParams<{ id?: string }>();

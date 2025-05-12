@@ -6,8 +6,8 @@ import {
   Typography,
 } from '@material-tailwind/react';
 
-import ButtonWithIcon from './ButtonWithIcon';
-import SafeImage from './SafeImage';
+import ButtonWithIcon from '../common/ButtonWithIcon';
+import SafeImage from '../common/SafeImage';
 
 interface PlaceCardProps {
   date: Date;

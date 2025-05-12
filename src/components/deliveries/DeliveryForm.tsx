@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button } from '@material-tailwind/react';
 
-import CustomInput from './CustomInput';
+import CustomInput from '../common/CustomInput';
 
 import { Delivery, initialStateDelivery } from '@/constants/interfaces';
 

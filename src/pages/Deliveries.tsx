@@ -5,8 +5,8 @@ import api, { ResponseData } from '@/config/api';
 
 import { Delivery } from '@/constants/interfaces';
 
-import DeliveryCard from '@components/DeliveryCard';
-import PageLayout from '@components/PageLayout';
+import DeliveryCard from '@components/deliveries/DeliveryCard';
+import PageLayout from '@components/common/PageLayout';
 
 import { API_ROUTES, WEB_ROUTES } from '@utils/routes';
 

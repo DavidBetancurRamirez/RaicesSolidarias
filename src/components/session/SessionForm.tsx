@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Button, Card, CardHeader, Typography } from '@material-tailwind/react';
 import { useNavigate } from 'react-router-dom';
 
-import CustomInput from './CustomInput';
-import InputPassword from './InputPassword';
+import CustomInput from '../common/CustomInput';
+import InputPassword from '../common/InputPassword';
 
 import api, { ResponseData } from '@/config/api';
 

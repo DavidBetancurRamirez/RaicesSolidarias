@@ -2,8 +2,8 @@ import { createElement } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from '@material-tailwind/react';
 
-import Layout from '@components/Layout';
-import PrivateRoute from '@components/PrivateRoute';
+import Layout from '@components/common/Layout';
+import PrivateRoute from '@components/common/PrivateRoute';
 
 import { publicRoutes, privateRoutes } from './constants/routes';
 
