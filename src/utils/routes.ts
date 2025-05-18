@@ -19,6 +19,7 @@ export const WEB_ROUTES = {
   admin: '/admin',
   contact: '/contacto',
   deliveries: '/entregas',
+  deliveriesById: (id: string) => `/entregas/${id}`,
   delivery: '/entregas/:id',
   home: '/',
   session: '/session',

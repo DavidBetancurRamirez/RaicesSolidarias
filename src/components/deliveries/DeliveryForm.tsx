@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button } from '@material-tailwind/react';
 
-import CustomInput from '@components/forms/CustomInput';
+import CustomInputFiles from '@components/forms/CustomInputFiles';
 import CustomInputNumber from '@components/forms/CustomInputNumber';
 import CustomTextarea from '@components/forms/CustomTextarea';
 import GridTwoColumns from '@components/common/GridTwoColumns';
@@ -17,10 +17,12 @@ import {
 
 import { useUIStore } from '@/stores/uiStore';
 
-import { API_ROUTES } from '@utils/routes';
+import { API_ROUTES, WEB_ROUTES } from '@utils/routes';
 import { handleChange } from '@utils/forms';
+import { useNavigate } from 'react-router-dom';
 
 const DeliveryForm = () => {
+  const navigate = useNavigate();
   const setAlert = useUIStore((state) => state.setAlert);
 
   const [formData, setFormData] = useState<Delivery>(initialStateDelivery);
@@ -84,6 +86,8 @@ const DeliveryForm = () => {
 
       setAlert('Entrega creada correctamente');
       setFormData(initialStateDelivery);
+
+      navigate(WEB_ROUTES.deliveriesById(response.data._id));
     } catch (error) {
       console.error('Error submitting delivery:', error);
     }
@@ -126,19 +130,19 @@ const DeliveryForm = () => {
         }
       />
       <GridTwoColumns>
-        <CustomInput
-          accept="image/*"
-          label="Imagen principal"
-          name="mainImageUrl"
-          type="file"
-          onChange={(e) => setMainImage(e.target.files?.[0] || null)}
+        <CustomInputFiles
+          label="Arrastra o selecciona la imagen principal"
+          labelTitle="Imagen principal"
+          accept={{ 'image/*': ['.jpg', '.png'], 'video/*': ['.mp4'] }}
+          multiple={false}
+          onFilesSelected={(files) => setMainImage(files[0])}
         />
-        <CustomInput
-          accept="image/*,video/*"
-          label="Imagen o video de agradecimiento"
-          name="thankYou.imageUrl"
-          type="file"
-          onChange={(e) => setTankYouMedia(e.target.files?.[0] || null)}
+        <CustomInputFiles
+          label="Arrastra o selecciona la imagen o video de agradecimiento"
+          labelTitle="Imagen o video de agradecimiento"
+          accept={{ 'image/*': ['.jpg', '.png'], 'video/*': ['.mp4'] }}
+          multiple={false}
+          onFilesSelected={(files) => setTankYouMedia(files[0])}
         />
       </GridTwoColumns>
       <Button
