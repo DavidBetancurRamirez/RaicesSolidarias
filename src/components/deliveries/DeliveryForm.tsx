@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button } from '@material-tailwind/react';
 
-import CustomInput from '@components/forms/CustomInput';
+import CustomInputNumber from '@components/forms/CustomInputNumber';
 import CustomTextarea from '@components/forms/CustomTextarea';
 
 import api, { ResponseData } from '@/config/api';
@@ -41,13 +41,15 @@ const DeliveryForm = () => {
 
   return (
     <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-      <CustomInput
+      <CustomInputNumber
         label="Año"
         name="year"
-        onChange={(e) => handleChange(e, setFormData, true)}
         placeholder={new Date().getFullYear().toString()}
         type="number"
-        value={formData.year}
+        value={Number(formData.year)}
+        onChange={(value) =>
+          handleChange({ name: 'year', value }, setFormData, true)
+        }
       />
       <CustomTextarea
         label="Descripción"
