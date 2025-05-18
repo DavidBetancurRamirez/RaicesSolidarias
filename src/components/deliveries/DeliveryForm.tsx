@@ -1,12 +1,19 @@
 import { useState } from 'react';
 import { Button } from '@material-tailwind/react';
 
+import CustomInput from '@components/forms/CustomInput';
 import CustomInputNumber from '@components/forms/CustomInputNumber';
 import CustomTextarea from '@components/forms/CustomTextarea';
+import GridTwoColumns from '@components/common/GridTwoColumns';
 
-import api, { ResponseData } from '@/config/api';
+import api from '@/config/api';
+import fileApi from '@/config/fileApi';
 
-import { Delivery, initialStateDelivery } from '@/constants/interfaces';
+import {
+  Delivery,
+  initialStateDelivery,
+  ResponseData,
+} from '@/constants/interfaces';
 
 import { useUIStore } from '@/stores/uiStore';
 
@@ -15,7 +22,44 @@ import { handleChange } from '@utils/forms';
 
 const DeliveryForm = () => {
   const setAlert = useUIStore((state) => state.setAlert);
+
   const [formData, setFormData] = useState<Delivery>(initialStateDelivery);
+  const [mainImage, setMainImage] = useState<File | null>(null);
+  const [tankYouMedia, setTankYouMedia] = useState<File | null>(null);
+
+  const uploadDeliveryMedia = async (deliveryId: string): Promise<boolean> => {
+    if (!mainImage && !tankYouMedia) {
+      return true;
+    }
+
+    const mediaData = new FormData();
+
+    if (mainImage) {
+      mediaData.append('mainImage', mainImage);
+    }
+    if (tankYouMedia) {
+      mediaData.append('tankYouMedia', tankYouMedia);
+    }
+
+    try {
+      const response = await fileApi.post(
+        API_ROUTES.deliveryMedia(deliveryId),
+        mediaData,
+      );
+
+      if (response.status !== 201) {
+        return false;
+      }
+
+      setMainImage(null);
+      setTankYouMedia(null);
+
+      return true;
+    } catch (error) {
+      console.error('Error uploading media:', error);
+      return false;
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,9 +70,15 @@ const DeliveryForm = () => {
         formData,
       )) as ResponseData<Delivery>;
 
-      if (response.statusCode !== 201) {
+      if (response.statusCode !== 201 || !response?.data?._id) {
         console.error('Error submitting delivery:', response.message);
         setAlert('Error al enviar la entrega, intenta de nuevo');
+        return;
+      }
+
+      const uploadMedia = await uploadDeliveryMedia(response.data._id);
+      if (!uploadMedia) {
+        setAlert('Error al subir los archivos, intenta de nuevo');
         return;
       }
 
@@ -75,6 +125,22 @@ const DeliveryForm = () => {
           )
         }
       />
+      <GridTwoColumns>
+        <CustomInput
+          accept="image/*"
+          label="Imagen principal"
+          name="mainImageUrl"
+          type="file"
+          onChange={(e) => setMainImage(e.target.files?.[0] || null)}
+        />
+        <CustomInput
+          accept="image/*,video/*"
+          label="Imagen o video de agradecimiento"
+          name="thankYou.imageUrl"
+          type="file"
+          onChange={(e) => setTankYouMedia(e.target.files?.[0] || null)}
+        />
+      </GridTwoColumns>
       <Button
         className="bg-primary dark:bg-dk_primary text-white mt-2"
         fullWidth

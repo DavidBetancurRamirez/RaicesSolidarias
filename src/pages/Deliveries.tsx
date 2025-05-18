@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import api, { ResponseData } from '@/config/api';
-
-import { Delivery } from '@/constants/interfaces';
-
 import DeliveryCard from '@components/deliveries/DeliveryCard';
 import PageLayout from '@components/common/PageLayout';
+
+import api from '@/config/api';
+
+import { Delivery, ResponseData } from '@/constants/interfaces';
 
 import { API_ROUTES, WEB_ROUTES } from '@utils/routes';
 
@@ -38,7 +38,7 @@ const Deliveries = () => {
         {deliveries.map((data, index) => (
           <DeliveryCard
             key={index}
-            year={data.year}
+            year={Number(data.year)}
             description={data.description}
             image={data?.mainImageUrl}
             reverse={index % 2 !== 0}

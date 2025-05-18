@@ -6,9 +6,14 @@ import CustomSelect from '@components/forms/CustomSelect';
 import CustomTextarea from '@components/forms/CustomTextarea';
 import GridTwoColumns from '@components/common/GridTwoColumns';
 
-import api, { ResponseData } from '@/config/api';
+import api from '@/config/api';
 
-import { Delivery, initialStatePlace, Place } from '@/constants/interfaces';
+import {
+  Delivery,
+  initialStatePlace,
+  Place,
+  ResponseData,
+} from '@/constants/interfaces';
 
 import { useUIStore } from '@/stores/uiStore';
 

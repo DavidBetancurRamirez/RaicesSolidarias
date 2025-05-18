@@ -4,6 +4,8 @@ export const API_BASE_URL =
 export const API_ROUTES = {
   delivery: `${API_BASE_URL}/delivery`,
   deliveryByYear: (year: string) => `${API_BASE_URL}/delivery/year/${year}`,
+  deliveryMedia: (deliveryId: string) =>
+    `${API_BASE_URL}/delivery/${deliveryId}/media`,
   login: `${API_BASE_URL}/auth/login`,
   place: `${API_BASE_URL}/place`,
   refresh: `${API_BASE_URL}/auth/refresh-token`,

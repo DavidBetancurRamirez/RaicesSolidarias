@@ -4,19 +4,20 @@ import { useParams } from 'react-router-dom';
 
 import CarouselContainer from '@components/common/CarouselContainer';
 import GridTwoColumns from '@components/common/GridTwoColumns';
+import PageLayout from '@components/common/PageLayout';
 import PlaceCard from '@components/places/PlaceCard';
 import SafeImage from '@components/common/SafeImage';
 import Title from '@components/common/Title';
 
-import api, { ResponseData } from '@/config/api';
+import api from '@/config/api';
 
 import {
   DeliveryPlaces,
   initialStateDeliveryPlaces,
+  ResponseData,
 } from '@/constants/interfaces';
 
 import { API_ROUTES } from '@utils/routes';
-import PageLayout from '@components/common/PageLayout';
 
 const DeliveryPage = () => {
   const { id } = useParams<{ id?: string }>();

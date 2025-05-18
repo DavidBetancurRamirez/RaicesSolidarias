@@ -1,5 +1,13 @@
 import { UserRoles } from './roles';
 
+export interface ResponseData<T extends object | unknown> {
+  data: T;
+  error: boolean;
+  message?: string;
+  statusCode: number;
+  timestamp: string;
+}
+
 export interface User {
   _id: string;
   email: string;

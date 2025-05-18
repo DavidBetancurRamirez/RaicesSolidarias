@@ -1,17 +1,9 @@
 import axios from 'axios';
 
 import { useAuthStore } from '@/stores/authStore';
-
-import { API_BASE_URL, API_ROUTES } from '@utils/routes';
 import { useUIStore } from '@/stores/uiStore';
 
-export interface ResponseData<T extends object | unknown> {
-  data: T;
-  error: boolean;
-  message?: string;
-  statusCode: number;
-  timestamp: string;
-}
+import { API_BASE_URL, API_ROUTES } from '@utils/routes';
 
 const api = axios.create({
   baseURL: API_BASE_URL,

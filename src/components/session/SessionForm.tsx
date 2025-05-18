@@ -5,9 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import CustomInput from '@components/forms/CustomInput';
 import InputPassword from '../common/InputPassword';
 
-import api, { ResponseData } from '@/config/api';
+import api from '@/config/api';
 
-import { User } from '@/constants/interfaces';
+import { ResponseData, User } from '@/constants/interfaces';
 
 import { useAuthStore } from '@/stores/authStore';
 import { useUIStore } from '@/stores/uiStore';
