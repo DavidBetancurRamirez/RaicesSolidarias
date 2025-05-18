@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Card, CardHeader, Typography } from '@material-tailwind/react';
 import { useNavigate } from 'react-router-dom';
 
-import CustomInput from '../common/CustomInput';
+import CustomInput from '@components/forms/CustomInput';
 import InputPassword from '../common/InputPassword';
 
 import api, { ResponseData } from '@/config/api';

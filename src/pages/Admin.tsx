@@ -30,7 +30,7 @@ const data = [
 const Admin = () => {
   return (
     <PageLayout>
-      <Tabs value="deliveries" className="bg-card dark:bg-dk_card">
+      <Tabs value="deliveries" className="bg-card dark:bg-dk_card rounded-lg">
         <TabsHeader
           className="bg-primary dark:bg-dk_primary"
           indicatorProps={{

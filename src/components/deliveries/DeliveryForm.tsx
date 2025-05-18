@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Button } from '@material-tailwind/react';
 
-import CustomInput from '../common/CustomInput';
+import CustomInput from '@components/forms/CustomInput';
+import CustomTextarea from '@components/forms/CustomTextarea';
 
 import api, { ResponseData } from '@/config/api';
 
@@ -48,8 +49,7 @@ const DeliveryForm = () => {
         type="number"
         value={formData.year}
       />
-      <CustomInput
-        isTextarea
+      <CustomTextarea
         label="Descripción"
         name="description"
         placeholder="Descripción de la entrega"
@@ -61,8 +61,7 @@ const DeliveryForm = () => {
           )
         }
       />
-      <CustomInput
-        isTextarea
+      <CustomTextarea
         label="Mensaje de agradecimiento"
         name="mensaje"
         placeholder="Mensaje de agradecimiento"

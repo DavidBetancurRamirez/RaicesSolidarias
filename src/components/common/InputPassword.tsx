@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Eye, EyeOff, Info } from 'lucide-react';
 import { InputProps, Typography } from '@material-tailwind/react';
 
-import CustomInput from './CustomInput';
+import CustomInput from '@components/forms/CustomInput';
 
 interface InputPasswordProps extends Omit<InputProps, 'type'> {
   info?: boolean;
