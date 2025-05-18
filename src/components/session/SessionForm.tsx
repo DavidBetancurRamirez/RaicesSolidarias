@@ -13,6 +13,7 @@ import { useAuthStore } from '@/stores/authStore';
 import { useUIStore } from '@/stores/uiStore';
 
 import { API_ROUTES, WEB_ROUTES } from '@utils/routes';
+import { handleChange } from '@utils/forms';
 import { validatePassword } from '@utils/validations';
 
 const SessionForm = () => {
@@ -26,11 +27,6 @@ const SessionForm = () => {
     password: '',
     userName: '',
   });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -108,7 +104,7 @@ const SessionForm = () => {
             <CustomInput
               label="Nombre de usuario"
               name="userName"
-              onChange={handleChange}
+              onChange={(e) => handleChange(e, setFormData)}
               placeholder="Raices Solidarias"
               value={formData.userName}
             />
@@ -118,7 +114,7 @@ const SessionForm = () => {
             autoComplete="on"
             label="Correo electronico"
             name="email"
-            onChange={handleChange}
+            onChange={(e) => handleChange(e, setFormData)}
             placeholder="raices-solidarias@gmail.com"
             type="email"
             value={formData.email}
@@ -128,7 +124,7 @@ const SessionForm = () => {
             info={!login}
             label="Contraseña"
             name="password"
-            onChange={handleChange}
+            onChange={(e) => handleChange(e, setFormData)}
             value={formData.password}
           />
 
@@ -137,7 +133,7 @@ const SessionForm = () => {
               info={false}
               label="Repetir contraseña"
               name="checkPassword"
-              onChange={handleChange}
+              onChange={(e) => handleChange(e, setFormData)}
               value={formData.checkPassword}
             />
           )}

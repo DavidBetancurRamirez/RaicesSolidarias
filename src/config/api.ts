@@ -32,7 +32,7 @@ api.interceptors.request.use(
     const { token } = useAuthStore.getState();
 
     if (token) {
-      config.headers.Authorization = token;
+      config.headers.Authorization = `Bearer ${token}`;
     }
 
     return config;
