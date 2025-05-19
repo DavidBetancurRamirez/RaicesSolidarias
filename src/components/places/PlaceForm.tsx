@@ -19,12 +19,17 @@ import { useUIStore } from '@/stores/uiStore';
 
 import { API_ROUTES } from '@utils/routes';
 import { handleChange } from '@utils/forms';
+import CustomInputFiles from '@components/forms/CustomInputFiles';
+import fileApi from '@/config/fileApi';
 
 const PlaceForm = () => {
   const setAlert = useUIStore((state) => state.setAlert);
 
   const [deliveries, setDeliveries] = useState<Delivery[]>([]);
   const [formData, setFormData] = useState<Place>(initialStatePlace);
+  const [gallery, setGallery] = useState<File[] | null>(null);
+  const [mainImage, setMainImage] = useState<File | null>(null);
+  const [secondaryMedia, setSecondaryMedia] = useState<File | null>(null);
 
   useEffect(() => {
     const fetchPlaces = async () => {
@@ -48,18 +53,65 @@ const PlaceForm = () => {
     fetchPlaces();
   }, []);
 
+  const uploadPlaceMedia = async (placeId: string): Promise<boolean> => {
+    if (!mainImage && !secondaryMedia && !gallery) {
+      return true;
+    }
+
+    const mediaFiles = new FormData();
+
+    if (mainImage) {
+      mediaFiles.append('mainImage', mainImage);
+    }
+    if (secondaryMedia) {
+      mediaFiles.append('secondaryMedia', secondaryMedia);
+    }
+    // if (gallery) {
+    //   mediaFiles.forEach((file) => mediaFiles.append('gallery', file));
+    // }
+
+    try {
+      // Error in placeID
+      const response = await fileApi.post(
+        API_ROUTES.placeMedia(placeId),
+        mediaFiles,
+      );
+      console.log('response', response);
+
+      if (response.status !== 201) {
+        return false;
+      }
+
+      setMainImage(null);
+      setSecondaryMedia(null);
+      setGallery(null);
+
+      return true;
+    } catch (error) {
+      console.error('Error uploading media:', error);
+      return false;
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
+      console.log('formData', formData);
       const response = (await api.post(
         API_ROUTES.place,
         formData,
       )) as ResponseData<Place>;
 
-      if (response.statusCode !== 201) {
+      if (response.statusCode !== 201 || !response?.data?._id) {
         console.error('Error submitting place:', response.message);
         setAlert('Error al enviar el lugar, intenta de nuevo');
+        return;
+      }
+
+      const uploadMedia = await uploadPlaceMedia(response.data._id);
+      if (!uploadMedia) {
+        setAlert('Error al subir los archivos, intenta de nuevo');
         return;
       }
 
@@ -68,6 +120,10 @@ const PlaceForm = () => {
     } catch (error) {
       console.error('Error submitting delivery:', error);
     }
+  };
+
+  const handleFilesSelected = (files: File[]) => {
+    setGallery((prev) => (prev ? [...prev, ...files] : [...files]));
   };
 
   return (
@@ -109,6 +165,29 @@ const PlaceForm = () => {
             setFormData,
           )
         }
+      />
+      <GridTwoColumns>
+        <CustomInputFiles
+          label="Arrastra o selecciona la imagen principal"
+          labelTitle="Imagen principal"
+          accept={{ 'image/*': ['.jpg', '.png'] }}
+          multiple={false}
+          onFilesSelected={(files) => setMainImage(files[0])}
+        />
+        <CustomInputFiles
+          label="Arrastra o selecciona la imagen o video secundario"
+          labelTitle="Imagen o video secundario"
+          accept={{ 'image/*': ['.jpg', '.png'], 'video/*': ['.mp4'] }}
+          multiple={false}
+          onFilesSelected={(files) => setSecondaryMedia(files[0])}
+        />
+      </GridTwoColumns>
+      <CustomInputFiles
+        label="Arrastra o selecciona las imagenes o videos de la galería"
+        labelTitle="Galería"
+        accept={{ 'image/*': ['.jpg', '.png'], 'video/*': ['.mp4'] }}
+        multiple={true}
+        onFilesSelected={handleFilesSelected}
       />
       <Button
         className="bg-primary dark:bg-dk_primary text-white mt-2"

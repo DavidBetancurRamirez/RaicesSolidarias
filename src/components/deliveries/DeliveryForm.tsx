@@ -34,19 +34,19 @@ const DeliveryForm = () => {
       return true;
     }
 
-    const mediaData = new FormData();
+    const mediaFiles = new FormData();
 
     if (mainImage) {
-      mediaData.append('mainImage', mainImage);
+      mediaFiles.append('mainImage', mainImage);
     }
     if (tankYouMedia) {
-      mediaData.append('tankYouMedia', tankYouMedia);
+      mediaFiles.append('tankYouMedia', tankYouMedia);
     }
 
     try {
       const response = await fileApi.post(
         API_ROUTES.deliveryMedia(deliveryId),
-        mediaData,
+        mediaFiles,
       );
 
       if (response.status !== 201) {
@@ -87,7 +87,7 @@ const DeliveryForm = () => {
       setAlert('Entrega creada correctamente');
       setFormData(initialStateDelivery);
 
-      navigate(WEB_ROUTES.deliveriesById(response.data._id));
+      navigate(WEB_ROUTES.deliveriesByYear(String(response.data.year)));
     } catch (error) {
       console.error('Error submitting delivery:', error);
     }
@@ -133,7 +133,7 @@ const DeliveryForm = () => {
         <CustomInputFiles
           label="Arrastra o selecciona la imagen principal"
           labelTitle="Imagen principal"
-          accept={{ 'image/*': ['.jpg', '.png'], 'video/*': ['.mp4'] }}
+          accept={{ 'image/*': ['.jpg', '.png'] }}
           multiple={false}
           onFilesSelected={(files) => setMainImage(files[0])}
         />

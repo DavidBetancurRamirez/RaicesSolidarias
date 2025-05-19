@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Accept, FileWithPath, useDropzone } from 'react-dropzone';
+
 import CustomLabel from './CustomLabel';
 
 interface CustomInputFilesProps {
@@ -21,17 +22,18 @@ const CustomInputFiles: React.FC<CustomInputFilesProps> = ({
   labelTitle = 'Files',
   className = '',
 }) => {
+  const onDrop = (acceptedFiles: File[]) => {
+    if (onFilesSelected) {
+      onFilesSelected(acceptedFiles);
+    }
+  };
+
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     accept,
     maxFiles,
     multiple,
+    onDrop,
   });
-
-  useEffect(() => {
-    if (acceptedFiles.length && onFilesSelected) {
-      onFilesSelected([...acceptedFiles]);
-    }
-  }, [acceptedFiles, onFilesSelected]);
 
   return (
     <div>
