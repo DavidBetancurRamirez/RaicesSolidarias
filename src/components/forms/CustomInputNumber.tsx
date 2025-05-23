@@ -59,18 +59,16 @@ const CustomInputNumber: React.FC<CustomInputNumberProps> = ({
             className: 'before:content-none after:content-none',
           }}
         />
-        <div className="absolute right-1 top-1.5 flex gap-1 items-center align-middle">
+        <div className="absolute right-2 top-2.5 flex gap-1 items-center align-middle">
           <IconButton
-            size="sm"
-            className="rounded p-4 bg-primary dark:bg-dk_primary"
+            className="w-6 h-6 rounded bg-primary dark:bg-dk_primary"
             onClick={handleIncrement}
             type="button"
           >
             <Plus />
           </IconButton>
           <IconButton
-            size="sm"
-            className="rounded p-4 bg-primary dark:bg-dk_primary"
+            className="w-6 h-6 rounded bg-primary dark:bg-dk_primary"
             onClick={handleDecrement}
             type="button"
           >

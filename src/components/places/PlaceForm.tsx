@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@material-tailwind/react';
 
 import CustomInput from '@components/forms/CustomInput';
+import CustomInputFiles from '@components/forms/CustomInputFiles';
 import CustomSelect from '@components/forms/CustomSelect';
 import CustomTextarea from '@components/forms/CustomTextarea';
 import GridTwoColumns from '@components/common/GridTwoColumns';
 
 import api from '@/config/api';
+import fileApi from '@/config/fileApi';
 
 import {
   Delivery,
@@ -17,12 +20,11 @@ import {
 
 import { useUIStore } from '@/stores/uiStore';
 
-import { API_ROUTES } from '@utils/routes';
+import { API_ROUTES, WEB_ROUTES } from '@utils/routes';
 import { handleChange } from '@utils/forms';
-import CustomInputFiles from '@components/forms/CustomInputFiles';
-import fileApi from '@/config/fileApi';
 
 const PlaceForm = () => {
+  const navigate = useNavigate();
   const setAlert = useUIStore((state) => state.setAlert);
 
   const [deliveries, setDeliveries] = useState<Delivery[]>([]);
@@ -66,17 +68,15 @@ const PlaceForm = () => {
     if (secondaryMedia) {
       mediaFiles.append('secondaryMedia', secondaryMedia);
     }
-    // if (gallery) {
-    //   mediaFiles.forEach((file) => mediaFiles.append('gallery', file));
-    // }
+    if (gallery) {
+      gallery.forEach((file) => mediaFiles.append('gallery', file));
+    }
 
     try {
-      // Error in placeID
       const response = await fileApi.post(
         API_ROUTES.placeMedia(placeId),
         mediaFiles,
       );
-      console.log('response', response);
 
       if (response.status !== 201) {
         return false;
@@ -97,7 +97,6 @@ const PlaceForm = () => {
     e.preventDefault();
 
     try {
-      console.log('formData', formData);
       const response = (await api.post(
         API_ROUTES.place,
         formData,
@@ -117,6 +116,8 @@ const PlaceForm = () => {
 
       setAlert('Lugar creada correctamente');
       setFormData(initialStatePlace);
+
+      navigate(WEB_ROUTES.deliveries);
     } catch (error) {
       console.error('Error submitting delivery:', error);
     }

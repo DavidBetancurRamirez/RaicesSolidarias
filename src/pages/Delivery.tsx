@@ -70,7 +70,7 @@ const DeliveryPage = () => {
                 <SafeImage
                   alt="Imagen de agradecimiento"
                   className="w-full object-cover rounded-lg h-60"
-                  src={delivery.thankYou.imageUrl}
+                  src={delivery.thankYou.mediaUrl}
                 />
                 <DeliveryDescription
                   text={delivery.thankYou.message}
@@ -93,7 +93,7 @@ const DeliveryPage = () => {
             <SafeImage
               alt="Imagen de agradecimiento"
               className="w-full object-cover rounded-lg h-80"
-              src={delivery.thankYou.imageUrl}
+              src={delivery.thankYou.mediaUrl}
             />
           )}
         </GridTwoColumns>

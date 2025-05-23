@@ -22,7 +22,7 @@ export interface StatisticDto {
 
 export interface ThankYouDto {
   message: string;
-  imageUrl?: string;
+  mediaUrl?: string;
 }
 
 export interface Delivery {
@@ -39,7 +39,7 @@ export const initialStateDelivery: Delivery = {
   mainImageUrl: '',
   statistics: [],
   thankYou: {
-    imageUrl: '',
+    mediaUrl: '',
     message: '',
   },
   year: new Date().getFullYear(),
@@ -66,7 +66,7 @@ export interface Place {
   galleryImageUrls: string[];
   mainImageUrl: string;
   name: string;
-  secondaryImageUrl: string;
+  secondaryMediaUrl: string;
   statistics: StatisticDto[];
   testimonials: Testimonial[];
 }
@@ -78,7 +78,7 @@ export const initialStatePlace: Place = {
   galleryImageUrls: [],
   mainImageUrl: '',
   name: '',
-  secondaryImageUrl: '',
+  secondaryMediaUrl: '',
   statistics: [],
   testimonials: [],
 };
