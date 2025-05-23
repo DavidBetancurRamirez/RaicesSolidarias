@@ -12,7 +12,9 @@ import SafeImage from '../common/SafeImage';
 interface PlaceCardProps {
   date: Date;
   description: string;
+  id?: string;
   image: string;
+  onClick: () => void;
   place: string;
 }
 
@@ -20,6 +22,7 @@ const PlaceCard: React.FC<PlaceCardProps> = ({
   date,
   description,
   image,
+  onClick,
   place,
 }) => {
   const text = `${place} - ${date?.toLocaleDateString()}`;
@@ -39,7 +42,7 @@ const PlaceCard: React.FC<PlaceCardProps> = ({
       </CardHeader>
 
       <CardBody className="p-4 w-full text-text dark:text-dk_text h-72">
-        <ButtonWithIcon className="w-full" text={text} />
+        <ButtonWithIcon className="w-full" text={text} onClick={onClick} />
         <div className="mt-4 overflow-y-auto max-h-[calc(100%-4rem)] pr-2">
           <Typography
             variant="small"

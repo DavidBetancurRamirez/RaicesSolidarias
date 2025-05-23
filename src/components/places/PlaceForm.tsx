@@ -108,16 +108,17 @@ const PlaceForm = () => {
         return;
       }
 
+      setAlert('Lugar creado correctamente, subiendo archivos...');
+      navigate(WEB_ROUTES.placeById(response.data._id));
+
       const uploadMedia = await uploadPlaceMedia(response.data._id);
       if (!uploadMedia) {
         setAlert('Error al subir los archivos, intenta de nuevo');
         return;
       }
 
-      setAlert('Lugar creada correctamente');
+      setAlert('Archivos subidos correctamente');
       setFormData(initialStatePlace);
-
-      navigate(WEB_ROUTES.deliveries);
     } catch (error) {
       console.error('Error submitting delivery:', error);
     }

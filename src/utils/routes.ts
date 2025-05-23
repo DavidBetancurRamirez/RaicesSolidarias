@@ -20,8 +20,10 @@ export const WEB_ROUTES = {
   admin: '/admin',
   contact: '/contacto',
   deliveries: '/entregas',
-  deliveriesByYear: (year: string) => `/entregas/${year}`,
   delivery: '/entregas/:id',
+  deliveryByYear: (year: string) => `/entregas/${year}`,
   home: '/',
+  place: '/lugar/:id',
+  placeById: (id: string) => `/lugar/${id}`,
   session: '/session',
 };

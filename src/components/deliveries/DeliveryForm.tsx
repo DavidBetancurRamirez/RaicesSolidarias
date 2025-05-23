@@ -78,16 +78,17 @@ const DeliveryForm = () => {
         return;
       }
 
+      setAlert('Entrega creada correctamente, subiendo archivos...');
+      navigate(WEB_ROUTES.deliveryByYear(String(response.data.year)));
+
       const uploadMedia = await uploadDeliveryMedia(response.data._id);
       if (!uploadMedia) {
         setAlert('Error al subir los archivos, intenta de nuevo');
         return;
       }
 
-      setAlert('Entrega creada correctamente');
+      setAlert('Archivos subidos correctamente');
       setFormData(initialStateDelivery);
-
-      navigate(WEB_ROUTES.deliveriesByYear(String(response.data.year)));
     } catch (error) {
       console.error('Error submitting delivery:', error);
     }

@@ -43,7 +43,7 @@ const Deliveries = () => {
             image={data?.mainImageUrl}
             reverse={index % 2 !== 0}
             onClick={() =>
-              navigate(WEB_ROUTES.deliveriesByYear(String(data.year)))
+              navigate(WEB_ROUTES.deliveryByYear(String(data.year)))
             }
           />
         ))}

@@ -1,6 +1,6 @@
 import { Typography } from '@material-tailwind/react';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import CarouselContainer from '@components/common/CarouselContainer';
 import GridTwoColumns from '@components/common/GridTwoColumns';
@@ -17,9 +17,10 @@ import {
   ResponseData,
 } from '@/constants/interfaces';
 
-import { API_ROUTES } from '@utils/routes';
+import { API_ROUTES, WEB_ROUTES } from '@utils/routes';
 
 const DeliveryPage = () => {
+  const navigate = useNavigate();
   const { id } = useParams<{ id?: string }>();
 
   const [delivery, setDelivery] = useState<DeliveryPlaces>(
@@ -107,6 +108,9 @@ const DeliveryPage = () => {
                 description={place.description}
                 image={place.mainImageUrl}
                 place={place.name}
+                onClick={() =>
+                  navigate(WEB_ROUTES.placeById(String(place._id)))
+                }
               />
             ))}
           </CarouselContainer>
