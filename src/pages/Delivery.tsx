@@ -1,5 +1,5 @@
 import { Typography } from '@material-tailwind/react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import CarouselContainer from '@components/common/CarouselContainer';
@@ -96,18 +96,27 @@ const DeliveryPage = () => {
       </GridTwoColumns>
 
       {delivery?.places && delivery?.places?.length > 0 && (
-        <CarouselContainer>
-          {delivery?.places.map((place, index) => (
-            <PlaceCard
-              key={index}
-              date={new Date(place.deliveryDate)}
-              description={place.description}
-              image={place.mainImageUrl}
-              place={place.name}
-              onClick={() => navigate(WEB_ROUTES.placeById(String(place._id)))}
-            />
-          ))}
-        </CarouselContainer>
+        <React.Fragment>
+          <Title
+            containerClassName="md:mb-2"
+            variant="h4"
+            title="Lugares de entrega"
+          />
+          <CarouselContainer>
+            {delivery?.places.map((place, index) => (
+              <PlaceCard
+                key={index}
+                date={new Date(place.deliveryDate)}
+                description={place.description}
+                image={place.mainImageUrl}
+                place={place.name}
+                onClick={() =>
+                  navigate(WEB_ROUTES.placeById(String(place._id)))
+                }
+              />
+            ))}
+          </CarouselContainer>
+        </React.Fragment>
       )}
     </PageLayout>
   );

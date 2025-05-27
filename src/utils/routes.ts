@@ -9,6 +9,7 @@ export const API_ROUTES = {
   place: `${API_BASE_URL}/place`,
   placeById: (id: string) => `${API_BASE_URL}/place/${id}`,
   placeMedia: (id: string) => `${API_BASE_URL}/place/${id}/media`,
+  placeTestimonial: (id: string) => `${API_BASE_URL}/place/${id}/testimonials`,
   refresh: `${API_BASE_URL}/auth/refresh-token`,
   register: `${API_BASE_URL}/auth/register`,
   user: `${API_BASE_URL}/auth/user`,

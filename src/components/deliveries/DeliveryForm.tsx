@@ -139,9 +139,12 @@ const DeliveryForm = () => {
           onFilesSelected={(files) => setMainImage(files[0])}
         />
         <CustomInputFiles
-          label="Arrastra o selecciona la imagen o video de agradecimiento"
-          labelTitle="Imagen o video de agradecimiento"
-          accept={{ 'image/*': ['.jpg', '.png'], 'video/*': ['.mp4'] }}
+          label="Arrastra o selecciona la imagen de agradecimiento"
+          // label="Arrastra o selecciona la imagen o video de agradecimiento"
+          labelTitle="Imagen de agradecimiento"
+          // labelTitle="Imagen o video de agradecimiento"
+          accept={{ 'image/*': ['.jpg', '.png'] }}
+          // accept={{ 'image/*': ['.jpg', '.png'], 'video/*': ['.mp4'] }}
           multiple={false}
           onFilesSelected={(files) => setTankYouMedia(files[0])}
         />

@@ -55,6 +55,8 @@ export const initialStateDeliveryPlaces: DeliveryPlaces = {
 };
 
 export interface Testimonial {
+  _id?: string;
+  createdBy: User;
   testimonial: string;
 }
 

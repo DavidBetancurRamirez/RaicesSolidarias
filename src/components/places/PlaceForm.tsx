@@ -177,17 +177,22 @@ const PlaceForm = () => {
           onFilesSelected={(files) => setMainImage(files[0])}
         />
         <CustomInputFiles
-          label="Arrastra o selecciona la imagen o video secundario"
-          labelTitle="Imagen o video secundario"
-          accept={{ 'image/*': ['.jpg', '.png'], 'video/*': ['.mp4'] }}
+          label="Arrastra o selecciona la imagen secundaria"
+          labelTitle="Imagen secundaria"
+          accept={{ 'image/*': ['.jpg', '.png'] }}
+          // label="Arrastra o selecciona la imagen o video secundario"
+          // labelTitle="Imagen o video secundario"
+          // accept={{ 'image/*': ['.jpg', '.png'], 'video/*': ['.mp4'] }}
           multiple={false}
           onFilesSelected={(files) => setSecondaryMedia(files[0])}
         />
       </GridTwoColumns>
       <CustomInputFiles
-        label="Arrastra o selecciona las imagenes o videos de la galería"
+        label="Arrastra o selecciona las imagenes de la galería"
+        // label="Arrastra o selecciona las imagenes o videos de la galería"
         labelTitle="Galería"
-        accept={{ 'image/*': ['.jpg', '.png'], 'video/*': ['.mp4'] }}
+        accept={{ 'image/*': ['.jpg', '.png'] }}
+        // accept={{ 'image/*': ['.jpg', '.png'], 'video/*': ['.mp4'] }}
         multiple={true}
         onFilesSelected={handleFilesSelected}
       />
