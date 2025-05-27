@@ -31,8 +31,8 @@ const SafeImage = ({
         onLoad={handleLoad}
         onError={handleError}
         style={loading ? { visibility: 'hidden' } : {}}
-        className={`${props.className || ''} w-full h-full object-cover`}
         {...props}
+        className={`w-full h-full object-cover rounded-lg ${props.className || ''} `}
       />
     </div>
   );

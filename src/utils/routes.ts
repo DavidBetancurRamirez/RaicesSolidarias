@@ -4,11 +4,11 @@ export const API_BASE_URL =
 export const API_ROUTES = {
   delivery: `${API_BASE_URL}/delivery`,
   deliveryByYear: (year: string) => `${API_BASE_URL}/delivery/year/${year}`,
-  deliveryMedia: (deliveryId: string) =>
-    `${API_BASE_URL}/delivery/${deliveryId}/media`,
+  deliveryMedia: (id: string) => `${API_BASE_URL}/delivery/${id}/media`,
   login: `${API_BASE_URL}/auth/login`,
   place: `${API_BASE_URL}/place`,
-  placeMedia: (placeId: string) => `${API_BASE_URL}/place/${placeId}/media`,
+  placeById: (id: string) => `${API_BASE_URL}/place/${id}`,
+  placeMedia: (id: string) => `${API_BASE_URL}/place/${id}/media`,
   refresh: `${API_BASE_URL}/auth/refresh-token`,
   register: `${API_BASE_URL}/auth/register`,
   user: `${API_BASE_URL}/auth/user`,

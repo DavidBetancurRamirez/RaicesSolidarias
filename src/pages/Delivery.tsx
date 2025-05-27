@@ -46,76 +46,69 @@ const DeliveryPage = () => {
 
   return (
     <PageLayout title={String(delivery.year)}>
-      <div className="flex flex-col gap-4 md:gap-6 xl:gap-8">
-        <GridTwoColumns>
-          <SafeImage
-            alt="Imagen principal de la entrega"
-            className="w-full object-cover rounded-lg h-80"
-            src={delivery.mainImageUrl}
-          />
-          <DeliveryDescription
-            text={delivery.description}
-            maxHeight="max-h-80"
-          />
-        </GridTwoColumns>
+      <GridTwoColumns>
+        <SafeImage
+          alt="Imagen principal de la entrega"
+          className="!h-80"
+          src={delivery.mainImageUrl}
+        />
+        <DeliveryDescription text={delivery.description} maxHeight="max-h-80" />
+      </GridTwoColumns>
 
-        <GridTwoColumns>
-          <div className="flex flex-col gap-4">
-            <Title
-              containerClassName="md:mb-2"
-              variant="h4"
-              title={`Mensaje ${delivery.year}`}
-            />
-            {delivery?.statistics?.length ? (
-              <GridTwoColumns>
-                <SafeImage
-                  alt="Imagen de agradecimiento"
-                  className="w-full object-cover rounded-lg h-60"
-                  src={delivery.thankYou.mediaUrl}
-                />
-                <DeliveryDescription
-                  text={delivery.thankYou.message}
-                  maxHeight="max-h-60"
-                />
-              </GridTwoColumns>
-            ) : (
+      <GridTwoColumns>
+        <div className="flex flex-col gap-4">
+          <Title
+            containerClassName="md:mb-2"
+            variant="h4"
+            title={`Mensaje ${delivery.year}`}
+          />
+          {delivery?.statistics?.length ? (
+            <GridTwoColumns>
+              <SafeImage
+                alt="Imagen de agradecimiento"
+                className="!h-60"
+                src={delivery.thankYou.mediaUrl}
+              />
               <DeliveryDescription
                 text={delivery.thankYou.message}
                 maxHeight="max-h-60"
               />
-            )}
-          </div>
-
-          {delivery?.statistics?.length ? (
-            <div className="bg-card dark:bg-dk_card rounded-lg p-4">
-              <p className="text-text dark:text-dk_text">Estadísticas</p>
-            </div>
+            </GridTwoColumns>
           ) : (
-            <SafeImage
-              alt="Imagen de agradecimiento"
-              className="w-full object-cover rounded-lg h-80"
-              src={delivery.thankYou.mediaUrl}
+            <DeliveryDescription
+              text={delivery.thankYou.message}
+              maxHeight="max-h-60"
             />
           )}
-        </GridTwoColumns>
+        </div>
 
-        {delivery?.places && delivery?.places?.length > 0 && (
-          <CarouselContainer>
-            {delivery?.places.map((place, index) => (
-              <PlaceCard
-                key={index}
-                date={new Date(place.deliveryDate)}
-                description={place.description}
-                image={place.mainImageUrl}
-                place={place.name}
-                onClick={() =>
-                  navigate(WEB_ROUTES.placeById(String(place._id)))
-                }
-              />
-            ))}
-          </CarouselContainer>
+        {delivery?.statistics?.length ? (
+          <div className="bg-card dark:bg-dk_card rounded-lg p-4">
+            <p className="text-text dark:text-dk_text">Estadísticas</p>
+          </div>
+        ) : (
+          <SafeImage
+            alt="Imagen de agradecimiento"
+            className="!h-80"
+            src={delivery.thankYou.mediaUrl}
+          />
         )}
-      </div>
+      </GridTwoColumns>
+
+      {delivery?.places && delivery?.places?.length > 0 && (
+        <CarouselContainer>
+          {delivery?.places.map((place, index) => (
+            <PlaceCard
+              key={index}
+              date={new Date(place.deliveryDate)}
+              description={place.description}
+              image={place.mainImageUrl}
+              place={place.name}
+              onClick={() => navigate(WEB_ROUTES.placeById(String(place._id)))}
+            />
+          ))}
+        </CarouselContainer>
+      )}
     </PageLayout>
   );
 };

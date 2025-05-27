@@ -34,11 +34,7 @@ const PlaceCard: React.FC<PlaceCardProps> = ({
         floated={false}
         className="m-0 w-full shrink-0 rounded-t-xl rounded-b-none bg-card dark:bg-dk_card h-60"
       >
-        <SafeImage
-          alt={text}
-          className="w-full object-cover h-full"
-          src={image}
-        />
+        <SafeImage alt={text} className="rounded-none" src={image} />
       </CardHeader>
 
       <CardBody className="p-4 w-full text-text dark:text-dk_text h-72">

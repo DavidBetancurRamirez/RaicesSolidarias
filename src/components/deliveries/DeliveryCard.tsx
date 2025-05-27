@@ -38,11 +38,7 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({
           reverse ? 'md:rounded-r-xl' : 'md:rounded-l-xl'
         } bg-card dark:bg-dk_card h-48 md:h-full`}
       >
-        <SafeImage
-          alt={`Año ${year}`}
-          className="w-full object-cover h-full"
-          src={image}
-        />
+        <SafeImage alt={`Año ${year}`} className="rounded-none" src={image} />
       </CardHeader>
 
       <CardBody className="p-4 flex flex-col justify-between gap-4 h-72 w-full text-text dark:text-dk_text">
