@@ -10,6 +10,7 @@ import Delivery from '@pages/Delivery';
 // import Home from '@pages/Home';
 import NotFound from '@pages/NotFound';
 import Place from '@pages/Place';
+import Profile from '@pages/Profile';
 import Session from '@pages/Session';
 
 import { WEB_ROUTES } from '@utils/routes';
@@ -39,6 +40,10 @@ export const publicRoutes: RouteProps[] = [
   {
     Component: Place,
     path: WEB_ROUTES.place,
+  },
+  {
+    Component: Profile,
+    path: WEB_ROUTES.profile,
   },
   {
     Component: Session,

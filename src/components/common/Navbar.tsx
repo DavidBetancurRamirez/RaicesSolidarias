@@ -8,9 +8,9 @@ import {
 } from '@material-tailwind/react';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Menu, Moon, Slash, Sun, X } from 'lucide-react';
+import { Menu, Slash, X } from 'lucide-react';
 
-import { useTheme } from '@hooks/useTheme';
+import Avatar from '@components/users/Avatar';
 
 import { useAuthStore } from '@/stores/authStore';
 
@@ -27,7 +27,6 @@ const Navbar = () => {
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
 
-  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
@@ -85,19 +84,7 @@ const Navbar = () => {
 
         <div className="hidden md:flex items-center gap-1">
           {user?._id ? (
-            <div className="flex flex-col items-end w-fit">
-              <Typography className="text-white text-end w-fit" variant="small">
-                Bienvenido de nuevo: {user?.userName || user.email}
-              </Typography>
-              <Typography
-                as="button"
-                className="text-card dark:text-dk_accent underline"
-                onClick={logout}
-                variant="small"
-              >
-                Cerrar sesión
-              </Typography>
-            </div>
+            <Avatar />
           ) : (
             <Button
               className="bg-accent dark:bg-dk_accent text-card dark:text-dk_card"
@@ -106,28 +93,17 @@ const Navbar = () => {
               Ingresar
             </Button>
           )}
-
-          <IconButton
-            className="transition-colors bg-transparent shadow-none"
-            onClick={toggleTheme}
-          >
-            {theme === 'dark' ? <Moon /> : <Sun />}
-          </IconButton>
         </div>
 
-        <div className="flex items-center md:hidden">
-          <IconButton
-            className="transition-colors bg-transparent shadow-none"
-            onClick={toggleTheme}
-          >
-            {theme === 'dark' ? <Moon /> : <Sun />}
-          </IconButton>
+        <div className="flex items-center md:hidden gap-2">
+          {user?._id && <Avatar />}
+
           <IconButton
             size="sm"
             variant="text"
             color="white"
             onClick={handleOpen}
-            className="ml-auto inline-block md:hidden"
+            className="inline-block md:hidden"
           >
             {open ? (
               <X className="h-6 w-6" strokeWidth={2} />
@@ -137,9 +113,10 @@ const Navbar = () => {
           </IconButton>
         </div>
       </div>
+
       <Collapse open={open}>
-        <div className="mt-2 rounded-xl py-2">
-          <ul className="mb-4 mt-2 flex flex-col gap-3">
+        <div className="mt-6 rounded-xl">
+          <ul className="mb-4 flex flex-col gap-3">
             {menuItems.map((item) => (
               <Typography
                 as="li"

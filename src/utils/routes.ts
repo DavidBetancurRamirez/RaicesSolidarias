@@ -26,5 +26,6 @@ export const WEB_ROUTES = {
   home: '/',
   place: '/lugar/:id',
   placeById: (id: string) => `/lugar/${id}`,
+  profile: '/perfil',
   session: '/session',
 };
