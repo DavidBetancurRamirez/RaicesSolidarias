@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Button, Card, CardHeader, Typography } from '@material-tailwind/react';
 import { useNavigate } from 'react-router-dom';
 
+import AvatarSelector from '@components/users/AvatarSelector';
 import CustomInput from '@components/forms/CustomInput';
-import InputPassword from '../common/InputPassword';
+import CustomLabel from '@components/forms/CustomLabel';
+import InputPassword from '@components/common/InputPassword';
 
 import api from '@/config/api';
 
@@ -22,6 +24,7 @@ const SessionForm = () => {
 
   const [login, setLogin] = useState<boolean>(true);
   const [formData, setFormData] = useState({
+    avatar: 'avatar1',
     checkPassword: '',
     email: '',
     password: '',
@@ -57,6 +60,7 @@ const SessionForm = () => {
           : 'Te registraste correctamente',
       );
 
+      // TODO: Go back or redirect to home
       navigate(WEB_ROUTES.home);
     } catch (error) {
       console.error('Error al enviar el formulario:', error);
@@ -136,6 +140,18 @@ const SessionForm = () => {
               onChange={(e) => handleChange(e, setFormData)}
               value={formData.checkPassword}
             />
+          )}
+
+          {!login && (
+            <div>
+              <CustomLabel label="Avatar" />
+              <AvatarSelector
+                value={formData.avatar}
+                onChange={(avatar) =>
+                  setFormData((prev) => ({ ...prev, avatar }))
+                }
+              />
+            </div>
           )}
         </div>
 

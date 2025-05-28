@@ -11,13 +11,19 @@ import {
   Typography,
 } from '@material-tailwind/react';
 
+import { avatarMap } from './AvatarSelector';
+
 import { useTheme } from '@hooks/useTheme';
 
 import { useAuthStore } from '@/stores/authStore';
 
 import { WEB_ROUTES } from '@utils/routes';
 
-const Avatar = () => {
+interface AvatarProps {
+  avatar?: string;
+}
+
+const Avatar: React.FC<AvatarProps> = ({ avatar }) => {
   const navigate = useNavigate();
   const logout = useAuthStore((state) => state.logout);
   const { theme, toggleTheme } = useTheme();
@@ -57,7 +63,11 @@ const Avatar = () => {
           <MtAvatar
             size="sm"
             alt="user avatar"
-            src="https://docs.material-tailwind.com/img/face-2.jpg"
+            src={
+              avatar && avatarMap[avatar]
+                ? avatarMap[avatar]
+                : avatarMap['avatar1']
+            }
           />
         </Button>
       </MenuHandler>

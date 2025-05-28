@@ -6,16 +6,19 @@ import {
   Button,
   Collapse,
 } from '@material-tailwind/react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Menu, Slash, X } from 'lucide-react';
+import { Menu, Moon, Slash, Sun, X } from 'lucide-react';
 
 import Avatar from '@components/users/Avatar';
+
+import { UserRoles } from '@/constants/roles';
+
+import { useTheme } from '@hooks/useTheme';
 
 import { useAuthStore } from '@/stores/authStore';
 
 import { WEB_ROUTES } from '@utils/routes';
-import { UserRoles } from '@/constants/roles';
 
 export const menuItems = [
   { link: WEB_ROUTES.about, name: 'Nosotros' },
@@ -26,6 +29,7 @@ export const menuItems = [
 const Navbar = () => {
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
+  const { theme, toggleTheme } = useTheme();
 
   const navigate = useNavigate();
 
@@ -84,19 +88,27 @@ const Navbar = () => {
 
         <div className="hidden md:flex items-center gap-1">
           {user?._id ? (
-            <Avatar />
+            <Avatar avatar={user.avatar} />
           ) : (
-            <Button
-              className="bg-accent dark:bg-dk_accent text-card dark:text-dk_card"
-              onClick={() => navigate(WEB_ROUTES.session)}
-            >
-              Ingresar
-            </Button>
+            <React.Fragment>
+              <IconButton
+                className="transition-colors bg-transparent shadow-none"
+                onClick={toggleTheme}
+              >
+                {theme === 'dark' ? <Moon /> : <Sun />}
+              </IconButton>
+              <Button
+                className="bg-accent dark:bg-dk_accent text-card dark:text-dk_card"
+                onClick={() => navigate(WEB_ROUTES.session)}
+              >
+                Ingresar
+              </Button>
+            </React.Fragment>
           )}
         </div>
 
         <div className="flex items-center md:hidden gap-2">
-          {user?._id && <Avatar />}
+          {user?._id && <Avatar avatar={user.avatar} />}
 
           <IconButton
             size="sm"

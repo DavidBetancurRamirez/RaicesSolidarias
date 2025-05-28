@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import fallbackSrc from '@/assets/images/fallback.jpeg?url';
+import fallbackSrc from '@/assets/images/fallback.jpeg';
 
 const SafeImage = ({
   src,

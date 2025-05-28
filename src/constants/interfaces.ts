@@ -10,6 +10,7 @@ export interface ResponseData<T extends object | unknown> {
 
 export interface User {
   _id: string;
+  avatar?: string;
   email: string;
   roles: UserRoles[];
   userName: string;
@@ -55,7 +56,7 @@ export const initialStateDeliveryPlaces: DeliveryPlaces = {
 };
 
 export interface Testimonial {
-  _id?: string;
+  _id: string;
   createdBy: User;
   testimonial: string;
 }
