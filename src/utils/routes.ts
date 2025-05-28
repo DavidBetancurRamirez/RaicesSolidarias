@@ -9,9 +9,11 @@ export const API_ROUTES = {
   place: `${API_BASE_URL}/place`,
   placeById: (id: string) => `${API_BASE_URL}/place/${id}`,
   placeMedia: (id: string) => `${API_BASE_URL}/place/${id}/media`,
-  placeTestimonial: (id: string) => `${API_BASE_URL}/place/${id}/testimonials`,
   refresh: `${API_BASE_URL}/auth/refresh-token`,
   register: `${API_BASE_URL}/auth/register`,
+  testimonial: `${API_BASE_URL}/testimonial`,
+  testimonialById: (id: string) => `${API_BASE_URL}/testimonial/${id}`,
+  testimonialByPlace: (id: string) => `${API_BASE_URL}/testimonial/place/${id}`,
   user: `${API_BASE_URL}/auth/user`,
   userById: (id: string) => `${API_BASE_URL}/auth/user/${id}`,
 };

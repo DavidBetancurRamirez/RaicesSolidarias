@@ -8,6 +8,10 @@ export interface ResponseData<T extends object | unknown> {
   timestamp: string;
 }
 
+export interface DeleteResponse {
+  deleted: boolean;
+}
+
 export interface User {
   _id: string;
   avatar?: string;
@@ -56,10 +60,15 @@ export const initialStateDeliveryPlaces: DeliveryPlaces = {
 };
 
 export interface Testimonial {
-  _id: string;
-  createdBy: User;
-  testimonial: string;
+  _id?: string;
+  createdBy?: User;
+  message: string;
+  place?: string;
 }
+
+export const initialStateTestimonial: Testimonial = {
+  message: '',
+};
 
 export interface Place {
   _id?: string;
