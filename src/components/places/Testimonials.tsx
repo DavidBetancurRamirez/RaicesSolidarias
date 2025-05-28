@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp, Plus } from 'lucide-react';
 import { Typography } from '@material-tailwind/react';
+import { useNavigate } from 'react-router-dom';
 
 import ButtonWithIcon from '@components/common/ButtonWithIcon';
 import CustomTextarea from '@components/forms/CustomTextarea';
@@ -19,9 +20,10 @@ import {
 import { UserRoles } from '@/constants/roles';
 
 import { useAuthStore } from '@/stores/authStore';
+import { useModalStore } from '@/stores/useModalStore';
 import { useUIStore } from '@/stores/uiStore';
 
-import { API_ROUTES } from '@utils/routes';
+import { API_ROUTES, WEB_ROUTES } from '@utils/routes';
 import { handleChange } from '@utils/forms';
 
 interface TestimonialsProps {
@@ -37,6 +39,9 @@ const Testimonials: React.FC<TestimonialsProps> = ({
 }) => {
   const user = useAuthStore((state) => state.user);
   const setAlert = useUIStore((state) => state.setAlert);
+  const setModal = useModalStore((state) => state.setModal);
+
+  const navigate = useNavigate();
 
   const [showForm, setShowForm] = useState<boolean>(false);
   const [testimonialForm, setTestimonialForm] = useState<Testimonial>(
@@ -89,7 +94,11 @@ const Testimonials: React.FC<TestimonialsProps> = ({
 
   const handleShowForm = () => {
     if (!user) {
-      // TODO: Change to modal
+      setModal({
+        body: 'Para agregar un testimonio, debes iniciar sesión primero. Deseas iniciar sesión ahora?',
+        header: 'Es necesario iniciar sesión',
+        onAccept: () => navigate(WEB_ROUTES.session),
+      });
       setAlert('Debes iniciar sesión para agregar un testimonio');
       return;
     }
@@ -128,6 +137,14 @@ const Testimonials: React.FC<TestimonialsProps> = ({
       console.error('Error adding testimonial:', error);
       return;
     }
+  };
+
+  const handleModalDelete = (testimonialId?: string) => {
+    setModal({
+      body: '¿Estás seguro de que deseas eliminar este testimonio?',
+      header: 'Eliminar testimonio',
+      onAccept: () => handleDeleteTestimonial(testimonialId),
+    });
   };
 
   return (
@@ -182,7 +199,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({
                 }
                 onDelete={
                   canDelete
-                    ? () => handleDeleteTestimonial(testimonial?._id)
+                    ? () => handleModalDelete(testimonial?._id)
                     : undefined
                 }
               />

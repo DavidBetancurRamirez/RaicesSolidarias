@@ -15,6 +15,7 @@ declare module '@material-tailwind/react' {
   interface CardHeaderProps extends MTProps {}
   interface CardProps extends MTProps {}
   interface CarouselProps extends MTProps {}
+  interface DialogProps extends MTProps {}
   interface DialogBodyProps extends MTProps {}
   interface DialogHeaderProps extends MTProps {}
   interface DialogFooterProps extends MTProps {}
