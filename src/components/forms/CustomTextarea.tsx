@@ -13,13 +13,18 @@ const CustomTextarea: React.FC<CustomTextareaProps> = ({ label, ...props }) => {
       <CustomLabel label={label} />
       <Textarea
         className="!text-text dark:!text-dk_text !border-text dark:!border-dk_text"
-        size="lg"
+        id={props.id}
         labelProps={{
           className: 'before:content-none after:content-none',
         }}
-        onFocus={(e) => (e.target.placeholder = '')}
+        autoComplete={props.autoComplete}
+        name={props.name}
         onBlur={(e) => (e.target.placeholder = '')}
-        {...props}
+        onChange={props.onChange}
+        onFocus={(e) => (e.target.placeholder = '')}
+        placeholder={props.placeholder || ' '}
+        size="lg"
+        value={props.value}
       />
     </div>
   );
