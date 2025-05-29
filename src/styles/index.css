@@ -1,19 +1,27 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@custom-variant dark (&:where(.dark, .dark *));
+/* --- Global Scrollbar --- */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
 
-@theme {
-  /* Modo claro */
-  --color-sun: #F9CB40;
-  --color-sky: #A2D2FF;
-  --color-heart: #FF6B6B;
-  --color-leaf: #B8E4C9;
-  --color-cloud: #F4F4F4;
+::-webkit-scrollbar-thumb {
+  background-color: rgba(100, 100, 100, 0.5);
+  border-radius: 9999px;
+}
 
-  /* Dark theme */
-  --color-dk-sun: #C89F43;
-  --color-dk-sky: #4361EE;
-  --color-dk-heart: #B0413E;
-  --color-dk-leaf: #1E5A41;
-  --color-dk-cloud: #1B1B1B;
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(100, 100, 100, 0.7);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(100, 100, 100, 0.5) transparent;
 }
