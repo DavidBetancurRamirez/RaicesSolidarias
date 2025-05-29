@@ -7,7 +7,12 @@ import PrivateRoute from '@components/common/PrivateRoute';
 
 import { publicRoutes, privateRoutes } from './constants/routes';
 
+import { API_BASE_URL } from '@utils/routes';
+
 const App = () => {
+  console.log('API_BASE_URL Environment:', import.meta.env.VITE_API_URL);
+  console.log('API_BASE_URL Saved:', API_BASE_URL);
+
   return (
     <ThemeProvider>
       <BrowserRouter>
