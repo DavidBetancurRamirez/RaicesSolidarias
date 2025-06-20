@@ -1,8 +1,8 @@
 import React from 'react';
 import { Accept, FileWithPath, useDropzone } from 'react-dropzone';
+import { ImageIcon } from 'lucide-react';
 
 import CustomLabel from './CustomLabel';
-import { ImageIcon } from 'lucide-react';
 
 interface CustomInputFilesProps {
   accept?: Accept;
@@ -17,12 +17,14 @@ interface CustomInputFilesProps {
 const CustomInputFiles: React.FC<CustomInputFilesProps> = ({
   accept,
   multiple = false,
-  maxFiles = multiple ? 5 : 1,
+  maxFiles,
   onFilesSelected,
   label = "Drag 'n' drop files here, or click to select",
   labelTitle = 'Files',
   className = '',
 }) => {
+  const computedMaxFiles = multiple ? (maxFiles ?? undefined) : 1;
+
   const onDrop = (acceptedFiles: File[]) => {
     if (onFilesSelected) {
       onFilesSelected(acceptedFiles);
@@ -31,7 +33,7 @@ const CustomInputFiles: React.FC<CustomInputFilesProps> = ({
 
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     accept,
-    maxFiles,
+    maxFiles: computedMaxFiles,
     multiple,
     onDrop,
   });

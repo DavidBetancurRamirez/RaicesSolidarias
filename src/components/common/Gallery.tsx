@@ -20,10 +20,10 @@ const Gallery: React.FC<GalleryProps> = ({ gallery }) => {
       >
         {gallery.map((imageLink, idx) => (
           <SafeImage
-            key={imageLink + idx}
-            src={imageLink}
             alt="gallery-image"
             className="h-96 md:h-[500px] w-full object-cover object-center"
+            key={imageLink + idx}
+            src={imageLink}
           />
         ))}
       </Carousel>
@@ -31,10 +31,10 @@ const Gallery: React.FC<GalleryProps> = ({ gallery }) => {
       <CarouselContainer>
         {gallery.map((imageLink, index) => (
           <img
+            alt={`gallery-image-${index}`}
+            className="h-40 w-40 cursor-pointer rounded-lg object-cover object-center"
             key={imageLink + index}
             src={imageLink}
-            className="h-40 w-40 cursor-pointer rounded-lg object-cover object-center"
-            alt="gallery-thumbnail"
           />
         ))}
       </CarouselContainer>

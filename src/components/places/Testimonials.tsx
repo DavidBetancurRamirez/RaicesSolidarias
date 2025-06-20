@@ -191,6 +191,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({
             return (
               <Testimony
                 {...testimonial}
+                avatar={testimonial?.createdBy?.avatar}
                 key={`${testimonial?._id} - ${index}`}
                 onEdit={
                   isOwner
