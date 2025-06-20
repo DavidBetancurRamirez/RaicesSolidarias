@@ -1,3 +1,6 @@
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Menu, Moon, Slash, Sun, X } from 'lucide-react';
 import {
   Navbar as MtNavbar,
   Typography,
@@ -6,12 +9,10 @@ import {
   Button,
   Collapse,
 } from '@material-tailwind/react';
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Menu, Moon, Slash, Sun, X } from 'lucide-react';
 
 import Avatar from '@components/users/Avatar';
 
+import { menuItems } from '@/constants/menuItems';
 import { UserRoles } from '@/constants/roles';
 
 import { useTheme } from '@hooks/useTheme';
@@ -20,12 +21,6 @@ import { useAuthStore } from '@/stores/authStore';
 
 import { WEB_ROUTES } from '@utils/routes';
 
-export const menuItems = [
-  { link: WEB_ROUTES.about, name: 'Nosotros' },
-  { link: WEB_ROUTES.contact, name: 'Contactenos' },
-  { link: WEB_ROUTES.deliveries, name: 'Entregas' },
-];
-
 const Navbar = () => {
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
@@ -33,8 +28,9 @@ const Navbar = () => {
 
   const navigate = useNavigate();
 
+  const [menuItemsShow, setMenuItemsShow] = useState(menuItems);
+
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen((cur) => !cur);
 
   useEffect(() => {
     window.addEventListener(
@@ -43,19 +39,17 @@ const Navbar = () => {
     );
   }, []);
 
-  const adminRouteIndex = menuItems.findIndex(
-    (item) => item.link === WEB_ROUTES.admin,
-  );
+  useEffect(() => {
+    setMenuItemsShow([
+      ...menuItems,
+      ...(user?._id ? [{ link: WEB_ROUTES.profile, name: 'Mi Perfil' }] : []),
+      ...(user?.roles.includes(UserRoles.ADMIN)
+        ? [{ link: WEB_ROUTES.admin, name: 'Administrar' }]
+        : []),
+    ]);
+  }, [user]);
 
-  if (user?.roles.includes(UserRoles.ADMIN)) {
-    if (adminRouteIndex === -1) {
-      menuItems.push({ link: WEB_ROUTES.admin, name: 'Administrar' });
-    }
-  } else {
-    if (adminRouteIndex !== -1) {
-      menuItems.splice(adminRouteIndex, 1);
-    }
-  }
+  const handleOpen = () => setOpen((cur) => !cur);
 
   return (
     <MtNavbar
@@ -74,7 +68,7 @@ const Navbar = () => {
             className="bg-transparent hidden md:flex items-center p-2"
             separator={<Slash size={10} color="white" />}
           >
-            {menuItems.map((item) => (
+            {menuItemsShow.map((item) => (
               <Typography
                 className="transition-colors text-white duration-300 ease-in-out hover:text-text dark:hover:text-dk_text"
                 key={item.name}
@@ -108,8 +102,6 @@ const Navbar = () => {
         </div>
 
         <div className="flex items-center md:hidden gap-2">
-          {user?._id && <Avatar avatar={user.avatar} />}
-
           <IconButton
             size="sm"
             variant="text"
@@ -129,7 +121,7 @@ const Navbar = () => {
       <Collapse open={open}>
         <div className="mt-6 rounded-xl">
           <ul className="mb-4 flex flex-col gap-3">
-            {menuItems.map((item) => (
+            {menuItemsShow.map((item) => (
               <Typography
                 as="li"
                 className="transition-colors duration-300 ease-in-out hover:text-text dark:hover:text-dk_text"
@@ -139,6 +131,22 @@ const Navbar = () => {
                 <Link to={item.link}>{item.name}</Link>
               </Typography>
             ))}
+            <hr className="my-1 border-dashed" />
+            <Typography
+              as="li"
+              className="transition-colors duration-300 ease-in-out"
+              key="theme-toggle"
+              onClick={toggleTheme}
+              variant="small"
+            >
+              <IconButton
+                className="transition-colors bg-transparent shadow-none mr-2"
+                size="sm"
+              >
+                {theme === 'light' ? <Moon /> : <Sun />}
+              </IconButton>
+              {theme === 'light' ? 'Modo oscuro' : 'Modo claro'}
+            </Typography>
           </ul>
           <Button
             className="bg-accent dark:bg-dk_accent text-card dark:text-dk_card"
