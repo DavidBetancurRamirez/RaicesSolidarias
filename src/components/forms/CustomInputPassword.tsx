@@ -4,13 +4,13 @@ import { InputProps, Typography } from '@material-tailwind/react';
 
 import CustomInput from '@components/forms/CustomInput';
 
-interface InputPasswordProps extends Omit<InputProps, 'type'> {
+interface CustomInputPasswordProps extends Omit<InputProps, 'type'> {
   info?: boolean;
   label?: string;
   placeholder?: string;
 }
 
-const InputPassword: React.FC<InputPasswordProps> = ({
+const CustomInputPassword: React.FC<CustomInputPasswordProps> = ({
   info = true,
   label = 'Contraseña',
   placeholder = '******',
@@ -52,4 +52,4 @@ const InputPassword: React.FC<InputPasswordProps> = ({
   );
 };
 
-export default InputPassword;
+export default CustomInputPassword;

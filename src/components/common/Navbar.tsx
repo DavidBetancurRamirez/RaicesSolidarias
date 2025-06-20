@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, Moon, Slash, Sun, X } from 'lucide-react';
 import {
   Navbar as MtNavbar,
@@ -26,6 +26,7 @@ const Navbar = () => {
   const logout = useAuthStore((state) => state.logout);
   const { theme, toggleTheme } = useTheme();
 
+  const location = useLocation();
   const navigate = useNavigate();
 
   const [menuItemsShow, setMenuItemsShow] = useState(menuItems);
@@ -48,6 +49,12 @@ const Navbar = () => {
         : []),
     ]);
   }, [user]);
+
+  const handleGoToLogin = () => {
+    navigate(WEB_ROUTES.session, {
+      state: { from: location },
+    });
+  };
 
   const handleOpen = () => setOpen((cur) => !cur);
 
@@ -93,7 +100,7 @@ const Navbar = () => {
               </IconButton>
               <Button
                 className="bg-accent dark:bg-dk_accent text-card dark:text-dk_card"
-                onClick={() => navigate(WEB_ROUTES.session)}
+                onClick={handleGoToLogin}
               >
                 Ingresar
               </Button>
@@ -151,9 +158,7 @@ const Navbar = () => {
           <Button
             className="bg-accent dark:bg-dk_accent text-card dark:text-dk_card"
             fullWidth
-            onClick={() =>
-              user?._id ? logout() : navigate(WEB_ROUTES.session)
-            }
+            onClick={() => (user?._id ? logout() : handleGoToLogin())}
           >
             {user?._id ? 'Cerrar Sesión' : 'Ingresar'}
           </Button>

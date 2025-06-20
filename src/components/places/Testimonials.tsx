@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp, Plus } from 'lucide-react';
 import { Typography } from '@material-tailwind/react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import ButtonWithIcon from '@components/common/ButtonWithIcon';
 import CustomTextarea from '@components/forms/CustomTextarea';
@@ -41,6 +41,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({
   const setAlert = useUIStore((state) => state.setAlert);
   const setModal = useModalStore((state) => state.setModal);
 
+  const location = useLocation();
   const navigate = useNavigate();
 
   const [showForm, setShowForm] = useState<boolean>(false);
@@ -92,12 +93,18 @@ const Testimonials: React.FC<TestimonialsProps> = ({
     setShowForm(true);
   };
 
+  const handleGoToLogin = () => {
+    navigate(WEB_ROUTES.session, {
+      state: { from: location },
+    });
+  };
+
   const handleShowForm = () => {
     if (!user) {
       setModal({
         body: 'Para agregar un testimonio, debes iniciar sesión primero. Deseas iniciar sesión ahora?',
         header: 'Es necesario iniciar sesión',
-        onAccept: () => navigate(WEB_ROUTES.session),
+        onAccept: handleGoToLogin,
       });
       setAlert('Debes iniciar sesión para agregar un testimonio');
       return;

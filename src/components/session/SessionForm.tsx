@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Button, Card, CardHeader, Typography } from '@material-tailwind/react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import AvatarSelector from '@components/users/AvatarSelector';
 import CustomInput from '@components/forms/CustomInput';
 import CustomLabel from '@components/forms/CustomLabel';
-import InputPassword from '@components/common/InputPassword';
+import CustomInputPassword from '@components/forms/CustomInputPassword';
 
 import api from '@/config/api';
 
@@ -19,7 +19,9 @@ import { handleChange } from '@utils/forms';
 import { validatePassword } from '@utils/validations';
 
 const SessionForm = () => {
+  const location = useLocation();
   const navigate = useNavigate();
+
   const setAlert = useUIStore((state) => state.setAlert);
 
   const [login, setLogin] = useState<boolean>(true);
@@ -60,8 +62,8 @@ const SessionForm = () => {
           : 'Te registraste correctamente',
       );
 
-      // TODO: Go back or redirect to home
-      navigate(WEB_ROUTES.home);
+      const from = location.state?.from?.pathname || WEB_ROUTES.home;
+      navigate(from, { replace: true });
     } catch (error) {
       console.error('Error al enviar el formulario:', error);
     }
@@ -124,7 +126,7 @@ const SessionForm = () => {
             value={formData.email}
           />
 
-          <InputPassword
+          <CustomInputPassword
             info={!login}
             label="Contraseña"
             name="password"
@@ -133,7 +135,7 @@ const SessionForm = () => {
           />
 
           {!login && (
-            <InputPassword
+            <CustomInputPassword
               info={false}
               label="Repetir contraseña"
               name="checkPassword"

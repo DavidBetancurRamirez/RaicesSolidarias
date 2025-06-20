@@ -7,7 +7,7 @@ import Admin from '@pages/Admin';
 import Contact from '@pages/Contact';
 import Deliveries from '@pages/Deliveries';
 import Delivery from '@pages/Delivery';
-// import Home from '@pages/Home';
+import Home from '@pages/Home';
 import NotFound from '@pages/NotFound';
 import Place from '@pages/Place';
 import Profile from '@pages/Profile';
@@ -33,17 +33,12 @@ export const publicRoutes: RouteProps[] = [
     path: WEB_ROUTES.delivery,
   },
   {
-    // Component: Home,
-    Component: Deliveries,
+    Component: Home,
     path: WEB_ROUTES.home,
   },
   {
     Component: Place,
     path: WEB_ROUTES.place,
-  },
-  {
-    Component: Profile,
-    path: WEB_ROUTES.profile,
   },
   {
     Component: Session,
@@ -64,5 +59,10 @@ export const privateRoutes: PrivateRouteProps[] = [
     Component: Admin,
     path: WEB_ROUTES.admin,
     requiredRoles: [UserRoles.ADMIN],
+  },
+  {
+    Component: Profile,
+    path: WEB_ROUTES.profile,
+    requiredRoles: [UserRoles.ADMIN, UserRoles.USER],
   },
 ];

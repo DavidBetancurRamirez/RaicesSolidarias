@@ -2,6 +2,8 @@ import { Button, Typography } from '@material-tailwind/react';
 import { Flag } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
+import { WEB_ROUTES } from '@utils/routes';
+
 const NotFound = () => {
   const navigate = useNavigate();
 
@@ -18,7 +20,11 @@ const NotFound = () => {
         Parece que estas en una pestaña que no existe, verifica la URL o vuelve
         a la página de inicio.
       </Typography>
-      <Button className="bg-primary" onClick={() => navigate('/')} size="lg">
+      <Button
+        className="bg-primary"
+        onClick={() => navigate(WEB_ROUTES.home)}
+        size="lg"
+      >
         Volver al inicio
       </Button>
     </div>

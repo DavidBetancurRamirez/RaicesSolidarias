@@ -26,6 +26,7 @@ export const WEB_ROUTES = {
   delivery: '/entregas/:id',
   deliveryByYear: (year: string) => `/entregas/${year}`,
   home: '/',
+  notFound: '/404',
   place: '/lugar/:id',
   placeById: (id: string) => `/lugar/${id}`,
   profile: '/perfil',
