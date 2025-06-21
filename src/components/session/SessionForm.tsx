@@ -38,7 +38,6 @@ const SessionForm = () => {
 
     try {
       const error = validateForm();
-
       if (error) {
         setAlert(error);
         return;
@@ -70,11 +69,7 @@ const SessionForm = () => {
   };
 
   const validateForm = () => {
-    const { email, password, checkPassword } = formData;
-
-    if (!email || !password) {
-      return 'Correo electronico y Contraseña son obligatorios';
-    }
+    const { password, checkPassword } = formData;
 
     if (!login && !validatePassword(password)) {
       return 'La contraseña debe tener al menos 6 caracteres, una mayúscula y un carácter especial';
@@ -112,6 +107,7 @@ const SessionForm = () => {
               name="userName"
               onChange={(e) => handleChange(e, setFormData)}
               placeholder="Raices Solidarias"
+              required
               value={formData.userName}
             />
           )}
@@ -122,6 +118,7 @@ const SessionForm = () => {
             name="email"
             onChange={(e) => handleChange(e, setFormData)}
             placeholder="raices-solidarias@gmail.com"
+            required
             type="email"
             value={formData.email}
           />
@@ -131,6 +128,7 @@ const SessionForm = () => {
             label="Contraseña"
             name="password"
             onChange={(e) => handleChange(e, setFormData)}
+            required
             value={formData.password}
           />
 
@@ -140,6 +138,7 @@ const SessionForm = () => {
               label="Repetir contraseña"
               name="checkPassword"
               onChange={(e) => handleChange(e, setFormData)}
+              required
               value={formData.checkPassword}
             />
           )}

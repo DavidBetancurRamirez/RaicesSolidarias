@@ -100,6 +100,7 @@ const DeliveryForm = () => {
         label="Año"
         name="year"
         placeholder={new Date().getFullYear().toString()}
+        required
         type="number"
         value={Number(formData.year)}
         onChange={(value) =>
@@ -110,6 +111,7 @@ const DeliveryForm = () => {
         label="Descripción"
         name="description"
         placeholder="Descripción de la entrega"
+        required
         value={formData.description}
         onChange={(e) =>
           handleChange(

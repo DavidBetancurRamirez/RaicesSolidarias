@@ -6,22 +6,24 @@ import CustomLabel from './CustomLabel';
 
 interface CustomInputFilesProps {
   accept?: Accept;
-  multiple?: boolean;
-  maxFiles?: number;
-  onFilesSelected?: (files: File[]) => void;
+  className?: string;
   label?: string;
   labelTitle?: string;
-  className?: string;
+  maxFiles?: number;
+  multiple?: boolean;
+  onFilesSelected?: (files: File[]) => void;
+  required?: boolean;
 }
 
 const CustomInputFiles: React.FC<CustomInputFilesProps> = ({
   accept,
-  multiple = false,
-  maxFiles,
-  onFilesSelected,
+  className = '',
   label = "Drag 'n' drop files here, or click to select",
   labelTitle = 'Files',
-  className = '',
+  maxFiles,
+  multiple = false,
+  onFilesSelected,
+  required,
 }) => {
   const computedMaxFiles = multiple ? (maxFiles ?? undefined) : 1;
 
@@ -40,7 +42,8 @@ const CustomInputFiles: React.FC<CustomInputFilesProps> = ({
 
   return (
     <div>
-      <CustomLabel label={labelTitle} />
+      <CustomLabel label={labelTitle} required={required} />
+
       <section
         className={`rounded border border-dashed border-text dark:border-dk_text p-4 ${className}`}
       >

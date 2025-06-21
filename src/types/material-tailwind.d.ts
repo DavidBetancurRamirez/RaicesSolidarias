@@ -25,6 +25,7 @@ declare module '@material-tailwind/react' {
   interface MenuListProps extends MTProps {}
   interface NavbarProps extends MTProps {}
   interface OptionProps extends MTProps {}
+  interface PopoverContentProps extends MTProps {}
   interface SelectProps extends MTProps {}
   interface TabPanelProps extends MTProps {}
   interface TabProps extends MTProps {}

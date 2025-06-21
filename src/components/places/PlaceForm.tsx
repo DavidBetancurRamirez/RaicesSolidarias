@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@material-tailwind/react';
 
 import CustomInput from '@components/forms/CustomInput';
+import CustomInputDate from '@components/forms/CustomInputDate';
 import CustomInputFiles from '@components/forms/CustomInputFiles';
 import CustomSelect from '@components/forms/CustomSelect';
 import CustomTextarea from '@components/forms/CustomTextarea';
@@ -55,6 +56,46 @@ const PlaceForm = () => {
     fetchPlaces();
   }, []);
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      if (!formData.deliveryId) {
+        setAlert('Debes seleccionar una entrega');
+        return;
+      }
+
+      const response = (await api.post(
+        API_ROUTES.place,
+        formData,
+      )) as ResponseData<Place>;
+
+      if (response.statusCode !== 201 || !response?.data?._id) {
+        console.error('Error submitting place:', response.message);
+        setAlert('Error al enviar el lugar, intenta de nuevo');
+        return;
+      }
+
+      setAlert('Lugar creado correctamente, subiendo archivos...');
+      navigate(WEB_ROUTES.placeById(response.data._id));
+
+      const uploadMedia = await uploadPlaceMedia(response.data._id);
+      if (!uploadMedia) {
+        setAlert('Error al subir los archivos, intenta de nuevo');
+        return;
+      }
+
+      setAlert('Archivos subidos correctamente');
+      setFormData(initialStatePlace);
+    } catch (error) {
+      console.error('Error submitting delivery:', error);
+    }
+  };
+
+  const handleFilesSelected = (files: File[]) => {
+    setGallery((prev) => (prev ? [...prev, ...files] : [...files]));
+  };
+
   const uploadPlaceMedia = async (placeId: string): Promise<boolean> => {
     if (!mainImage && !secondaryMedia && !gallery) {
       return true;
@@ -93,45 +134,11 @@ const PlaceForm = () => {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    try {
-      const response = (await api.post(
-        API_ROUTES.place,
-        formData,
-      )) as ResponseData<Place>;
-
-      if (response.statusCode !== 201 || !response?.data?._id) {
-        console.error('Error submitting place:', response.message);
-        setAlert('Error al enviar el lugar, intenta de nuevo');
-        return;
-      }
-
-      setAlert('Lugar creado correctamente, subiendo archivos...');
-      navigate(WEB_ROUTES.placeById(response.data._id));
-
-      const uploadMedia = await uploadPlaceMedia(response.data._id);
-      if (!uploadMedia) {
-        setAlert('Error al subir los archivos, intenta de nuevo');
-        return;
-      }
-
-      setAlert('Archivos subidos correctamente');
-      setFormData(initialStatePlace);
-    } catch (error) {
-      console.error('Error submitting delivery:', error);
-    }
-  };
-
-  const handleFilesSelected = (files: File[]) => {
-    setGallery((prev) => (prev ? [...prev, ...files] : [...files]));
-  };
-
   return (
     <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
       <CustomSelect
         label="Entregas"
+        required
         options={deliveries.map((delivery) => ({
           label: String(delivery.year),
           value: delivery._id || '',
@@ -140,26 +147,30 @@ const PlaceForm = () => {
           handleChange({ name: 'deliveryId', value: value || '' }, setFormData);
         }}
       />
+
       <GridTwoColumns>
         <CustomInput
           label="Nombre del lugar"
           name="name"
           onChange={(e) => handleChange(e, setFormData)}
           placeholder="Nombre del lugar"
+          required
           value={formData.name}
         />
-        <CustomInput
+        <CustomInputDate
           label="Fecha de la entrega"
           name="deliveryDate"
           onChange={(e) => handleChange(e, setFormData)}
-          type="date"
+          required
           value={formData.deliveryDate}
         />
       </GridTwoColumns>
+
       <CustomTextarea
         label="Descripción"
         name="description"
         placeholder="Descripción de la entrega"
+        required
         value={formData.description}
         onChange={(e) =>
           handleChange(
@@ -170,24 +181,24 @@ const PlaceForm = () => {
       />
       <GridTwoColumns>
         <CustomInputFiles
+          accept={{ 'image/*': ['.jpg', '.png'] }}
           label="Arrastra o selecciona la imagen principal"
           labelTitle="Imagen principal"
-          accept={{ 'image/*': ['.jpg', '.png'] }}
           multiple={false}
           onFilesSelected={(files) => setMainImage(files[0])}
         />
         <CustomInputFiles
+          accept={{ 'image/*': ['.jpg', '.png'], 'video/*': ['.mp4'] }}
           label="Arrastra o selecciona la imagen o video secundario"
           labelTitle="Imagen o video secundario"
-          accept={{ 'image/*': ['.jpg', '.png'], 'video/*': ['.mp4'] }}
           multiple={false}
           onFilesSelected={(files) => setSecondaryMedia(files[0])}
         />
       </GridTwoColumns>
       <CustomInputFiles
+        accept={{ 'image/*': ['.jpg', '.png'], 'video/*': ['.mp4'] }}
         label="Arrastra o selecciona las imagenes o videos de la galería"
         labelTitle="Galería"
-        accept={{ 'image/*': ['.jpg', '.png'], 'video/*': ['.mp4'] }}
         multiple={true}
         onFilesSelected={handleFilesSelected}
       />

@@ -8,17 +8,19 @@ interface CustomSelectProps extends Omit<SelectProps, 'children'> {
   emptyMessage?: string;
   label: string;
   options: { label: string; value: string | number }[];
+  required?: boolean;
 }
 
 const CustomSelect: React.FC<CustomSelectProps> = ({
   emptyMessage = 'No hay opciones disponibles',
   label,
   options,
+  required,
   ...props
 }) => {
   return (
     <div>
-      <CustomLabel label={label} />
+      <CustomLabel label={label} required={required} />
 
       <Select
         arrow={<ChevronDown className="w-4 h-4 text-text dark:text-dk_text" />}
