@@ -20,6 +20,7 @@ const CustomTextarea: React.FC<CustomTextareaProps> = ({
         autoComplete={props.autoComplete}
         className="!text-text dark:!text-dk_text !border-text dark:!border-dk_text"
         id={props.id}
+        labelProps={{ className: '!hidden' }}
         name={props.name}
         onBlur={(e) => (e.target.placeholder = '')}
         onChange={props.onChange}
@@ -28,9 +29,6 @@ const CustomTextarea: React.FC<CustomTextareaProps> = ({
         required={required}
         size="lg"
         value={props.value}
-        labelProps={{
-          className: '!hidden',
-        }}
       />
     </div>
   );

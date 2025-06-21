@@ -50,17 +50,15 @@ const CustomInputNumber: React.FC<CustomInputNumberProps> = ({
 
       <div className="relative w-full">
         <Input
-          type="number"
           className="!text-text dark:!text-dk_text !border-text dark:!border-dk_text"
-          size="lg"
-          value={value}
-          onChange={handleInputChange}
-          min={min}
+          labelProps={{ className: '!hidden' }}
           max={max}
+          min={min}
+          onChange={handleInputChange}
+          size="lg"
+          type="number"
+          value={value}
           {...props}
-          labelProps={{
-            className: '!hidden',
-          }}
         />
 
         <div className="absolute right-2 top-2.5 flex gap-1 items-center align-middle">

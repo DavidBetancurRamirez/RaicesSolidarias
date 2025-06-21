@@ -25,8 +25,10 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
       <Select
         arrow={<ChevronDown className="w-4 h-4 text-text dark:text-dk_text" />}
         className="!text-text dark:!text-dk_text !border-text dark:!border-dk_text"
-        labelProps={{
-          className: 'before:content-none after:content-none',
+        labelProps={{ className: '!hidden' }}
+        menuProps={{
+          className:
+            'bg-card dark:bg-dk_card text-text dark:text-dk_text !border-text dark:!border-dk_text',
         }}
         {...props}
       >

@@ -37,17 +37,7 @@ const SafeMedia: React.FC<SafeMediaProps> = ({
         </div>
       )}
 
-      {type === 'image' ? (
-        <img
-          src={finalSrc}
-          alt={alt}
-          onLoad={handleLoad}
-          onError={handleError}
-          style={loading ? { visibility: 'hidden' } : {}}
-          {...props}
-          className={`w-full h-full object-cover rounded-lg ${props.className || ''}`}
-        />
-      ) : (
+      {type === 'video' ? (
         <video
           src={finalSrc}
           onLoadedData={handleLoad}
@@ -59,6 +49,16 @@ const SafeMedia: React.FC<SafeMediaProps> = ({
         >
           {alt && <track kind="captions" label={alt} />}
         </video>
+      ) : (
+        <img
+          src={finalSrc}
+          alt={alt}
+          onLoad={handleLoad}
+          onError={handleError}
+          style={loading ? { visibility: 'hidden' } : {}}
+          {...props}
+          className={`w-full h-full object-cover rounded-lg ${props.className || ''}`}
+        />
       )}
     </div>
   );

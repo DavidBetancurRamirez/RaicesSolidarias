@@ -1,6 +1,6 @@
 import React from 'react';
 import { Accept, FileWithPath, useDropzone } from 'react-dropzone';
-import { ImageIcon } from 'lucide-react';
+import { FileVideo, ImageIcon } from 'lucide-react';
 
 import CustomLabel from './CustomLabel';
 
@@ -56,12 +56,18 @@ const CustomInputFiles: React.FC<CustomInputFilesProps> = ({
 
           {acceptedFiles.length > 0 && (
             <ul className="mt-4 text-sm text-gray-600 dark:text-gray-300 text-left">
-              {acceptedFiles.map((file: FileWithPath) => (
-                <li key={file.path} className="flex items-center gap-2">
-                  <ImageIcon size={16} />
-                  {file.path} — {(file.size / 1024).toFixed(1)} KB
-                </li>
-              ))}
+              {acceptedFiles.map((file: FileWithPath) => {
+                const isImage = file.type.startsWith('image/');
+                const isVideo = file.type.startsWith('video/');
+
+                return (
+                  <li key={file.path} className="flex items-center gap-2">
+                    {isImage && <ImageIcon size={16} />}
+                    {isVideo && <FileVideo size={16} />}
+                    {file.path} — {(file.size / 1024).toFixed(1)} KB
+                  </li>
+                );
+              })}
             </ul>
           )}
         </div>
