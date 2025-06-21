@@ -22,7 +22,7 @@ const Title: React.FC<TitleProps> = ({
 }) => {
   return (
     <div
-      className={`w-full flex flex-col md:flex-row align-center gap-4 ${containerClassName}`}
+      className={`flex flex-col md:flex-row align-center gap-4 ${containerClassName}`}
     >
       {button && (
         <ButtonWithIcon

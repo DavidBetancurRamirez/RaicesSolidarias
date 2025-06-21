@@ -6,7 +6,7 @@ import {
 } from '@material-tailwind/react';
 
 import ButtonWithIcon from '../common/ButtonWithIcon';
-import SafeImage from '../common/SafeImage';
+import SafeMedia from '../common/SafeMedia';
 
 interface DeliveryCardProps {
   buttonText?: string;
@@ -38,7 +38,7 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({
           reverse ? 'md:rounded-r-xl' : 'md:rounded-l-xl'
         } bg-card dark:bg-dk_card h-48 md:h-full`}
       >
-        <SafeImage alt={`Año ${year}`} className="rounded-none" src={image} />
+        <SafeMedia alt={`Año ${year}`} className="rounded-none" src={image} />
       </CardHeader>
 
       <CardBody className="p-4 flex flex-col justify-between gap-4 h-72 w-full text-text dark:text-dk_text">

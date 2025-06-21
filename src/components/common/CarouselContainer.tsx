@@ -2,6 +2,8 @@ import React, { useRef } from 'react';
 import { IconButton } from '@material-tailwind/react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
+type direction = 'left' | 'right';
+
 interface CarouselContainerProps {
   children: React.ReactNode;
 }
@@ -9,7 +11,7 @@ interface CarouselContainerProps {
 const CarouselContainer: React.FC<CarouselContainerProps> = ({ children }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const scroll = (direction: 'left' | 'right') => {
+  const scroll = (direction: direction) => {
     if (!containerRef.current) return;
     const { scrollLeft, clientWidth } = containerRef.current;
     const scrollAmount = clientWidth * 0.8;

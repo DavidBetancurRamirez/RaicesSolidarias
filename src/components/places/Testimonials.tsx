@@ -156,13 +156,17 @@ const Testimonials: React.FC<TestimonialsProps> = ({
 
   return (
     <React.Fragment>
-      <div className="flex justify-between items-center gap-2">
-        <Title variant="h4" title="Testimonios" />
-        <ButtonWithIcon
-          icon={showForm ? <ChevronUp /> : <ChevronDown />}
-          onClick={handleShowForm}
-          text={showForm ? 'Ocultar formulario' : 'Agregar testimonio'}
-        />
+      <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center">
+        <div className="flex justify-start">
+          <Title variant="h4" title="Testimonios" />
+        </div>
+        <div className="flex justify-end">
+          <ButtonWithIcon
+            icon={showForm ? <ChevronUp /> : <ChevronDown />}
+            onClick={handleShowForm}
+            text={showForm ? 'Ocultar formulario' : 'Agregar testimonio'}
+          />
+        </div>
       </div>
 
       {showForm && (

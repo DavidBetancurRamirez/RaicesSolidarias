@@ -5,15 +5,16 @@ import { Typography } from '@material-tailwind/react';
 import Gallery from '@components/common/Gallery';
 import GridTwoColumns from '@components/common/GridTwoColumns';
 import PageLayout from '@components/common/PageLayout';
-import SafeImage from '@components/common/SafeImage';
+import SafeMedia from '@components/common/SafeMedia';
 import Testimonials from '@components/places/Testimonials';
 import Title from '@components/common/Title';
 
 import api from '@/config/api';
 
 import {
-  initialStatePlace,
+  initialStatePlaceWithYear,
   Place,
+  PlaceWithYear,
   ResponseData,
   Testimonial,
 } from '@/constants/interfaces';
@@ -24,8 +25,7 @@ const PlacePage = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id?: string }>();
 
-  const [deliveryYear, setDeliveryYear] = useState<string>('');
-  const [place, setPlace] = useState<Place>(initialStatePlace);
+  const [place, setPlace] = useState<PlaceWithYear>(initialStatePlaceWithYear);
 
   useEffect(() => {
     const fetchDelivery = async () => {
@@ -38,10 +38,12 @@ const PlacePage = () => {
         return;
       }
 
-      setPlace(response.data);
-      setDeliveryYear(
-        new Date(response.data.deliveryDate).getFullYear().toString(),
-      );
+      setPlace({
+        ...response.data,
+        deliveryYear: new Date(response.data.deliveryDate)
+          .getFullYear()
+          .toString(),
+      });
     };
 
     fetchDelivery();
@@ -73,23 +75,24 @@ const PlacePage = () => {
     <PageLayout
       title={{
         button: {
-          goTo: () => navigate(WEB_ROUTES.deliveryByYear(deliveryYear)),
-          text: `Entrega ${deliveryYear}`,
+          goTo: () => navigate(WEB_ROUTES.deliveryByYear(place.deliveryYear)),
+          text: `Entrega ${place.deliveryYear}`,
         },
         title: `${place.name} - ${new Date(place.deliveryDate).toLocaleDateString()}`,
       }}
     >
-      <SafeImage
+      <SafeMedia
         alt="Imagen principal del lugar"
         className="h-96 md:h-[600px]"
         src={place.mainImageUrl}
       />
 
       <GridTwoColumns reverseOnMobile>
-        <SafeImage
+        <SafeMedia
           alt="Imagen secundaria del lugar"
           className="!h-80"
-          src={place.secondaryMediaUrl}
+          src={place.secondaryMedia?.url}
+          type={place.secondaryMedia?.type}
         />
 
         <div>
@@ -105,8 +108,8 @@ const PlacePage = () => {
       </GridTwoColumns>
 
       <Title variant="h4" title="Galeria de fotos" />
-      {place?.galleryImageUrls?.length > 0 ? (
-        <Gallery gallery={place.galleryImageUrls} />
+      {place?.galleryMedia?.length > 0 ? (
+        <Gallery gallery={place.galleryMedia} />
       ) : (
         <Typography className="text-text dark:text-dk_text">
           No hay imágenes disponibles en la galería.

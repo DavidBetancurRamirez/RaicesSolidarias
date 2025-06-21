@@ -6,7 +6,7 @@ import CarouselContainer from '@components/common/CarouselContainer';
 import GridTwoColumns from '@components/common/GridTwoColumns';
 import PageLayout from '@components/common/PageLayout';
 import PlaceCard from '@components/places/PlaceCard';
-import SafeImage from '@components/common/SafeImage';
+import SafeMedia from '@components/common/SafeMedia';
 import Title from '@components/common/Title';
 
 import api from '@/config/api';
@@ -55,7 +55,7 @@ const DeliveryPage = () => {
       }}
     >
       <GridTwoColumns>
-        <SafeImage
+        <SafeMedia
           alt="Imagen principal de la entrega"
           className="!h-80"
           src={delivery.mainImageUrl}
@@ -72,10 +72,11 @@ const DeliveryPage = () => {
           />
           {delivery?.statistics?.length ? (
             <GridTwoColumns>
-              <SafeImage
-                alt="Imagen de agradecimiento"
+              <SafeMedia
+                alt="Imagen o video de agradecimiento"
                 className="!h-60"
-                src={delivery.thankYou.mediaUrl}
+                src={delivery.thankYou.media?.url}
+                type={delivery.thankYou.media?.type}
               />
               <DeliveryDescription
                 text={delivery.thankYou.message}
@@ -95,15 +96,16 @@ const DeliveryPage = () => {
             <p className="text-text dark:text-dk_text">Estadísticas</p>
           </div>
         ) : (
-          <SafeImage
-            alt="Imagen de agradecimiento"
-            className="!h-80"
-            src={delivery.thankYou.mediaUrl}
+          <SafeMedia
+            alt="Imagen o video de agradecimiento"
+            className="!h-60"
+            src={delivery.thankYou.media?.url}
+            type={delivery.thankYou.media?.type}
           />
         )}
       </GridTwoColumns>
 
-      {delivery?.places && delivery?.places?.length > 0 && (
+      {delivery?.places?.length > 0 && (
         <React.Fragment>
           <Title
             containerClassName="md:mb-2"

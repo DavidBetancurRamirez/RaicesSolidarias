@@ -2,8 +2,9 @@ import React from 'react';
 import { Avatar, Card, Typography } from '@material-tailwind/react';
 import { Edit, Trash } from 'lucide-react';
 
-import { Testimonial } from '@/constants/interfaces';
 import { avatarMap } from '@components/users/AvatarSelector';
+
+import { Testimonial } from '@/constants/interfaces';
 
 interface TestimonialProps extends Testimonial {
   avatar?: string;

@@ -1,5 +1,6 @@
 import { UserRoles } from './roles';
 
+//? Response
 export interface ResponseData<T extends object | unknown> {
   data: T;
   error: boolean;
@@ -12,6 +13,7 @@ export interface DeleteResponse {
   deleted: boolean;
 }
 
+//? User
 export interface User {
   _id: string;
   avatar?: string;
@@ -20,16 +22,27 @@ export interface User {
   userName: string;
 }
 
+//? Statistic
 export interface StatisticDto {
   name: string;
   value: number;
 }
 
-export interface ThankYouDto {
-  message: string;
-  mediaUrl?: string;
+//? Media
+export type TypeOfMedia = 'image' | 'video' | 'other';
+
+export interface Media {
+  type?: TypeOfMedia;
+  url: string;
 }
 
+//? Thank You
+export interface ThankYouDto {
+  message: string;
+  media?: Media;
+}
+
+//? Delivery
 export interface Delivery {
   _id?: string;
   description: string;
@@ -44,7 +57,9 @@ export const initialStateDelivery: Delivery = {
   mainImageUrl: '',
   statistics: [],
   thankYou: {
-    mediaUrl: '',
+    media: {
+      url: '',
+    },
     message: '',
   },
   year: new Date().getFullYear(),
@@ -59,6 +74,7 @@ export const initialStateDeliveryPlaces: DeliveryPlaces = {
   places: [],
 };
 
+//? Testimonial
 export interface Testimonial {
   _id?: string;
   createdBy?: User;
@@ -70,15 +86,16 @@ export const initialStateTestimonial: Testimonial = {
   message: '',
 };
 
+//? Place
 export interface Place {
   _id?: string;
   deliveryDate: string;
   deliveryId: string;
   description: string;
-  galleryImageUrls: string[];
+  galleryMedia: Media[];
   mainImageUrl: string;
   name: string;
-  secondaryMediaUrl: string;
+  secondaryMedia: Media;
   statistics: StatisticDto[];
   testimonials: Testimonial[];
 }
@@ -87,10 +104,19 @@ export const initialStatePlace: Place = {
   deliveryDate: '',
   deliveryId: '',
   description: '',
-  galleryImageUrls: [],
+  galleryMedia: [],
   mainImageUrl: '',
   name: '',
-  secondaryMediaUrl: '',
+  secondaryMedia: { url: '' },
   statistics: [],
   testimonials: [],
+};
+
+export interface PlaceWithYear extends Place {
+  deliveryYear: string;
+}
+
+export const initialStatePlaceWithYear: PlaceWithYear = {
+  ...initialStatePlace,
+  deliveryYear: '',
 };

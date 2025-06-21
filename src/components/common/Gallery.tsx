@@ -1,11 +1,13 @@
 import React from 'react';
 import { Carousel } from '@material-tailwind/react';
 
-import CarouselContainer from './CarouselContainer';
-import SafeImage from './SafeImage';
+// import CarouselContainer from './CarouselContainer';
+import SafeMedia from './SafeMedia';
+
+import { Media } from '@/constants/interfaces';
 
 interface GalleryProps {
-  gallery: string[];
+  gallery: Media[];
 }
 
 const Gallery: React.FC<GalleryProps> = ({ gallery }) => {
@@ -18,26 +20,28 @@ const Gallery: React.FC<GalleryProps> = ({ gallery }) => {
         loop={true}
         transition={{ duration: 1.5 }}
       >
-        {gallery.map((imageLink, idx) => (
-          <SafeImage
+        {gallery.map((media) => (
+          <SafeMedia
             alt="gallery-image"
             className="h-96 md:h-[500px] w-full object-cover object-center"
-            key={imageLink + idx}
-            src={imageLink}
+            key={media.url}
+            src={media.url}
+            type={media.type}
           />
         ))}
       </Carousel>
 
-      <CarouselContainer>
+      {/* <CarouselContainer>
         {gallery.map((imageLink, index) => (
           <img
             alt={`gallery-image-${index}`}
             className="h-40 w-40 cursor-pointer rounded-lg object-cover object-center"
             key={imageLink + index}
-            src={imageLink}
+            src={fallbackImg}
+            // src={imageLink}
           />
         ))}
-      </CarouselContainer>
+      </CarouselContainer> */}
     </div>
   );
 };
