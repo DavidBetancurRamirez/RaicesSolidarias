@@ -43,7 +43,6 @@ const Navbar = () => {
   useEffect(() => {
     setMenuItemsShow([
       ...menuItems,
-      ...(user?._id ? [{ link: WEB_ROUTES.profile, name: 'Mi Perfil' }] : []),
       ...(user?.roles.includes(UserRoles.ADMIN)
         ? [{ link: WEB_ROUTES.admin, name: 'Administrar' }]
         : []),
