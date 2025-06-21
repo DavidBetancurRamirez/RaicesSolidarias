@@ -11,7 +11,7 @@ import {
   Typography,
 } from '@material-tailwind/react';
 
-import { avatarMap } from './AvatarSelector';
+import { getAvatarSrc } from './AvatarSelector';
 
 import { useTheme } from '@hooks/useTheme';
 
@@ -60,15 +60,7 @@ const Avatar: React.FC<AvatarProps> = ({ avatar }) => {
           variant="text"
           className="flex items-center rounded-full p-0 border-none focus:outline-none focus:ring-0"
         >
-          <MtAvatar
-            size="sm"
-            alt="user avatar"
-            src={
-              avatar && avatarMap[avatar]
-                ? avatarMap[avatar]
-                : avatarMap['avatar1']
-            }
-          />
+          <MtAvatar size="sm" alt="user avatar" src={getAvatarSrc(avatar)} />
         </Button>
       </MenuHandler>
 

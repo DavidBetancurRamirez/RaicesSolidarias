@@ -2,7 +2,7 @@ import React from 'react';
 import { Avatar, Card, Typography } from '@material-tailwind/react';
 import { Edit, Trash } from 'lucide-react';
 
-import { avatarMap } from '@components/users/AvatarSelector';
+import { getAvatarSrc } from '@components/users/AvatarSelector';
 
 import { Testimonial } from '@/constants/interfaces';
 
@@ -21,13 +21,8 @@ const Testimony: React.FC<TestimonialProps> = ({
 }) => {
   return (
     <div className="flex gap-2 w-full items-center">
-      <Avatar
-        alt="avatar"
-        size="xxl"
-        src={
-          avatar && avatarMap[avatar] ? avatarMap[avatar] : avatarMap['avatar1']
-        }
-      />
+      <Avatar alt="avatar" size="xxl" src={getAvatarSrc(avatar)} />
+
       <Card className="pr-1 rounded-xl bg-card dark:bg-dk_card w-full gap-2 text-text dark:text-dk_text p-2 h-36 md:h-44">
         <div className="flex justify-between items-center">
           <Typography variant="h5">{createdBy?.userName || ''}</Typography>
