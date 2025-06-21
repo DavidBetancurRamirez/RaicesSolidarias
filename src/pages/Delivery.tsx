@@ -45,7 +45,15 @@ const DeliveryPage = () => {
   }, [id]);
 
   return (
-    <PageLayout title={String(delivery.year)}>
+    <PageLayout
+      title={{
+        button: {
+          goTo: () => navigate(WEB_ROUTES.deliveries),
+          text: 'Entregas',
+        },
+        title: String(delivery.year),
+      }}
+    >
       <GridTwoColumns>
         <SafeImage
           alt="Imagen principal de la entrega"

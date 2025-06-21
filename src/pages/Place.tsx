@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Typography } from '@material-tailwind/react';
 
 import Gallery from '@components/common/Gallery';
@@ -18,11 +18,13 @@ import {
   Testimonial,
 } from '@/constants/interfaces';
 
-import { API_ROUTES } from '@utils/routes';
+import { API_ROUTES, WEB_ROUTES } from '@utils/routes';
 
 const PlacePage = () => {
+  const navigate = useNavigate();
   const { id } = useParams<{ id?: string }>();
 
+  const [deliveryYear, setDeliveryYear] = useState<string>('');
   const [place, setPlace] = useState<Place>(initialStatePlace);
 
   useEffect(() => {
@@ -37,6 +39,9 @@ const PlacePage = () => {
       }
 
       setPlace(response.data);
+      setDeliveryYear(
+        new Date(response.data.deliveryDate).getFullYear().toString(),
+      );
     };
 
     fetchDelivery();
@@ -66,7 +71,13 @@ const PlacePage = () => {
 
   return (
     <PageLayout
-      title={`${place.name} - ${new Date(place.deliveryDate).toLocaleDateString()}`}
+      title={{
+        button: {
+          goTo: () => navigate(WEB_ROUTES.deliveryByYear(deliveryYear)),
+          text: `Entrega ${deliveryYear}`,
+        },
+        title: `${place.name} - ${new Date(place.deliveryDate).toLocaleDateString()}`,
+      }}
     >
       <SafeImage
         alt="Imagen principal del lugar"

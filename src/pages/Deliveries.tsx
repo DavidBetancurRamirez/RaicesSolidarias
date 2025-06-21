@@ -33,7 +33,7 @@ const Deliveries = () => {
   }, []);
 
   return (
-    <PageLayout title="Entregas">
+    <PageLayout title={{ title: 'Deliveries' }}>
       <div className="flex flex-wrap gap-4 md:gap-6 xl:gap-8">
         {deliveries.map((data, index) => (
           <DeliveryCard
