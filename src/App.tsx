@@ -2,9 +2,9 @@ import { createElement } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from '@material-tailwind/react';
 
-import Layout from '@components/common/Layout';
-import PrivateRoute from '@components/common/PrivateRoute';
-import ScrollToTop from '@components/common/ScrollToTop';
+import Layout from '@components/layout/Layout';
+import PrivateRoute from '@components/users/PrivateRoute';
+import ScrollToTop from '@components/layout/ScrollToTop';
 
 import { publicRoutes, privateRoutes } from './constants/routes';
 

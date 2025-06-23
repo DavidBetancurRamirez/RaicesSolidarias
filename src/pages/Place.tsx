@@ -4,7 +4,7 @@ import { Typography } from '@material-tailwind/react';
 
 import Gallery from '@components/common/Gallery';
 import GridTwoColumns from '@components/common/GridTwoColumns';
-import PageLayout from '@components/common/PageLayout';
+import PageLayout from '@components/layout/PageLayout';
 import SafeMedia from '@components/common/SafeMedia';
 import Testimonials from '@components/places/Testimonials';
 import Title from '@components/common/Title';

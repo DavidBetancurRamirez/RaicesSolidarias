@@ -9,7 +9,7 @@ import {
 import { LandPlot, Truck } from 'lucide-react';
 
 import DeliveryForm from '@components/deliveries/DeliveryForm';
-import PageLayout from '@components/common/PageLayout';
+import PageLayout from '@components/layout/PageLayout';
 import PlaceForm from '@components/places/PlaceForm';
 
 const data = [

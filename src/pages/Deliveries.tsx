@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import DeliveryCard from '@components/deliveries/DeliveryCard';
-import PageLayout from '@components/common/PageLayout';
+import PageLayout from '@components/layout/PageLayout';
 
 import api from '@/config/api';
 

@@ -6,7 +6,7 @@ import aboutUsImage from '@/assets/images/about_us_primary.jpg';
 import CarouselContainer from '@components/common/CarouselContainer';
 import DeliveryCircle from '@components/deliveries/DeliveryCircle';
 import GridTwoColumns from '@components/common/GridTwoColumns';
-import PageLayout from '@components/common/PageLayout';
+import PageLayout from '@components/layout/PageLayout';
 import SafeMedia from '@components/common/SafeMedia';
 
 import api from '@/config/api';

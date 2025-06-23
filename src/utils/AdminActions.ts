@@ -1,6 +1,6 @@
 import { Edit, Trash2 } from 'lucide-react';
 
-import { Action } from '@components/common/PageLayout';
+import { Action } from '@components/layout/PageLayout';
 
 import { UserRoles } from '@/constants/roles';
 

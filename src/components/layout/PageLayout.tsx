@@ -1,7 +1,7 @@
 import React from 'react';
 import { IconButton, IconButtonProps } from '@material-tailwind/react';
 
-import Title, { TitleProps } from './Title';
+import Title, { TitleProps } from '@components/common/Title';
 
 export interface Action {
   className?: string;

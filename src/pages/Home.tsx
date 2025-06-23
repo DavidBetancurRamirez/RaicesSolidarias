@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import ButtonWithIcon from '@components/common/ButtonWithIcon';
 import CarouselContainer from '@components/common/CarouselContainer';
 import GridTwoColumns from '@components/common/GridTwoColumns';
-import PageLayout from '@components/common/PageLayout';
+import PageLayout from '@components/layout/PageLayout';
 import PlaceCard from '@components/places/PlaceCard';
 import SafeMedia from '@components/common/SafeMedia';
 import Title from '@components/common/Title';

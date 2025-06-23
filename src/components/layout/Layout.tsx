@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 
 import Alert from './Alert';
 import Footer from './Footer';
-import Modal from './Modal';
+import Modal from '@components/layout/Modal';
 import Navbar from './Navbar';
 
 interface LayoutProps {
