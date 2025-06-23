@@ -4,6 +4,7 @@ import { ThemeProvider } from '@material-tailwind/react';
 
 import Layout from '@components/common/Layout';
 import PrivateRoute from '@components/common/PrivateRoute';
+import ScrollToTop from '@components/common/ScrollToTop';
 
 import { publicRoutes, privateRoutes } from './constants/routes';
 
@@ -11,6 +12,7 @@ const App = () => {
   return (
     <ThemeProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <Layout>
           <Routes>
             {publicRoutes.map((route) => (
