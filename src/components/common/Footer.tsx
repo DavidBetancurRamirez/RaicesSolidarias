@@ -16,9 +16,8 @@ const menuItemsUpdated = [
 const Footer = () => {
   return (
     <footer className="flex w-full flex-col md:flex-row flex-wrap items-center justify-center gap-y-6 gap-x-12 bg-card dark:bg-dk_card text-text dark:text-dk_text p-6 md:justify-between">
-      <Typography variant="lead">
-        &copy; {new Date().getFullYear()} Raices solidarias.
-      </Typography>
+      <Typography variant="lead">Raices solidarias</Typography>
+
       <ul className="flex flex-wrap items-center justify-center gap-x-4 md:gap-x-8">
         {menuItemsUpdated.map((item) => (
           <Typography

@@ -107,18 +107,14 @@ const DeliveryPage = () => {
 
       {delivery?.places?.length > 0 && (
         <React.Fragment>
-          <Title
-            containerClassName="md:mb-2"
-            variant="h4"
-            title="Lugares de entrega"
-          />
+          <Title variant="h4" title="Lugares de entrega" />
           <CarouselContainer>
             {delivery?.places.map((place, index) => (
               <PlaceCard
-                key={index}
                 date={new Date(place.deliveryDate)}
                 description={place.description}
                 image={place.mainImageUrl}
+                key={index}
                 place={place.name}
                 onClick={() =>
                   navigate(WEB_ROUTES.placeById(String(place._id)))
