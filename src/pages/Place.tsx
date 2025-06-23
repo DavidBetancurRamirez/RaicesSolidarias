@@ -20,6 +20,7 @@ import {
 } from '@/constants/interfaces';
 
 import { API_ROUTES, WEB_ROUTES } from '@utils/routes';
+import AdminActions from '@utils/AdminActions';
 
 const PlacePage = () => {
   const navigate = useNavigate();
@@ -71,8 +72,14 @@ const PlacePage = () => {
     }
   };
 
+  const adminActions = AdminActions({
+    deleteOnClick: () => navigate(WEB_ROUTES.admin),
+    editOnClick: () => navigate(WEB_ROUTES.admin),
+  });
+
   return (
     <PageLayout
+      actions={adminActions}
       title={{
         button: {
           goTo: () => navigate(WEB_ROUTES.deliveryByYear(place.deliveryYear)),

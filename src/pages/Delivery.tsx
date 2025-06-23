@@ -18,10 +18,12 @@ import {
 } from '@/constants/interfaces';
 
 import { API_ROUTES, WEB_ROUTES } from '@utils/routes';
+import AdminActions from '@utils/AdminActions';
 
 const DeliveryPage = () => {
-  const navigate = useNavigate();
   const { id } = useParams<{ id?: string }>();
+
+  const navigate = useNavigate();
 
   const [delivery, setDelivery] = useState<DeliveryPlaces>(
     initialStateDeliveryPlaces,
@@ -44,8 +46,14 @@ const DeliveryPage = () => {
     fetchDelivery();
   }, [id]);
 
+  const adminActions = AdminActions({
+    deleteOnClick: () => navigate(WEB_ROUTES.admin),
+    editOnClick: () => navigate(WEB_ROUTES.admin),
+  });
+
   return (
     <PageLayout
+      actions={adminActions}
       title={{
         button: {
           goTo: () => navigate(WEB_ROUTES.deliveries),

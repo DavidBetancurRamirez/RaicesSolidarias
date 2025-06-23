@@ -1,6 +1,6 @@
 import React from 'react';
 import { Avatar, Card, Typography } from '@material-tailwind/react';
-import { Edit, Trash } from 'lucide-react';
+import { Edit, Trash2 } from 'lucide-react';
 
 import { getAvatarSrc } from '@components/users/AvatarSelector';
 
@@ -36,7 +36,7 @@ const Testimony: React.FC<TestimonialProps> = ({
                 />
               )}
               {onDelete && (
-                <Trash
+                <Trash2
                   className="cursor-pointer transition-all hover:text-red-500"
                   size={20}
                   onClick={onDelete}

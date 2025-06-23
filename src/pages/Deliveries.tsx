@@ -1,3 +1,4 @@
+import { PlusSquare } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -32,8 +33,16 @@ const Deliveries = () => {
     fetchDeliveries();
   }, []);
 
+  const actions = [
+    {
+      className: 'bg-green-800 hover:bg-green-600',
+      icon: PlusSquare,
+      onClick: () => navigate(WEB_ROUTES.admin),
+    },
+  ];
+
   return (
-    <PageLayout title={{ title: 'Entregas' }}>
+    <PageLayout actions={actions} title={{ title: 'Entregas' }}>
       <div className="flex flex-wrap gap-4 md:gap-6 xl:gap-8">
         {deliveries.map((data, index) => (
           <DeliveryCard
