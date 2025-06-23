@@ -46,14 +46,12 @@ const DeliveryPage = () => {
     fetchDelivery();
   }, [id]);
 
-  const adminActions = AdminActions({
-    deleteOnClick: () => navigate(WEB_ROUTES.admin),
-    editOnClick: () => navigate(WEB_ROUTES.admin),
-  });
-
   return (
     <PageLayout
-      actions={adminActions}
+      actions={AdminActions({
+        editOnClick: () =>
+          navigate(WEB_ROUTES.adminDeliveryById(String(delivery._id))),
+      })}
       title={{
         button: {
           goTo: () => navigate(WEB_ROUTES.deliveries),

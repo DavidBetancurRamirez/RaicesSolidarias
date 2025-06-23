@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from '@material-tailwind/react';
 
 import CustomInputFiles from '@components/forms/CustomInputFiles';
@@ -22,12 +22,34 @@ import { API_ROUTES, WEB_ROUTES } from '@utils/routes';
 import { handleChange } from '@utils/forms';
 
 const DeliveryForm = () => {
+  const { id } = useParams<{ id?: string }>();
   const navigate = useNavigate();
   const setAlert = useUIStore((state) => state.setAlert);
 
   const [formData, setFormData] = useState<Delivery>(initialStateDelivery);
   const [mainImage, setMainImage] = useState<File | null>(null);
   const [tankYouMedia, setTankYouMedia] = useState<File | null>(null);
+
+  useEffect(() => {
+    const fetchDelivery = async () => {
+      if (!id) {
+        return;
+      }
+
+      const response = (await api.get(
+        API_ROUTES.deliveryById(id as string),
+      )) as ResponseData<Delivery>;
+
+      if (response.statusCode !== 200) {
+        console.error('Error fetching delivery:', response);
+        return;
+      }
+
+      setFormData(response.data);
+    };
+
+    fetchDelivery();
+  }, [id]);
 
   const uploadDeliveryMedia = async (deliveryId: string): Promise<boolean> => {
     if (!mainImage && !tankYouMedia) {
@@ -67,10 +89,10 @@ const DeliveryForm = () => {
     e.preventDefault();
 
     try {
-      const response = (await api.post(
-        API_ROUTES.delivery,
-        formData,
-      )) as ResponseData<Delivery>;
+      const response = (await api.post(API_ROUTES.delivery, {
+        ...formData,
+        id: formData._id,
+      })) as ResponseData<Delivery>;
 
       if (response.statusCode !== 201 || !response?.data?._id) {
         console.error('Error submitting delivery:', response.message);

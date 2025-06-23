@@ -44,7 +44,7 @@ const Navbar = () => {
     setMenuItemsShow([
       ...menuItems,
       ...(user?.roles.includes(UserRoles.ADMIN)
-        ? [{ link: WEB_ROUTES.admin, name: 'Administrar' }]
+        ? [{ link: WEB_ROUTES.adminDeliveries, name: 'Administrar' }]
         : []),
     ]);
   }, [user]);

@@ -6,7 +6,30 @@ import Layout from '@components/layout/Layout';
 import PrivateRoute from '@components/users/PrivateRoute';
 import ScrollToTop from '@components/layout/ScrollToTop';
 
-import { publicRoutes, privateRoutes } from './constants/routes';
+import {
+  publicRoutes,
+  privateRoutes,
+  PrivateRouteProps,
+} from './constants/routes';
+
+const renderPrivateRoute = ({
+  path,
+  Component,
+  requiredRoles,
+  children,
+}: PrivateRouteProps) => (
+  <Route
+    key={path}
+    path={path}
+    element={
+      <PrivateRoute requiredRoles={requiredRoles}>
+        {Component ? createElement(Component) : null}
+      </PrivateRoute>
+    }
+  >
+    {children?.map((child) => renderPrivateRoute(child))}
+  </Route>
+);
 
 const App = () => {
   return (
@@ -19,17 +42,7 @@ const App = () => {
               <Route key={route.path} {...route} />
             ))}
 
-            {privateRoutes.map(({ path, Component, requiredRoles }) => (
-              <Route
-                key={path}
-                path={path}
-                element={
-                  <PrivateRoute requiredRoles={requiredRoles}>
-                    {Component ? createElement(Component) : null}
-                  </PrivateRoute>
-                }
-              />
-            ))}
+            {privateRoutes.map(renderPrivateRoute)}
           </Routes>
         </Layout>
       </BrowserRouter>

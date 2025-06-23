@@ -82,7 +82,11 @@ const Home = () => {
               quaerat repellendus dicta eius voluptatibus fuga.
             </Typography>
 
-            <ButtonWithIcon className="w-fit" text="Apoyanos" />
+            <ButtonWithIcon
+              className="w-fit"
+              onClick={() => navigate(WEB_ROUTES.contact)}
+              text="Apoyanos"
+            />
           </div>
         </GridTwoColumns>
 

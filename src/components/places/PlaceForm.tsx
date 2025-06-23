@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from '@material-tailwind/react';
 
 import CustomInput from '@components/forms/CustomInput';
@@ -25,6 +25,7 @@ import { API_ROUTES, WEB_ROUTES } from '@utils/routes';
 import { handleChange } from '@utils/forms';
 
 const PlaceForm = () => {
+  const { id } = useParams<{ id?: string }>();
   const navigate = useNavigate();
   const setAlert = useUIStore((state) => state.setAlert);
 
@@ -56,6 +57,28 @@ const PlaceForm = () => {
     fetchPlaces();
   }, []);
 
+  useEffect(() => {
+    const fetchPlace = async () => {
+      if (!id) {
+        return;
+      }
+
+      const response = (await api.get(
+        API_ROUTES.placeById(id as string),
+      )) as ResponseData<Place>;
+
+      if (response.statusCode !== 200) {
+        console.error('Error fetching place:', response);
+        return;
+      }
+
+      // TODO: Set deliveryDate and deliveryId
+      setFormData(response.data);
+    };
+
+    fetchPlace();
+  }, [id]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -65,10 +88,10 @@ const PlaceForm = () => {
         return;
       }
 
-      const response = (await api.post(
-        API_ROUTES.place,
-        formData,
-      )) as ResponseData<Place>;
+      const response = (await api.post(API_ROUTES.place, {
+        ...formData,
+        id: formData._id,
+      })) as ResponseData<Place>;
 
       if (response.statusCode !== 201 || !response?.data?._id) {
         console.error('Error submitting place:', response.message);

@@ -19,16 +19,24 @@ const AdminActions = ({ deleteOnClick, editOnClick }: AdminActionsProps) => {
   }
 
   const actions: Action[] = [
-    {
-      className: 'bg-blue-800 hover:bg-blue-600',
-      icon: Edit,
-      onClick: editOnClick,
-    },
-    {
-      className: 'bg-red-800 hover:bg-red-600',
-      icon: Trash2,
-      onClick: deleteOnClick,
-    },
+    ...(editOnClick
+      ? [
+          {
+            className: 'bg-blue-800 hover:bg-blue-600',
+            icon: Edit,
+            onClick: editOnClick,
+          },
+        ]
+      : []),
+    ...(deleteOnClick
+      ? [
+          {
+            className: 'bg-red-800 hover:bg-red-600',
+            icon: Trash2,
+            onClick: deleteOnClick,
+          },
+        ]
+      : []),
   ];
 
   return actions;

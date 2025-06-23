@@ -15,12 +15,14 @@ interface PageLayoutProps {
   actions?: Action[];
   children?: React.ReactNode;
   title?: TitleProps;
+  useGap?: boolean;
 }
 
 const PageLayout: React.FC<PageLayoutProps> = ({
   actions,
   children,
   title,
+  useGap = true,
 }) => {
   return (
     <div className="py-4 px-2 sm:px-4 md:px-6 lg:px-10 xl:px-16">
@@ -49,7 +51,9 @@ const PageLayout: React.FC<PageLayoutProps> = ({
         </div>
       )}
 
-      <div className="flex flex-col gap-4 md:gap-6 xl:gap-8">{children}</div>
+      <div className={`flex flex-col ${useGap && 'gap-4 md:gap-6 xl:gap-8'}`}>
+        {children}
+      </div>
     </div>
   );
 };

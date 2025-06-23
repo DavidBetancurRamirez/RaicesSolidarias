@@ -37,7 +37,7 @@ const Deliveries = () => {
     {
       className: 'bg-green-800 hover:bg-green-600',
       icon: PlusSquare,
-      onClick: () => navigate(WEB_ROUTES.admin),
+      onClick: () => navigate(WEB_ROUTES.adminDeliveries),
     },
   ];
 

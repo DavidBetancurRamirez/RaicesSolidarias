@@ -1,9 +1,12 @@
 import { RouteProps } from 'react-router-dom';
 
+import DeliveryForm from '@components/deliveries/DeliveryForm';
+import PlaceForm from '@components/places/PlaceForm';
+
 import { UserRoles } from './roles';
 
 import About from '@pages/About';
-import Admin from '@pages/Admin';
+import AdminLayout from '@pages/AdminLayout';
 import Contact from '@pages/Contact';
 import Deliveries from '@pages/Deliveries';
 import Delivery from '@pages/Delivery';
@@ -50,13 +53,36 @@ export const publicRoutes: RouteProps[] = [
   },
 ];
 
-type PrivateRouteProps = RouteProps & {
+export type PrivateRouteProps = Omit<RouteProps, 'children'> & {
+  children?: PrivateRouteProps[];
   requiredRoles: UserRoles[];
 };
 
 export const privateRoutes: PrivateRouteProps[] = [
   {
-    Component: Admin,
+    children: [
+      {
+        Component: DeliveryForm,
+        path: WEB_ROUTES.adminDeliveries,
+        requiredRoles: [UserRoles.ADMIN],
+      },
+      {
+        Component: DeliveryForm,
+        path: WEB_ROUTES.adminDelivery,
+        requiredRoles: [UserRoles.ADMIN],
+      },
+      {
+        Component: PlaceForm,
+        path: WEB_ROUTES.adminPlaces,
+        requiredRoles: [UserRoles.ADMIN],
+      },
+      {
+        Component: PlaceForm,
+        path: WEB_ROUTES.adminPlace,
+        requiredRoles: [UserRoles.ADMIN],
+      },
+    ],
+    Component: AdminLayout,
     path: WEB_ROUTES.admin,
     requiredRoles: [UserRoles.ADMIN],
   },
