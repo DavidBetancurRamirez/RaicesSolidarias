@@ -7,11 +7,15 @@ import PageLayout from '@components/layout/PageLayout';
 
 import api from '@/config/api';
 
+import { UserRoles } from '@/constants/roles';
+
 import { Delivery, ResponseData } from '@/constants/interfaces';
 
 import { API_ROUTES, WEB_ROUTES } from '@utils/routes';
+import { useAuthStore } from '@/stores/authStore';
 
 const Deliveries = () => {
+  const user = useAuthStore((state) => state.user);
   const navigate = useNavigate();
 
   const [deliveries, setDeliveries] = useState<Delivery[]>([]);
@@ -42,7 +46,10 @@ const Deliveries = () => {
   ];
 
   return (
-    <PageLayout actions={actions} title={{ title: 'Entregas' }}>
+    <PageLayout
+      actions={user?.roles.includes(UserRoles.ADMIN) ? actions : undefined}
+      title={{ title: 'Entregas' }}
+    >
       <div className="flex flex-wrap gap-4 md:gap-6 xl:gap-8">
         {deliveries.map((data, index) => (
           <DeliveryCard
