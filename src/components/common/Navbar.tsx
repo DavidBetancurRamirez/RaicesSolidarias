@@ -59,7 +59,7 @@ const Navbar = () => {
 
   return (
     <MtNavbar
-      className="bg-primary dark:bg-dk_primary px-4 py-6 border-none"
+      className="!bg-primary dark:!bg-dk_primary px-4 py-6 border-none"
       fullWidth
     >
       <div className="flex items-center justify-between text-white gap-2">

@@ -32,9 +32,7 @@ const Title: React.FC<TitleProps> = ({
           onClick={button.goTo}
         />
       )}
-      <div
-        className={`py-1 bg-accent dark:bg-dk_accent w-fit min-w-[50%] md:min-w-[30%] rounded-md`}
-      >
+      <div className="py-1 bg-accent dark:bg-dk_accent w-fit min-w-[50%] md:min-w-[30%] rounded-md">
         <Typography
           variant="h3"
           {...props}

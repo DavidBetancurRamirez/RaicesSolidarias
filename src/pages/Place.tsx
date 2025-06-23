@@ -96,18 +96,14 @@ const PlacePage = () => {
         />
 
         <div>
-          <Title
-            containerClassName="md:mb-2"
-            variant="h4"
-            title={`${place.name}`}
-          />
+          <Title containerClassName="md:mb-2" variant="h4" title={place.name} />
           <p className="text-gray-700 dark:text-gray-300">
             {place.description}
           </p>
         </div>
       </GridTwoColumns>
 
-      <Title variant="h4" title="Galeria de fotos" />
+      <Title variant="h4" title="Galeria" />
       {place?.galleryMedia?.length > 0 ? (
         <Gallery gallery={place.galleryMedia} />
       ) : (

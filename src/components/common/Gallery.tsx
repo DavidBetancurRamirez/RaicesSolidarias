@@ -1,7 +1,7 @@
 import React from 'react';
 import { Carousel } from '@material-tailwind/react';
 
-// import CarouselContainer from './CarouselContainer';
+import CarouselContainer from './CarouselContainer';
 import SafeMedia from './SafeMedia';
 
 import { Media } from '@/constants/interfaces';
@@ -31,17 +31,18 @@ const Gallery: React.FC<GalleryProps> = ({ gallery }) => {
         ))}
       </Carousel>
 
-      {/* <CarouselContainer>
-        {gallery.map((imageLink, index) => (
-          <img
-            alt={`gallery-image-${index}`}
-            className="h-40 w-40 cursor-pointer rounded-lg object-cover object-center"
-            key={imageLink + index}
-            src={fallbackImg}
-            // src={imageLink}
-          />
-        ))}
-      </CarouselContainer> */}
+      <CarouselContainer alwaysShowArrows>
+        {gallery
+          // .filter((med) => med.type === 'image')
+          .map((media, index) => (
+            <img
+              alt={`gallery-image-${index}`}
+              className="h-40 w-40 cursor-pointer rounded-lg object-cover object-center"
+              key={index}
+              src={media.url}
+            />
+          ))}
+      </CarouselContainer>
     </div>
   );
 };
