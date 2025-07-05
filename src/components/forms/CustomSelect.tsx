@@ -1,13 +1,13 @@
 import React from 'react';
 import { Select, Option, SelectProps } from '@material-tailwind/react';
+import { ChevronDown } from 'lucide-react';
 
 import CustomLabel from './CustomLabel';
-import { ChevronDown } from 'lucide-react';
 
 interface CustomSelectProps extends Omit<SelectProps, 'children'> {
   emptyMessage?: string;
   label: string;
-  options: { label: string; value: string | number }[];
+  options: { label: string; value: string }[];
   required?: boolean;
 }
 
@@ -22,26 +22,31 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
     <div>
       <CustomLabel label={label} required={required} />
 
-      <Select
-        arrow={<ChevronDown className="w-4 h-4 text-text dark:text-dk_text" />}
-        className="!text-text dark:!text-dk_text !border-text dark:!border-dk_text"
-        labelProps={{ className: '!hidden' }}
-        menuProps={{
-          className:
-            'bg-card dark:bg-dk_card text-text dark:text-dk_text !border-text dark:!border-dk_text',
-        }}
-        {...props}
-      >
-        {options.length === 0 ? (
-          <div className="text-gray-500 text-sm mt-2">{emptyMessage}</div>
-        ) : (
-          options.map((option) => (
-            <Option key={option.value} value={String(option.value)}>
+      {options.length > 0 ? (
+        <Select
+          arrow={
+            <ChevronDown className="w-4 h-4 text-text dark:text-dk_text" />
+          }
+          className="!text-text dark:!text-dk_text !border-text dark:!border-dk_text"
+          labelProps={{ className: '!hidden' }}
+          menuProps={{
+            className:
+              'bg-card dark:bg-dk_card text-text dark:text-dk_text !border-text dark:!border-dk_text',
+          }}
+          {...props}
+          value={props.value ?? ''}
+        >
+          {options.map((option) => (
+            <Option key={option.value} value={option.value}>
               {option.label}
             </Option>
-          ))
-        )}
-      </Select>
+          ))}
+        </Select>
+      ) : (
+        <div className="text-text dark:text-dk_text text-sm">
+          {emptyMessage}
+        </div>
+      )}
     </div>
   );
 };

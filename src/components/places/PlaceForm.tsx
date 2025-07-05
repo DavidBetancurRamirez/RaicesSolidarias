@@ -22,7 +22,7 @@ import {
 import { useUIStore } from '@/stores/uiStore';
 
 import { API_ROUTES, WEB_ROUTES } from '@utils/routes';
-import { handleChange } from '@utils/forms';
+import { formatDateForInput, handleChange } from '@utils/forms';
 
 const PlaceForm = () => {
   const { id } = useParams<{ id?: string }>();
@@ -72,8 +72,10 @@ const PlaceForm = () => {
         return;
       }
 
-      // TODO: Set deliveryDate and deliveryId
-      setFormData(response.data);
+      setFormData({
+        ...response.data,
+        deliveryDate: formatDateForInput(response.data.deliveryDate),
+      });
     };
 
     fetchPlace();
@@ -162,9 +164,10 @@ const PlaceForm = () => {
       <CustomSelect
         label="Entregas"
         required
+        value={formData?.deliveryId}
         options={deliveries.map((delivery) => ({
           label: String(delivery.year),
-          value: delivery._id || '',
+          value: delivery?._id || '',
         }))}
         onChange={(value) => {
           handleChange({ name: 'deliveryId', value: value || '' }, setFormData);

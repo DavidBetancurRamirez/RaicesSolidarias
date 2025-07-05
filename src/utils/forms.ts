@@ -1,5 +1,10 @@
 import React from 'react';
 
+export const formatDateForInput = (dateString: string): string => {
+  const date = new Date(dateString);
+  return date.toISOString().split('T')[0];
+};
+
 export const handleChange = <T>(
   e:
     | React.ChangeEvent<HTMLInputElement>
