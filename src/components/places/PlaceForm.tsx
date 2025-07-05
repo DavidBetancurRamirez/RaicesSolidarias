@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Button } from '@material-tailwind/react';
 
+import CustomBottomButtons from '@components/forms/CustomBottomButtons';
 import CustomInput from '@components/forms/CustomInput';
 import CustomInputDate from '@components/forms/CustomInputDate';
 import CustomInputFiles from '@components/forms/CustomInputFiles';
@@ -22,6 +22,7 @@ import {
 import { useUIStore } from '@/stores/uiStore';
 
 import { API_ROUTES, WEB_ROUTES } from '@utils/routes';
+import { apiDelete } from '@utils/apiDelete';
 import { formatDateForInput, handleChange } from '@utils/forms';
 
 const PlaceForm = () => {
@@ -80,6 +81,28 @@ const PlaceForm = () => {
 
     fetchPlace();
   }, [id]);
+
+  const handleDelete = async () => {
+    if (!formData._id) {
+      setAlert('No se pudo eliminar el lugar, intenta de nuevo');
+      return;
+    }
+
+    try {
+      const deleted = await apiDelete('place', formData._id);
+
+      if (!deleted) {
+        setAlert('Error al eliminar el lugar, intenta de nuevo');
+        return;
+      }
+
+      setAlert('Lugar eliminado correctamente');
+      navigate(WEB_ROUTES.deliveries);
+    } catch (error) {
+      console.error('Error deleting place:', error);
+      setAlert('Error al eliminar el lugar, intenta de nuevo');
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -205,6 +228,7 @@ const PlaceForm = () => {
           )
         }
       />
+
       <GridTwoColumns>
         <CustomInputFiles
           accept={{ 'image/*': ['.jpg', '.png'] }}
@@ -221,6 +245,7 @@ const PlaceForm = () => {
           onFilesSelected={(files) => setSecondaryMedia(files[0])}
         />
       </GridTwoColumns>
+
       <CustomInputFiles
         accept={{ 'image/*': ['.jpg', '.png'], 'video/*': ['.mp4'] }}
         label="Arrastra o selecciona las imagenes o videos de la galería"
@@ -228,13 +253,11 @@ const PlaceForm = () => {
         multiple={true}
         onFilesSelected={handleFilesSelected}
       />
-      <Button
-        className="bg-primary dark:bg-dk_primary text-white mt-2"
-        fullWidth
-        type="submit"
-      >
-        Guardar
-      </Button>
+
+      <CustomBottomButtons
+        deleteAction={handleDelete}
+        edit={Boolean(formData._id)}
+      />
     </form>
   );
 };

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Button } from '@material-tailwind/react';
 
+import CustomBottomButtons from '@components/forms/CustomBottomButtons';
 import CustomInputFiles from '@components/forms/CustomInputFiles';
 import CustomInputNumber from '@components/forms/CustomInputNumber';
 import CustomTextarea from '@components/forms/CustomTextarea';
@@ -19,6 +19,7 @@ import {
 import { useUIStore } from '@/stores/uiStore';
 
 import { API_ROUTES, WEB_ROUTES } from '@utils/routes';
+import { apiDelete } from '@utils/apiDelete';
 import { handleChange } from '@utils/forms';
 
 const DeliveryForm = () => {
@@ -85,6 +86,28 @@ const DeliveryForm = () => {
     }
   };
 
+  const handleDelete = async () => {
+    if (!formData._id) {
+      setAlert('No se pudo eliminar la entrega, intenta de nuevo');
+      return;
+    }
+
+    try {
+      const deleted = await apiDelete('delivery', formData._id);
+
+      if (!deleted) {
+        setAlert('Error al eliminar la entrega, intenta de nuevo');
+        return;
+      }
+
+      setAlert('Entrega eliminada correctamente');
+      navigate(WEB_ROUTES.deliveries);
+    } catch (error) {
+      console.error('Error deleting delivery:', error);
+      setAlert('Error al eliminar la entrega, intenta de nuevo');
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -129,6 +152,7 @@ const DeliveryForm = () => {
           handleChange({ name: 'year', value }, setFormData, true)
         }
       />
+
       <CustomTextarea
         label="Descripción"
         name="description"
@@ -142,6 +166,7 @@ const DeliveryForm = () => {
           )
         }
       />
+
       <CustomTextarea
         label="Mensaje de agradecimiento"
         name="mensaje"
@@ -154,6 +179,7 @@ const DeliveryForm = () => {
           )
         }
       />
+
       <GridTwoColumns>
         <CustomInputFiles
           label="Arrastra o selecciona la imagen principal"
@@ -170,13 +196,11 @@ const DeliveryForm = () => {
           onFilesSelected={(files) => setTankYouMedia(files[0])}
         />
       </GridTwoColumns>
-      <Button
-        className="bg-primary dark:bg-dk_primary text-white mt-2"
-        fullWidth
-        type="submit"
-      >
-        Guardar
-      </Button>
+
+      <CustomBottomButtons
+        deleteAction={handleDelete}
+        edit={Boolean(formData._id)}
+      />
     </form>
   );
 };
