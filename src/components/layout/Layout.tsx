@@ -1,9 +1,9 @@
 import React, { ReactNode } from 'react';
 
-import Alert from './Alert';
+import CustomAlert from './CustomAlert';
+import CustomModal from '@components/layout/CustomModal';
+import CustomNavbar from './CustomNavbar';
 import Footer from './Footer';
-import Modal from '@components/layout/Modal';
-import Navbar from './Navbar';
 
 interface LayoutProps {
   children: ReactNode;
@@ -12,10 +12,10 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className="flex flex-col min-h-screen bg-background dark:bg-dk_background">
-      <Navbar />
+      <CustomNavbar />
       <main className="flex-1">{children}</main>
-      <Alert />
-      <Modal />
+      <CustomAlert />
+      <CustomModal />
       <Footer />
     </div>
   );

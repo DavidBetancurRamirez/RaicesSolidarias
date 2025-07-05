@@ -8,10 +8,8 @@ import {
 
 import { useModalStore } from '@/stores/useModalStore';
 
-const Modal = () => {
+const CustomModal = () => {
   const { body, closeModal, header, onAccept, open } = useModalStore();
-
-  if (!open) return null;
 
   const handleAccept = () => {
     if (onAccept) {
@@ -44,4 +42,4 @@ const Modal = () => {
   );
 };
 
-export default Modal;
+export default CustomModal;

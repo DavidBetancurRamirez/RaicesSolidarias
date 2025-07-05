@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, Moon, Slash, Sun, X } from 'lucide-react';
 import {
-  Navbar as MtNavbar,
-  Typography,
-  IconButton,
   Breadcrumbs,
   Button,
   Collapse,
+  IconButton,
+  Navbar,
+  Typography,
 } from '@material-tailwind/react';
 
 import Avatar from '@components/users/Avatar';
@@ -21,7 +21,7 @@ import { useAuthStore } from '@/stores/authStore';
 
 import { WEB_ROUTES } from '@utils/routes';
 
-const Navbar = () => {
+const CustomNavbar = () => {
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
   const { theme, toggleTheme } = useTheme();
@@ -58,7 +58,7 @@ const Navbar = () => {
   const handleOpen = () => setOpen((cur) => !cur);
 
   return (
-    <MtNavbar
+    <Navbar
       className="!bg-primary dark:!bg-dk_primary px-4 py-6 border-none"
       fullWidth
     >
@@ -163,8 +163,8 @@ const Navbar = () => {
           </Button>
         </div>
       </Collapse>
-    </MtNavbar>
+    </Navbar>
   );
 };
 
-export default Navbar;
+export default CustomNavbar;

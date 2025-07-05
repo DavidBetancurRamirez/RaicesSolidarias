@@ -1,9 +1,9 @@
-import { Alert as MtAlert } from '@material-tailwind/react';
+import { Alert } from '@material-tailwind/react';
 import { useEffect } from 'react';
 
 import { useUIStore } from '@/stores/uiStore';
 
-const Alert = () => {
+const CustomAlert = () => {
   const { open, message, closeAlert } = useUIStore();
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const Alert = () => {
   if (!open) return null;
 
   return (
-    <MtAlert
+    <Alert
       animate={{
         mount: { y: 0 },
         unmount: { y: 100 },
@@ -28,8 +28,8 @@ const Alert = () => {
       open={open}
     >
       {message}
-    </MtAlert>
+    </Alert>
   );
 };
 
-export default Alert;
+export default CustomAlert;
