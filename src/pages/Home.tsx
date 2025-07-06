@@ -98,7 +98,7 @@ const Home = () => {
                 <PlaceCard
                   date={new Date(place.deliveryDate)}
                   description={place.description}
-                  image={place.mainImageUrl}
+                  image={place.mainMedia.url}
                   key={index}
                   place={place.name}
                   onClick={() =>

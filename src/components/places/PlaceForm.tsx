@@ -88,8 +88,8 @@ const PlaceForm = () => {
       });
 
       setMainImage({
-        existingFiles: response?.data?.mainImageUrl
-          ? [response?.data?.mainImageUrl]
+        existingFiles: response?.data?.mainMedia
+          ? [response?.data?.mainMedia]
           : [],
         newFiles: [],
       });
@@ -159,7 +159,7 @@ const PlaceForm = () => {
         ...formData,
         galleryMedia: gallery.existingFiles,
         id: formData._id,
-        mainImageUrl: mainImage.existingFiles[0] || null,
+        mainMedia: mainImage.existingFiles[0] || null,
         secondaryMedia: secondaryMedia.existingFiles[0] || null,
       })) as ResponseData<Place>;
 

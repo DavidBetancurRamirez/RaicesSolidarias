@@ -56,7 +56,7 @@ const Deliveries = () => {
             key={index}
             year={Number(data.year)}
             description={data.description}
-            image={data?.mainImageUrl}
+            image={data?.mainMedia}
             reverse={index % 2 !== 0}
             onClick={() =>
               navigate(WEB_ROUTES.deliveryByYear(String(data.year)))
