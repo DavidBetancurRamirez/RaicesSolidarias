@@ -15,12 +15,13 @@ interface CustomInputFilesProps {
   labelTitle?: string;
   maxFiles?: number;
   multiple?: boolean;
-  newFiles?: File[]; // TODO: Made required
+  newFiles: File[];
   onFilesSelected?: (files: File[]) => void;
   onRemoveFile?: (file: File | string) => void;
   required?: boolean;
 }
 
+// TODO: Refactor this component to reduce unnecessary rendering
 const CustomInputFiles: React.FC<CustomInputFilesProps> = ({
   accept,
   className = '',

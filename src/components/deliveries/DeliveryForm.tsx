@@ -12,7 +12,9 @@ import fileApi from '@/config/fileApi';
 
 import {
   Delivery,
+  FilesController,
   initialStateDelivery,
+  initialStateFilesController,
   ResponseData,
 } from '@/constants/interfaces';
 
@@ -28,8 +30,14 @@ const DeliveryForm = () => {
   const setAlert = useUIStore((state) => state.setAlert);
 
   const [formData, setFormData] = useState<Delivery>(initialStateDelivery);
-  const [mainImage, setMainImage] = useState<File | null>(null);
-  const [tankYouMedia, setTankYouMedia] = useState<File | null>(null);
+
+  // TODO: Refactor files controllers to reduce unnecessary rendering
+  const [mainImage, setMainImage] = useState<FilesController>(
+    initialStateFilesController,
+  );
+  const [tankYouMedia, setTankYouMedia] = useState<FilesController>(
+    initialStateFilesController,
+  );
 
   useEffect(() => {
     const fetchDelivery = async () => {
@@ -47,6 +55,20 @@ const DeliveryForm = () => {
       }
 
       setFormData(response.data);
+
+      setMainImage({
+        existingFiles: response?.data?.mainMedia
+          ? [response?.data?.mainMedia]
+          : [],
+        newFiles: [],
+      });
+
+      setTankYouMedia({
+        existingFiles: response?.data?.thankYou?.media
+          ? [response?.data?.thankYou?.media]
+          : [],
+        newFiles: [],
+      });
     };
 
     fetchDelivery();
@@ -60,10 +82,10 @@ const DeliveryForm = () => {
     const mediaFiles = new FormData();
 
     if (mainImage) {
-      mediaFiles.append('mainImage', mainImage);
+      mediaFiles.append('mainImage', mainImage.newFiles[0]);
     }
     if (tankYouMedia) {
-      mediaFiles.append('tankYouMedia', tankYouMedia);
+      mediaFiles.append('tankYouMedia', tankYouMedia.newFiles[0]);
     }
 
     try {
@@ -75,9 +97,6 @@ const DeliveryForm = () => {
       if (response.status !== 201) {
         return false;
       }
-
-      setMainImage(null);
-      setTankYouMedia(null);
 
       return true;
     } catch (error) {
@@ -182,18 +201,36 @@ const DeliveryForm = () => {
 
       <GridTwoColumns>
         <CustomInputFiles
+          accept={{ 'image/*': ['.jpg', '.png'] }}
+          existingFiles={mainImage.existingFiles}
           label="Arrastra o selecciona la imagen principal"
           labelTitle="Imagen principal"
-          accept={{ 'image/*': ['.jpg', '.png'] }}
-          multiple={false}
-          onFilesSelected={(files) => setMainImage(files[0])}
+          newFiles={mainImage.newFiles}
+          onFilesSelected={(files) =>
+            setMainImage({ existingFiles: [], newFiles: files })
+          }
+          onRemoveFile={() => {
+            setMainImage((prev) => ({
+              ...prev,
+              existingFiles: [],
+            }));
+          }}
         />
         <CustomInputFiles
+          accept={{ 'image/*': ['.jpg', '.png'], 'video/*': ['.mp4'] }}
+          existingFiles={tankYouMedia.existingFiles}
           label="Arrastra o selecciona la imagen o video de agradecimiento"
           labelTitle="Imagen o video de agradecimiento"
-          accept={{ 'image/*': ['.jpg', '.png'], 'video/*': ['.mp4'] }}
-          multiple={false}
-          onFilesSelected={(files) => setTankYouMedia(files[0])}
+          newFiles={tankYouMedia.newFiles}
+          onFilesSelected={(files) =>
+            setTankYouMedia({ existingFiles: [], newFiles: files })
+          }
+          onRemoveFile={() => {
+            setTankYouMedia((prev) => ({
+              ...prev,
+              existingFiles: [],
+            }));
+          }}
         />
       </GridTwoColumns>
 

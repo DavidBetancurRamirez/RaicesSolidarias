@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Checkbox, Typography } from '@material-tailwind/react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import CustomBottomButtons from '@components/forms/CustomBottomButtons';
@@ -26,7 +27,6 @@ import { useUIStore } from '@/stores/uiStore';
 import { API_ROUTES, WEB_ROUTES } from '@utils/routes';
 import { apiDelete } from '@utils/apiDelete';
 import { formatDateForInput, handleChange } from '@utils/forms';
-import { Checkbox, Typography } from '@material-tailwind/react';
 
 const PlaceForm = () => {
   const { id } = useParams<{ id?: string }>();
@@ -36,6 +36,7 @@ const PlaceForm = () => {
   const [deliveries, setDeliveries] = useState<Delivery[]>([]);
   const [formData, setFormData] = useState<Place>(initialStatePlace);
 
+  // TODO: Refactor files controllers to reduce unnecessary rendering
   const [gallery, setGallery] = useState<FilesController>(
     initialStateFilesController,
   );
