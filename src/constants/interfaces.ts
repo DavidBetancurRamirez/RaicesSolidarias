@@ -36,6 +36,16 @@ export interface Media {
   url: string;
 }
 
+export interface FilesController {
+  existingFiles: Media[];
+  newFiles: File[];
+}
+
+export const initialStateFilesController: FilesController = {
+  existingFiles: [],
+  newFiles: [],
+};
+
 //? Thank You
 export interface ThankYouDto {
   message: string;
@@ -93,7 +103,7 @@ export interface Place {
   deliveryId: string;
   description: string;
   galleryMedia: Media[];
-  mainImageUrl: string;
+  mainImageUrl: Media;
   name: string;
   secondaryMedia: Media;
   statistics: StatisticDto[];
@@ -105,7 +115,7 @@ export const initialStatePlace: Place = {
   deliveryId: '',
   description: '',
   galleryMedia: [],
-  mainImageUrl: '',
+  mainImageUrl: { type: 'image', url: '' },
   name: '',
   secondaryMedia: { url: '' },
   statistics: [],

@@ -14,6 +14,8 @@ import fileApi from '@/config/fileApi';
 
 import {
   Delivery,
+  FilesController,
+  initialStateFilesController,
   initialStatePlace,
   Place,
   ResponseData,
@@ -32,9 +34,16 @@ const PlaceForm = () => {
 
   const [deliveries, setDeliveries] = useState<Delivery[]>([]);
   const [formData, setFormData] = useState<Place>(initialStatePlace);
-  const [gallery, setGallery] = useState<File[] | null>(null);
-  const [mainImage, setMainImage] = useState<File | null>(null);
-  const [secondaryMedia, setSecondaryMedia] = useState<File | null>(null);
+
+  const [gallery, setGallery] = useState<FilesController>(
+    initialStateFilesController,
+  );
+  const [mainImage, setMainImage] = useState<FilesController>(
+    initialStateFilesController,
+  );
+  const [secondaryMedia, setSecondaryMedia] = useState<FilesController>(
+    initialStateFilesController,
+  );
 
   useEffect(() => {
     const fetchPlaces = async () => {
@@ -77,6 +86,25 @@ const PlaceForm = () => {
         ...response.data,
         deliveryDate: formatDateForInput(response.data.deliveryDate),
       });
+
+      setMainImage({
+        existingFiles: response?.data?.mainImageUrl
+          ? [response?.data?.mainImageUrl]
+          : [],
+        newFiles: [],
+      });
+      setSecondaryMedia({
+        existingFiles: response?.data?.secondaryMedia
+          ? [response?.data?.secondaryMedia]
+          : [],
+        newFiles: [],
+      });
+      setGallery({
+        existingFiles: response?.data?.galleryMedia
+          ? response?.data?.galleryMedia
+          : [],
+        newFiles: [],
+      });
     };
 
     fetchPlace();
@@ -104,6 +132,20 @@ const PlaceForm = () => {
     }
   };
 
+  const handleRemoveFile = (file: File | string) => {
+    if (typeof file === 'string') {
+      setGallery((prev) => ({
+        ...prev,
+        existingFiles: prev.existingFiles.filter((f) => f.url !== file),
+      }));
+    } else {
+      setGallery((prev) => ({
+        ...prev,
+        newFiles: prev.newFiles.filter((f) => f !== file),
+      }));
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -115,7 +157,10 @@ const PlaceForm = () => {
 
       const response = (await api.post(API_ROUTES.place, {
         ...formData,
+        galleryMedia: gallery.existingFiles,
         id: formData._id,
+        mainImageUrl: mainImage.existingFiles[0] || null,
+        secondaryMedia: secondaryMedia.existingFiles[0] || null,
       })) as ResponseData<Place>;
 
       if (response.statusCode !== 201 || !response?.data?._id) {
@@ -140,10 +185,6 @@ const PlaceForm = () => {
     }
   };
 
-  const handleFilesSelected = (files: File[]) => {
-    setGallery((prev) => (prev ? [...prev, ...files] : [...files]));
-  };
-
   const uploadPlaceMedia = async (placeId: string): Promise<boolean> => {
     if (!mainImage && !secondaryMedia && !gallery) {
       return true;
@@ -152,13 +193,13 @@ const PlaceForm = () => {
     const mediaFiles = new FormData();
 
     if (mainImage) {
-      mediaFiles.append('mainImage', mainImage);
+      mediaFiles.append('mainImage', mainImage.newFiles[0]);
     }
     if (secondaryMedia) {
-      mediaFiles.append('secondaryMedia', secondaryMedia);
+      mediaFiles.append('secondaryMedia', secondaryMedia.newFiles[0]);
     }
     if (gallery) {
-      gallery.forEach((file) => mediaFiles.append('gallery', file));
+      gallery.newFiles.forEach((file) => mediaFiles.append('gallery', file));
     }
 
     try {
@@ -170,10 +211,6 @@ const PlaceForm = () => {
       if (response.status !== 201) {
         return false;
       }
-
-      setMainImage(null);
-      setSecondaryMedia(null);
-      setGallery(null);
 
       return true;
     } catch (error) {
@@ -232,26 +269,49 @@ const PlaceForm = () => {
       <GridTwoColumns>
         <CustomInputFiles
           accept={{ 'image/*': ['.jpg', '.png'] }}
+          existingFiles={mainImage.existingFiles}
           label="Arrastra o selecciona la imagen principal"
           labelTitle="Imagen principal"
-          multiple={false}
-          onFilesSelected={(files) => setMainImage(files[0])}
+          newFiles={mainImage.newFiles}
+          onFilesSelected={(files) =>
+            setMainImage({ existingFiles: [], newFiles: files })
+          }
+          onRemoveFile={() => {
+            setMainImage((prev) => ({
+              ...prev,
+              existingFiles: [],
+            }));
+          }}
         />
         <CustomInputFiles
           accept={{ 'image/*': ['.jpg', '.png'], 'video/*': ['.mp4'] }}
+          existingFiles={secondaryMedia.existingFiles}
           label="Arrastra o selecciona la imagen o video secundario"
           labelTitle="Imagen o video secundario"
-          multiple={false}
-          onFilesSelected={(files) => setSecondaryMedia(files[0])}
+          newFiles={secondaryMedia.newFiles}
+          onFilesSelected={(files) =>
+            setSecondaryMedia({ existingFiles: [], newFiles: files })
+          }
+          onRemoveFile={() => {
+            setSecondaryMedia((prev) => ({
+              ...prev,
+              existingFiles: [],
+            }));
+          }}
         />
       </GridTwoColumns>
 
       <CustomInputFiles
         accept={{ 'image/*': ['.jpg', '.png'], 'video/*': ['.mp4'] }}
+        existingFiles={gallery.existingFiles}
         label="Arrastra o selecciona las imagenes o videos de la galería"
         labelTitle="Galería"
-        multiple={true}
-        onFilesSelected={handleFilesSelected}
+        multiple
+        newFiles={gallery.newFiles}
+        onRemoveFile={handleRemoveFile}
+        onFilesSelected={(files) =>
+          setGallery((prev) => ({ ...prev, newFiles: files }))
+        }
       />
 
       <CustomBottomButtons
