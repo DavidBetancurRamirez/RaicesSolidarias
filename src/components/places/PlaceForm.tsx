@@ -26,6 +26,7 @@ import { useUIStore } from '@/stores/uiStore';
 import { API_ROUTES, WEB_ROUTES } from '@utils/routes';
 import { apiDelete } from '@utils/apiDelete';
 import { formatDateForInput, handleChange } from '@utils/forms';
+import { Checkbox, Typography } from '@material-tailwind/react';
 
 const PlaceForm = () => {
   const { id } = useParams<{ id?: string }>();
@@ -221,18 +222,41 @@ const PlaceForm = () => {
 
   return (
     <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-      <CustomSelect
-        label="Entregas"
-        required
-        value={formData?.deliveryId}
-        options={deliveries.map((delivery) => ({
-          label: String(delivery.year),
-          value: delivery?._id || '',
-        }))}
-        onChange={(value) => {
-          handleChange({ name: 'deliveryId', value: value || '' }, setFormData);
-        }}
-      />
+      <GridTwoColumns>
+        <CustomSelect
+          label="Entregas"
+          required
+          value={formData?.deliveryId}
+          options={deliveries.map((delivery) => ({
+            label: String(delivery.year),
+            value: delivery?._id || '',
+          }))}
+          onChange={(value) => {
+            handleChange(
+              { name: 'deliveryId', value: value || '' },
+              setFormData,
+            );
+          }}
+        />
+        <div className="flex flex-col justify-end h-full">
+          <Checkbox
+            checked={formData?.featured}
+            color="orange"
+            onChange={(e) =>
+              handleChange(
+                { name: 'featured', value: e.target.checked },
+                setFormData,
+              )
+            }
+            ripple
+            label={
+              <Typography className="text-text dark:text-dk_text">
+                Mostrar entre los lugares destacados
+              </Typography>
+            }
+          />
+        </div>
+      </GridTwoColumns>
 
       <GridTwoColumns>
         <CustomInput

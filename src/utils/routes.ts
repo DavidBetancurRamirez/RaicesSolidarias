@@ -8,9 +8,9 @@ export const API_ROUTES = {
   deliveryMedia: (id: string) => `${API_BASE_URL}/delivery/${id}/media`,
   login: `${API_BASE_URL}/auth/login`,
   place: `${API_BASE_URL}/place`,
+  placeByFeatured: (featured: string = 'true') =>
+    `${API_BASE_URL}/place/featured/${featured}`,
   placeById: (id: string) => `${API_BASE_URL}/place/${id}`,
-  placeByRecommended: (isRecommended: string = 'true') =>
-    `${API_BASE_URL}/place/recommended/${isRecommended}`,
   placeMedia: (id: string) => `${API_BASE_URL}/place/${id}/media`,
   refresh: `${API_BASE_URL}/auth/refresh-token`,
   register: `${API_BASE_URL}/auth/register`,

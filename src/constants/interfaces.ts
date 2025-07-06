@@ -56,7 +56,7 @@ export interface ThankYouDto {
 export interface Delivery {
   _id?: string;
   description: string;
-  mainMedia?: string;
+  mainMedia?: Media;
   statistics?: StatisticDto[];
   thankYou: ThankYouDto;
   year: string | number;
@@ -64,7 +64,7 @@ export interface Delivery {
 
 export const initialStateDelivery: Delivery = {
   description: '',
-  mainMedia: '',
+  mainMedia: { type: 'image', url: '' },
   statistics: [],
   thankYou: {
     media: {
@@ -102,6 +102,7 @@ export interface Place {
   deliveryDate: string;
   deliveryId: string;
   description: string;
+  featured?: boolean;
   galleryMedia: Media[];
   mainMedia: Media;
   name: string;
@@ -114,6 +115,7 @@ export const initialStatePlace: Place = {
   deliveryDate: '',
   deliveryId: '',
   description: '',
+  featured: false,
   galleryMedia: [],
   mainMedia: { type: 'image', url: '' },
   name: '',

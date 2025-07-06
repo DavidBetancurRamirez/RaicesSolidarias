@@ -19,12 +19,12 @@ import { API_ROUTES, WEB_ROUTES } from '@utils/routes';
 const Home = () => {
   const navigate = useNavigate();
 
-  const [recommendedPlaces, setRecommendedPlaces] = useState<Place[]>([]);
+  const [featuredPlaces, setFeaturedPlaces] = useState<Place[]>([]);
 
   useEffect(() => {
-    const fetchRecommendedPlaces = async () => {
+    const fetchFeaturedPlaces = async () => {
       const response = (await api.get(
-        API_ROUTES.placeByRecommended(),
+        API_ROUTES.placeByFeatured(),
       )) as ResponseData<Place[]>;
 
       if (response.statusCode !== 200) {
@@ -32,10 +32,10 @@ const Home = () => {
         return;
       }
 
-      setRecommendedPlaces(response.data);
+      setFeaturedPlaces(response.data);
     };
 
-    fetchRecommendedPlaces();
+    fetchFeaturedPlaces();
   }, []);
 
   return (
@@ -90,15 +90,15 @@ const Home = () => {
           </div>
         </GridTwoColumns>
 
-        {recommendedPlaces?.length > 0 && (
+        {featuredPlaces?.length > 0 && (
           <React.Fragment>
-            <Title variant="h4" title="Algunas de nuestras entregas" />
+            <Title variant="h4" title="Lugares destacados" />
             <CarouselContainer>
-              {recommendedPlaces.map((place, index) => (
+              {featuredPlaces.map((place, index) => (
                 <PlaceCard
                   date={new Date(place.deliveryDate)}
                   description={place.description}
-                  image={place.mainMedia.url}
+                  image={place.mainMedia?.url}
                   key={index}
                   place={place.name}
                   onClick={() =>

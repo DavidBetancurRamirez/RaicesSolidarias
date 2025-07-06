@@ -64,7 +64,7 @@ const DeliveryPage = () => {
         <SafeMedia
           alt="Imagen principal de la entrega"
           className="!h-80"
-          src={delivery.mainMedia}
+          src={delivery.mainMedia?.url}
         />
         <DeliveryDescription text={delivery.description} maxHeight="max-h-80" />
       </GridTwoColumns>
@@ -119,7 +119,7 @@ const DeliveryPage = () => {
               <PlaceCard
                 date={new Date(place.deliveryDate)}
                 description={place.description}
-                image={place.mainMedia.url}
+                image={place.mainMedia?.url}
                 key={index}
                 place={place.name}
                 onClick={() =>
