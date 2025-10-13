@@ -32,6 +32,8 @@ const CustomNavbar = () => {
   const [menuItemsShow, setMenuItemsShow] = useState(menuItems);
 
   const [open, setOpen] = useState(false);
+  const [visible, setVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
     window.addEventListener(
@@ -39,6 +41,26 @@ const CustomNavbar = () => {
       () => window.innerWidth >= 720 && setOpen(false),
     );
   }, []);
+
+  // Show navbar on scroll up, hide on scroll down
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY <= 0) {
+        setVisible(true);
+      } else if (currentScrollY > lastScrollY && currentScrollY > 50) {
+        // scrolled down
+        setVisible(false);
+      } else if (currentScrollY < lastScrollY) {
+        // scrolled up
+        setVisible(true);
+      }
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
 
   useEffect(() => {
     setMenuItemsShow([
@@ -59,7 +81,9 @@ const CustomNavbar = () => {
 
   return (
     <Navbar
-      className="!bg-primary dark:!bg-dk_primary px-4 py-6 border-none"
+      className={`fixed top-0 left-0 right-0 z-50 transform transition-transform duration-300 ${
+        visible ? 'translate-y-0' : '-translate-y-full'
+      } !bg-primary dark:!bg-dk_primary px-4 py-6 border-none`}
       fullWidth
     >
       <div className="flex items-center justify-between text-white gap-2">
