@@ -7,20 +7,22 @@ import CustomLabel from './CustomLabel';
 interface CustomInputNumberProps
   extends Omit<InputProps, 'onChange' | 'value'> {
   label: string;
-  value: number;
-  onChange: (value: number) => void;
-  min?: number;
   max?: number;
+  min?: number;
+  onChange: (value: number) => void;
+  required?: boolean;
   step?: number;
+  value: number;
 }
 
 const CustomInputNumber: React.FC<CustomInputNumberProps> = ({
   label,
-  value,
-  onChange,
-  min = Number.MIN_SAFE_INTEGER,
   max = Number.MAX_SAFE_INTEGER,
+  min = Number.MIN_SAFE_INTEGER,
+  onChange,
+  required,
   step = 1,
+  value,
   ...props
 }) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,21 +46,21 @@ const CustomInputNumber: React.FC<CustomInputNumberProps> = ({
 
   return (
     <div>
-      <CustomLabel label={label} />
+      <CustomLabel label={label} required={required} />
+
       <div className="relative w-full">
         <Input
-          type="number"
           className="!text-text dark:!text-dk_text !border-text dark:!border-dk_text"
-          size="lg"
-          value={value}
-          onChange={handleInputChange}
-          min={min}
+          labelProps={{ className: '!hidden' }}
           max={max}
+          min={min}
+          onChange={handleInputChange}
+          size="lg"
+          type="number"
+          value={value}
           {...props}
-          labelProps={{
-            className: 'before:content-none after:content-none',
-          }}
         />
+
         <div className="absolute right-2 top-2.5 flex gap-1 items-center align-middle">
           <IconButton
             className="w-6 h-6 rounded bg-primary dark:bg-dk_primary"

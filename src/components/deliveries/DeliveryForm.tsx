@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button } from '@material-tailwind/react';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
+import CustomBottomButtons from '@components/forms/CustomBottomButtons';
 import CustomInputFiles from '@components/forms/CustomInputFiles';
 import CustomInputNumber from '@components/forms/CustomInputNumber';
 import CustomTextarea from '@components/forms/CustomTextarea';
@@ -12,22 +12,67 @@ import fileApi from '@/config/fileApi';
 
 import {
   Delivery,
+  FilesController,
   initialStateDelivery,
+  initialStateFilesController,
   ResponseData,
 } from '@/constants/interfaces';
 
 import { useUIStore } from '@/stores/uiStore';
 
 import { API_ROUTES, WEB_ROUTES } from '@utils/routes';
+import { apiDelete } from '@utils/apiDelete';
 import { handleChange } from '@utils/forms';
 
 const DeliveryForm = () => {
+  const { id } = useParams<{ id?: string }>();
   const navigate = useNavigate();
   const setAlert = useUIStore((state) => state.setAlert);
 
   const [formData, setFormData] = useState<Delivery>(initialStateDelivery);
-  const [mainImage, setMainImage] = useState<File | null>(null);
-  const [tankYouMedia, setTankYouMedia] = useState<File | null>(null);
+
+  // TODO: Refactor files controllers to reduce unnecessary rendering
+  const [mainImage, setMainImage] = useState<FilesController>(
+    initialStateFilesController,
+  );
+  const [tankYouMedia, setTankYouMedia] = useState<FilesController>(
+    initialStateFilesController,
+  );
+
+  useEffect(() => {
+    const fetchDelivery = async () => {
+      if (!id) {
+        return;
+      }
+
+      const response = (await api.get(
+        API_ROUTES.deliveryById(id as string),
+      )) as ResponseData<Delivery>;
+
+      if (response.statusCode !== 200) {
+        console.error('Error fetching delivery:', response);
+        return;
+      }
+
+      setFormData(response.data);
+
+      setMainImage({
+        existingFiles: response?.data?.mainMedia
+          ? [response?.data?.mainMedia]
+          : [],
+        newFiles: [],
+      });
+
+      setTankYouMedia({
+        existingFiles: response?.data?.thankYou?.media
+          ? [response?.data?.thankYou?.media]
+          : [],
+        newFiles: [],
+      });
+    };
+
+    fetchDelivery();
+  }, [id]);
 
   const uploadDeliveryMedia = async (deliveryId: string): Promise<boolean> => {
     if (!mainImage && !tankYouMedia) {
@@ -37,10 +82,10 @@ const DeliveryForm = () => {
     const mediaFiles = new FormData();
 
     if (mainImage) {
-      mediaFiles.append('mainImage', mainImage);
+      mediaFiles.append('mainImage', mainImage.newFiles[0]);
     }
     if (tankYouMedia) {
-      mediaFiles.append('tankYouMedia', tankYouMedia);
+      mediaFiles.append('tankYouMedia', tankYouMedia.newFiles[0]);
     }
 
     try {
@@ -53,9 +98,6 @@ const DeliveryForm = () => {
         return false;
       }
 
-      setMainImage(null);
-      setTankYouMedia(null);
-
       return true;
     } catch (error) {
       console.error('Error uploading media:', error);
@@ -63,14 +105,36 @@ const DeliveryForm = () => {
     }
   };
 
+  const handleDelete = async () => {
+    if (!formData._id) {
+      setAlert('No se pudo eliminar la entrega, intenta de nuevo');
+      return;
+    }
+
+    try {
+      const deleted = await apiDelete('delivery', formData._id);
+
+      if (!deleted) {
+        setAlert('Error al eliminar la entrega, intenta de nuevo');
+        return;
+      }
+
+      setAlert('Entrega eliminada correctamente');
+      navigate(WEB_ROUTES.deliveries);
+    } catch (error) {
+      console.error('Error deleting delivery:', error);
+      setAlert('Error al eliminar la entrega, intenta de nuevo');
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      const response = (await api.post(
-        API_ROUTES.delivery,
-        formData,
-      )) as ResponseData<Delivery>;
+      const response = (await api.post(API_ROUTES.delivery, {
+        ...formData,
+        id: formData._id,
+      })) as ResponseData<Delivery>;
 
       if (response.statusCode !== 201 || !response?.data?._id) {
         console.error('Error submitting delivery:', response.message);
@@ -100,16 +164,19 @@ const DeliveryForm = () => {
         label="Año"
         name="year"
         placeholder={new Date().getFullYear().toString()}
+        required
         type="number"
         value={Number(formData.year)}
         onChange={(value) =>
           handleChange({ name: 'year', value }, setFormData, true)
         }
       />
+
       <CustomTextarea
         label="Descripción"
         name="description"
         placeholder="Descripción de la entrega"
+        required
         value={formData.description}
         onChange={(e) =>
           handleChange(
@@ -118,6 +185,7 @@ const DeliveryForm = () => {
           )
         }
       />
+
       <CustomTextarea
         label="Mensaje de agradecimiento"
         name="mensaje"
@@ -130,32 +198,46 @@ const DeliveryForm = () => {
           )
         }
       />
+
       <GridTwoColumns>
         <CustomInputFiles
+          accept={{ 'image/*': ['.jpg', '.png'] }}
+          existingFiles={mainImage.existingFiles}
           label="Arrastra o selecciona la imagen principal"
           labelTitle="Imagen principal"
-          accept={{ 'image/*': ['.jpg', '.png'] }}
-          multiple={false}
-          onFilesSelected={(files) => setMainImage(files[0])}
+          newFiles={mainImage.newFiles}
+          onFilesSelected={(files) =>
+            setMainImage({ existingFiles: [], newFiles: files })
+          }
+          onRemoveFile={() => {
+            setMainImage((prev) => ({
+              ...prev,
+              existingFiles: [],
+            }));
+          }}
         />
         <CustomInputFiles
-          label="Arrastra o selecciona la imagen de agradecimiento"
-          // label="Arrastra o selecciona la imagen o video de agradecimiento"
-          labelTitle="Imagen de agradecimiento"
-          // labelTitle="Imagen o video de agradecimiento"
-          accept={{ 'image/*': ['.jpg', '.png'] }}
-          // accept={{ 'image/*': ['.jpg', '.png'], 'video/*': ['.mp4'] }}
-          multiple={false}
-          onFilesSelected={(files) => setTankYouMedia(files[0])}
+          accept={{ 'image/*': ['.jpg', '.png'], 'video/*': ['.mp4'] }}
+          existingFiles={tankYouMedia.existingFiles}
+          label="Arrastra o selecciona la imagen o video de agradecimiento"
+          labelTitle="Imagen o video de agradecimiento"
+          newFiles={tankYouMedia.newFiles}
+          onFilesSelected={(files) =>
+            setTankYouMedia({ existingFiles: [], newFiles: files })
+          }
+          onRemoveFile={() => {
+            setTankYouMedia((prev) => ({
+              ...prev,
+              existingFiles: [],
+            }));
+          }}
         />
       </GridTwoColumns>
-      <Button
-        className="bg-primary dark:bg-dk_primary text-white mt-2"
-        fullWidth
-        type="submit"
-      >
-        Guardar
-      </Button>
+
+      <CustomBottomButtons
+        deleteAction={handleDelete}
+        edit={Boolean(formData._id)}
+      />
     </form>
   );
 };

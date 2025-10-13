@@ -4,9 +4,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import CarouselContainer from '@components/common/CarouselContainer';
 import GridTwoColumns from '@components/common/GridTwoColumns';
-import PageLayout from '@components/common/PageLayout';
+import PageLayout from '@components/layout/PageLayout';
 import PlaceCard from '@components/places/PlaceCard';
-import SafeImage from '@components/common/SafeImage';
+import SafeMedia from '@components/common/SafeMedia';
 import Title from '@components/common/Title';
 
 import api from '@/config/api';
@@ -17,11 +17,18 @@ import {
   ResponseData,
 } from '@/constants/interfaces';
 
+import { useAuthStore } from '@/stores/authStore';
+import { UserRoles } from '@/constants/roles';
+
 import { API_ROUTES, WEB_ROUTES } from '@utils/routes';
+import AdminActions from '@utils/AdminActions';
 
 const DeliveryPage = () => {
-  const navigate = useNavigate();
   const { id } = useParams<{ id?: string }>();
+
+  const navigate = useNavigate();
+
+  const user = useAuthStore((state) => state.user);
 
   const [delivery, setDelivery] = useState<DeliveryPlaces>(
     initialStateDeliveryPlaces,
@@ -45,12 +52,25 @@ const DeliveryPage = () => {
   }, [id]);
 
   return (
-    <PageLayout title={String(delivery.year)}>
+    <PageLayout
+      actions={AdminActions({
+        editOnClick: () =>
+          navigate(WEB_ROUTES.adminDeliveryById(String(delivery._id))),
+        isAdmin: !!user && user.roles.includes(UserRoles.ADMIN),
+      })}
+      title={{
+        button: {
+          goTo: () => navigate(WEB_ROUTES.deliveries),
+          text: 'Entregas',
+        },
+        title: String(delivery.year),
+      }}
+    >
       <GridTwoColumns>
-        <SafeImage
+        <SafeMedia
           alt="Imagen principal de la entrega"
           className="!h-80"
-          src={delivery.mainImageUrl}
+          src={delivery.mainMedia?.url}
         />
         <DeliveryDescription text={delivery.description} maxHeight="max-h-80" />
       </GridTwoColumns>
@@ -64,10 +84,11 @@ const DeliveryPage = () => {
           />
           {delivery?.statistics?.length ? (
             <GridTwoColumns>
-              <SafeImage
-                alt="Imagen de agradecimiento"
+              <SafeMedia
+                alt="Imagen o video de agradecimiento"
                 className="!h-60"
-                src={delivery.thankYou.mediaUrl}
+                src={delivery.thankYou.media?.url}
+                type={delivery.thankYou.media?.type}
               />
               <DeliveryDescription
                 text={delivery.thankYou.message}
@@ -87,28 +108,25 @@ const DeliveryPage = () => {
             <p className="text-text dark:text-dk_text">Estadísticas</p>
           </div>
         ) : (
-          <SafeImage
-            alt="Imagen de agradecimiento"
-            className="!h-80"
-            src={delivery.thankYou.mediaUrl}
+          <SafeMedia
+            alt="Imagen o video de agradecimiento"
+            className="!h-60"
+            src={delivery.thankYou.media?.url}
+            type={delivery.thankYou.media?.type}
           />
         )}
       </GridTwoColumns>
 
-      {delivery?.places && delivery?.places?.length > 0 && (
+      {delivery?.places?.length > 0 && (
         <React.Fragment>
-          <Title
-            containerClassName="md:mb-2"
-            variant="h4"
-            title="Lugares de entrega"
-          />
+          <Title variant="h4" title="Lugares de entrega" />
           <CarouselContainer>
             {delivery?.places.map((place, index) => (
               <PlaceCard
-                key={index}
                 date={new Date(place.deliveryDate)}
                 description={place.description}
-                image={place.mainImageUrl}
+                image={place.mainMedia?.url}
+                key={index}
                 place={place.name}
                 onClick={() =>
                   navigate(WEB_ROUTES.placeById(String(place._id)))

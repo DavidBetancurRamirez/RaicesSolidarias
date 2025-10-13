@@ -1,17 +1,18 @@
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Menu, Moon, Slash, Sun, X } from 'lucide-react';
 import {
-  Navbar as MtNavbar,
-  Typography,
-  IconButton,
   Breadcrumbs,
   Button,
   Collapse,
+  IconButton,
+  Navbar,
+  Typography,
 } from '@material-tailwind/react';
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Menu, Moon, Slash, Sun, X } from 'lucide-react';
 
 import Avatar from '@components/users/Avatar';
 
+import { menuItems } from '@/constants/menuItems';
 import { UserRoles } from '@/constants/roles';
 
 import { useTheme } from '@hooks/useTheme';
@@ -20,21 +21,19 @@ import { useAuthStore } from '@/stores/authStore';
 
 import { WEB_ROUTES } from '@utils/routes';
 
-export const menuItems = [
-  { link: WEB_ROUTES.about, name: 'Nosotros' },
-  { link: WEB_ROUTES.contact, name: 'Contactenos' },
-  { link: WEB_ROUTES.deliveries, name: 'Entregas' },
-];
-
-const Navbar = () => {
+const CustomNavbar = () => {
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
   const { theme, toggleTheme } = useTheme();
 
+  const location = useLocation();
   const navigate = useNavigate();
 
+  const [menuItemsShow, setMenuItemsShow] = useState(menuItems);
+
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen((cur) => !cur);
+  const [visible, setVisible] = useState(true);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     window.addEventListener(
@@ -43,23 +42,48 @@ const Navbar = () => {
     );
   }, []);
 
-  const adminRouteIndex = menuItems.findIndex(
-    (item) => item.link === WEB_ROUTES.admin,
-  );
+  // Show navbar on scroll up, hide on scroll down
+  const handleScroll = useCallback(() => {
+    const currentScrollY = window.scrollY;
+    if (currentScrollY <= 0) {
+      setVisible(true);
+    } else if (currentScrollY > lastScrollY.current && currentScrollY > 50) {
+      // scrolled down
+      setVisible(false);
+    } else if (currentScrollY < lastScrollY.current) {
+      // scrolled up
+      setVisible(true);
+    }
+    lastScrollY.current = currentScrollY;
+  }, []);
 
-  if (user?.roles.includes(UserRoles.ADMIN)) {
-    if (adminRouteIndex === -1) {
-      menuItems.push({ link: WEB_ROUTES.admin, name: 'Administrar' });
-    }
-  } else {
-    if (adminRouteIndex !== -1) {
-      menuItems.splice(adminRouteIndex, 1);
-    }
-  }
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
+
+  useEffect(() => {
+    setMenuItemsShow([
+      ...menuItems,
+      ...(user?.roles.includes(UserRoles.ADMIN)
+        ? [{ link: WEB_ROUTES.adminDeliveries, name: 'Administrar' }]
+        : []),
+    ]);
+  }, [user]);
+
+  const handleGoToLogin = () => {
+    navigate(WEB_ROUTES.session, {
+      state: { from: location },
+    });
+  };
+
+  const handleOpen = () => setOpen((cur) => !cur);
 
   return (
-    <MtNavbar
-      className="bg-primary dark:bg-dk_primary px-4 py-6 border-none"
+    <Navbar
+      className={`fixed top-0 left-0 right-0 z-50 transform transition-transform duration-300 ${
+        visible ? 'translate-y-0' : '-translate-y-full'
+      } !bg-primary dark:!bg-dk_primary px-4 py-6 border-none`}
       fullWidth
     >
       <div className="flex items-center justify-between text-white gap-2">
@@ -74,7 +98,7 @@ const Navbar = () => {
             className="bg-transparent hidden md:flex items-center p-2"
             separator={<Slash size={10} color="white" />}
           >
-            {menuItems.map((item) => (
+            {menuItemsShow.map((item) => (
               <Typography
                 className="transition-colors text-white duration-300 ease-in-out hover:text-text dark:hover:text-dk_text"
                 key={item.name}
@@ -99,7 +123,7 @@ const Navbar = () => {
               </IconButton>
               <Button
                 className="bg-accent dark:bg-dk_accent text-card dark:text-dk_card"
-                onClick={() => navigate(WEB_ROUTES.session)}
+                onClick={handleGoToLogin}
               >
                 Ingresar
               </Button>
@@ -108,8 +132,6 @@ const Navbar = () => {
         </div>
 
         <div className="flex items-center md:hidden gap-2">
-          {user?._id && <Avatar avatar={user.avatar} />}
-
           <IconButton
             size="sm"
             variant="text"
@@ -129,7 +151,7 @@ const Navbar = () => {
       <Collapse open={open}>
         <div className="mt-6 rounded-xl">
           <ul className="mb-4 flex flex-col gap-3">
-            {menuItems.map((item) => (
+            {menuItemsShow.map((item) => (
               <Typography
                 as="li"
                 className="transition-colors duration-300 ease-in-out hover:text-text dark:hover:text-dk_text"
@@ -139,20 +161,34 @@ const Navbar = () => {
                 <Link to={item.link}>{item.name}</Link>
               </Typography>
             ))}
+            <hr className="my-1 border-dashed" />
+            <Typography
+              as="li"
+              className="transition-colors duration-300 ease-in-out"
+              key="theme-toggle"
+              onClick={toggleTheme}
+              variant="small"
+            >
+              <IconButton
+                className="transition-colors bg-transparent shadow-none mr-2"
+                size="sm"
+              >
+                {theme === 'light' ? <Moon /> : <Sun />}
+              </IconButton>
+              {theme === 'light' ? 'Modo oscuro' : 'Modo claro'}
+            </Typography>
           </ul>
           <Button
             className="bg-accent dark:bg-dk_accent text-card dark:text-dk_card"
             fullWidth
-            onClick={() =>
-              user?._id ? logout() : navigate(WEB_ROUTES.session)
-            }
+            onClick={() => (user?._id ? logout() : handleGoToLogin())}
           >
             {user?._id ? 'Cerrar Sesión' : 'Ingresar'}
           </Button>
         </div>
       </Collapse>
-    </MtNavbar>
+    </Navbar>
   );
 };
 
-export default Navbar;
+export default CustomNavbar;

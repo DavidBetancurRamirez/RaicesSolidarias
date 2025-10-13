@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Button, Card, CardHeader, Typography } from '@material-tailwind/react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import AvatarSelector from '@components/users/AvatarSelector';
 import CustomInput from '@components/forms/CustomInput';
 import CustomLabel from '@components/forms/CustomLabel';
-import InputPassword from '@components/common/InputPassword';
+import CustomInputPassword from '@components/forms/CustomInputPassword';
 
 import api from '@/config/api';
 
@@ -19,7 +19,9 @@ import { handleChange } from '@utils/forms';
 import { validatePassword } from '@utils/validations';
 
 const SessionForm = () => {
+  const location = useLocation();
   const navigate = useNavigate();
+
   const setAlert = useUIStore((state) => state.setAlert);
 
   const [login, setLogin] = useState<boolean>(true);
@@ -36,7 +38,6 @@ const SessionForm = () => {
 
     try {
       const error = validateForm();
-
       if (error) {
         setAlert(error);
         return;
@@ -60,19 +61,15 @@ const SessionForm = () => {
           : 'Te registraste correctamente',
       );
 
-      // TODO: Go back or redirect to home
-      navigate(WEB_ROUTES.home);
+      const from = location.state?.from?.pathname || WEB_ROUTES.home;
+      navigate(from, { replace: true });
     } catch (error) {
       console.error('Error al enviar el formulario:', error);
     }
   };
 
   const validateForm = () => {
-    const { email, password, checkPassword } = formData;
-
-    if (!email || !password) {
-      return 'Correo electronico y Contraseña son obligatorios';
-    }
+    const { password, checkPassword } = formData;
 
     if (!login && !validatePassword(password)) {
       return 'La contraseña debe tener al menos 6 caracteres, una mayúscula y un carácter especial';
@@ -110,6 +107,7 @@ const SessionForm = () => {
               name="userName"
               onChange={(e) => handleChange(e, setFormData)}
               placeholder="Raices Solidarias"
+              required
               value={formData.userName}
             />
           )}
@@ -120,24 +118,27 @@ const SessionForm = () => {
             name="email"
             onChange={(e) => handleChange(e, setFormData)}
             placeholder="raices-solidarias@gmail.com"
+            required
             type="email"
             value={formData.email}
           />
 
-          <InputPassword
+          <CustomInputPassword
             info={!login}
             label="Contraseña"
             name="password"
             onChange={(e) => handleChange(e, setFormData)}
+            required
             value={formData.password}
           />
 
           {!login && (
-            <InputPassword
+            <CustomInputPassword
               info={false}
               label="Repetir contraseña"
               name="checkPassword"
               onChange={(e) => handleChange(e, setFormData)}
+              required
               value={formData.checkPassword}
             />
           )}

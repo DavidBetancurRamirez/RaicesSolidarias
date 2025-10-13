@@ -1,45 +1,78 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Typography } from '@material-tailwind/react';
 
 import Gallery from '@components/common/Gallery';
 import GridTwoColumns from '@components/common/GridTwoColumns';
-import PageLayout from '@components/common/PageLayout';
-import SafeImage from '@components/common/SafeImage';
+import PageLayout from '@components/layout/PageLayout';
+import NotFound from './NotFound';
+import SafeMedia from '@components/common/SafeMedia';
 import Testimonials from '@components/places/Testimonials';
 import Title from '@components/common/Title';
 
 import api from '@/config/api';
 
 import {
-  initialStatePlace,
+  initialStatePlaceWithYear,
   Place,
+  PlaceWithYear,
   ResponseData,
   Testimonial,
 } from '@/constants/interfaces';
 
-import { API_ROUTES } from '@utils/routes';
+import { useAuthStore } from '@/stores/authStore';
+import { UserRoles } from '@/constants/roles';
+
+import { API_ROUTES, WEB_ROUTES } from '@utils/routes';
+import AdminActions from '@utils/AdminActions';
 
 const PlacePage = () => {
+  const navigate = useNavigate();
   const { id } = useParams<{ id?: string }>();
 
-  const [place, setPlace] = useState<Place>(initialStatePlace);
+  const user = useAuthStore((state) => state.user);
+
+  const [place, setPlace] = useState<PlaceWithYear>(initialStatePlaceWithYear);
+  const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
-    const fetchDelivery = async () => {
-      const response = (await api.get(
-        API_ROUTES.placeById(id as string),
-      )) as ResponseData<Place>;
+    const fetchPlace = async () => {
+      try {
+        const response = (await api.get(
+          API_ROUTES.placeById(id as string),
+        )) as ResponseData<Place>;
 
-      if (response.statusCode !== 200) {
-        console.error('Error fetching delivery:', response);
-        return;
+        if (response.statusCode !== 200) {
+          console.error('Error fetching place:', response);
+          return;
+        }
+
+        setPlace({
+          ...response.data,
+          deliveryYear: new Date(response.data.deliveryDate)
+            .getFullYear()
+            .toString(),
+        });
+      } catch (err) {
+        // The api interceptor rejects with parsed responseError.
+        // Treat HTTP 404 as not found and show NotFound component.
+        // Some errors might be plain Error objects, so guard checks.
+        const error = err as
+          | { statusCode?: number; status?: number; message?: string }
+          | undefined;
+
+        const statusCode =
+          (error && (error.statusCode || error.status)) || null;
+        if (statusCode === 404) {
+          setNotFound(true);
+          return;
+        }
+
+        console.error('Error fetching place:', error);
       }
-
-      setPlace(response.data);
     };
 
-    fetchDelivery();
+    fetchPlace();
   }, [id]);
 
   const fetchTestimonials = async () => {
@@ -64,38 +97,48 @@ const PlacePage = () => {
     }
   };
 
+  if (notFound) return <NotFound />;
+
   return (
     <PageLayout
-      title={`${place.name} - ${new Date(place.deliveryDate).toLocaleDateString()}`}
+      actions={AdminActions({
+        editOnClick: () =>
+          navigate(WEB_ROUTES.adminPlaceById(String(place._id))),
+        isAdmin: !!user && user.roles.includes(UserRoles.ADMIN),
+      })}
+      title={{
+        button: {
+          goTo: () => navigate(WEB_ROUTES.deliveryByYear(place.deliveryYear)),
+          text: `Entrega ${place.deliveryYear}`,
+        },
+        title: `${place.name} - ${new Date(place.deliveryDate).toLocaleDateString()}`,
+      }}
     >
-      <SafeImage
+      <SafeMedia
         alt="Imagen principal del lugar"
         className="h-96 md:h-[600px]"
-        src={place.mainImageUrl}
+        src={place.mainMedia?.url}
       />
 
       <GridTwoColumns reverseOnMobile>
-        <SafeImage
+        <SafeMedia
           alt="Imagen secundaria del lugar"
           className="!h-80"
-          src={place.secondaryMediaUrl}
+          src={place.secondaryMedia?.url}
+          type={place.secondaryMedia?.type}
         />
 
         <div>
-          <Title
-            containerClassName="md:mb-2"
-            variant="h4"
-            title={`${place.name}`}
-          />
+          <Title containerClassName="md:mb-2" variant="h4" title={place.name} />
           <p className="text-gray-700 dark:text-gray-300">
             {place.description}
           </p>
         </div>
       </GridTwoColumns>
 
-      <Title variant="h4" title="Galeria de fotos" />
-      {place?.galleryImageUrls?.length > 0 ? (
-        <Gallery gallery={place.galleryImageUrls} />
+      <Title variant="h4" title="Galeria" />
+      {place?.galleryMedia?.length > 0 ? (
+        <Gallery gallery={place.galleryMedia} />
       ) : (
         <Typography className="text-text dark:text-dk_text">
           No hay imágenes disponibles en la galería.

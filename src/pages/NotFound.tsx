@@ -1,6 +1,10 @@
-import { Button, Typography } from '@material-tailwind/react';
-import { Flag } from 'lucide-react';
+import { Flag, House } from 'lucide-react';
+import { Typography } from '@material-tailwind/react';
 import { useNavigate } from 'react-router-dom';
+
+import ButtonWithIcon from '@components/common/ButtonWithIcon';
+
+import { WEB_ROUTES } from '@utils/routes';
 
 const NotFound = () => {
   const navigate = useNavigate();
@@ -18,9 +22,12 @@ const NotFound = () => {
         Parece que estas en una pestaña que no existe, verifica la URL o vuelve
         a la página de inicio.
       </Typography>
-      <Button className="bg-primary" onClick={() => navigate('/')} size="lg">
-        Volver al inicio
-      </Button>
+      <ButtonWithIcon
+        className="w-fit"
+        text="Volver al inicio"
+        icon={<House size={18} />}
+        onClick={() => navigate(WEB_ROUTES.home)}
+      />
     </div>
   );
 };

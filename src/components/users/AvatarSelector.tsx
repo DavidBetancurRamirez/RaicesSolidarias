@@ -40,4 +40,8 @@ const AvatarSelector: React.FC<AvatarSelectorProps> = ({ value, onChange }) => (
   </div>
 );
 
+export const getAvatarSrc = (avatar?: string): string => {
+  return avatar && avatarMap[avatar] ? avatarMap[avatar] : avatarMap['avatar1'];
+};
+
 export default AvatarSelector;

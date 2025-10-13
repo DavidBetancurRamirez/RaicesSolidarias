@@ -5,10 +5,13 @@ export const API_BASE_URL =
 
 export const API_ROUTES = {
   delivery: `${API_BASE_URL}/delivery`,
+  deliveryById: (id: string) => `${API_BASE_URL}/delivery/${id}`,
   deliveryByYear: (year: string) => `${API_BASE_URL}/delivery/year/${year}`,
   deliveryMedia: (id: string) => `${API_BASE_URL}/delivery/${id}/media`,
   login: `${API_BASE_URL}/auth/login`,
   place: `${API_BASE_URL}/place`,
+  placeByFeatured: (featured: string = 'true') =>
+    `${API_BASE_URL}/place/featured/${featured}`,
   placeById: (id: string) => `${API_BASE_URL}/place/${id}`,
   placeMedia: (id: string) => `${API_BASE_URL}/place/${id}/media`,
   refresh: `${API_BASE_URL}/auth/refresh-token`,
@@ -23,11 +26,18 @@ export const API_ROUTES = {
 export const WEB_ROUTES = {
   about: '/nosotros',
   admin: '/admin',
+  adminDeliveries: '/admin/entregas',
+  adminDelivery: `/admin/entregas/:id`,
+  adminDeliveryById: (id: string) => `/admin/entregas/${id}`,
+  adminPlace: `/admin/lugares/:id`,
+  adminPlaceById: (id: string) => `/admin/lugares/${id}`,
+  adminPlaces: '/admin/lugares',
   contact: '/contacto',
   deliveries: '/entregas',
   delivery: '/entregas/:id',
   deliveryByYear: (year: string) => `/entregas/${year}`,
   home: '/',
+  notFound: '/404',
   place: '/lugar/:id',
   placeById: (id: string) => `/lugar/${id}`,
   profile: '/perfil',

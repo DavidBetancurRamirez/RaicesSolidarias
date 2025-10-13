@@ -7,22 +7,26 @@ interface CustomTextareaProps extends TextareaProps {
   label: string;
 }
 
-const CustomTextarea: React.FC<CustomTextareaProps> = ({ label, ...props }) => {
+const CustomTextarea: React.FC<CustomTextareaProps> = ({
+  label,
+  required,
+  ...props
+}) => {
   return (
     <div>
-      <CustomLabel label={label} />
+      <CustomLabel label={label} required={required} />
+
       <Textarea
+        autoComplete={props.autoComplete}
         className="!text-text dark:!text-dk_text !border-text dark:!border-dk_text"
         id={props.id}
-        labelProps={{
-          className: 'before:content-none after:content-none',
-        }}
-        autoComplete={props.autoComplete}
+        labelProps={{ className: '!hidden' }}
         name={props.name}
         onBlur={(e) => (e.target.placeholder = '')}
         onChange={props.onChange}
         onFocus={(e) => (e.target.placeholder = '')}
         placeholder={props.placeholder || ' '}
+        required={required}
         size="lg"
         value={props.value}
       />

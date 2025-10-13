@@ -7,7 +7,7 @@ import {
 } from '@material-tailwind/react';
 
 import ButtonWithIcon from '../common/ButtonWithIcon';
-import SafeImage from '../common/SafeImage';
+import SafeMedia from '../common/SafeMedia';
 
 interface PlaceCardProps {
   date: Date;
@@ -34,7 +34,7 @@ const PlaceCard: React.FC<PlaceCardProps> = ({
         floated={false}
         className="m-0 w-full shrink-0 rounded-t-xl rounded-b-none bg-card dark:bg-dk_card h-60"
       >
-        <SafeImage alt={text} className="rounded-none" src={image} />
+        <SafeMedia alt={text} className="rounded-none" src={image} />
       </CardHeader>
 
       <CardBody className="p-4 w-full text-text dark:text-dk_text h-72">

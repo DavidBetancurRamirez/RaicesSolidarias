@@ -3,6 +3,7 @@ import { Moon, PowerOff, Sun, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import {
   Avatar as MtAvatar,
+  AvatarProps as MtAvatarProps,
   Button,
   Menu,
   MenuHandler,
@@ -11,7 +12,7 @@ import {
   Typography,
 } from '@material-tailwind/react';
 
-import { avatarMap } from './AvatarSelector';
+import { getAvatarSrc } from './AvatarSelector';
 
 import { useTheme } from '@hooks/useTheme';
 
@@ -21,9 +22,10 @@ import { WEB_ROUTES } from '@utils/routes';
 
 interface AvatarProps {
   avatar?: string;
+  size?: MtAvatarProps['size'];
 }
 
-const Avatar: React.FC<AvatarProps> = ({ avatar }) => {
+const Avatar: React.FC<AvatarProps> = ({ avatar, size = 'sm' }) => {
   const navigate = useNavigate();
   const logout = useAuthStore((state) => state.logout);
   const { theme, toggleTheme } = useTheme();
@@ -60,15 +62,7 @@ const Avatar: React.FC<AvatarProps> = ({ avatar }) => {
           variant="text"
           className="flex items-center rounded-full p-0 border-none focus:outline-none focus:ring-0"
         >
-          <MtAvatar
-            size="sm"
-            alt="user avatar"
-            src={
-              avatar && avatarMap[avatar]
-                ? avatarMap[avatar]
-                : avatarMap['avatar1']
-            }
-          />
+          <MtAvatar size={size} alt="user avatar" src={getAvatarSrc(avatar)} />
         </Button>
       </MenuHandler>
 
