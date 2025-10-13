@@ -11,7 +11,7 @@ import SafeMedia from '../common/SafeMedia';
 interface DeliveryCardProps {
   buttonText?: string;
   description: string;
-  image?: string;
+  imageUrl?: string;
   onClick: () => void;
   reverse?: boolean;
   year: number;
@@ -20,7 +20,7 @@ interface DeliveryCardProps {
 const DeliveryCard: React.FC<DeliveryCardProps> = ({
   buttonText = 'Ver más',
   description,
-  image,
+  imageUrl,
   onClick,
   reverse = false,
   year,
@@ -38,7 +38,11 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({
           reverse ? 'md:rounded-r-xl' : 'md:rounded-l-xl'
         } bg-card dark:bg-dk_card h-48 md:h-full`}
       >
-        <SafeMedia alt={`Año ${year}`} className="rounded-none" src={image} />
+        <SafeMedia
+          alt={`Año ${year}`}
+          className="rounded-none"
+          src={imageUrl}
+        />
       </CardHeader>
 
       <CardBody className="p-4 flex flex-col justify-between gap-4 h-72 w-full text-text dark:text-dk_text">

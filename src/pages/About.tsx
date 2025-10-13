@@ -74,7 +74,7 @@ const About = () => {
         {deliveries.map((data, index) => (
           <DeliveryCircle
             key={index}
-            imageSrc={data.mainMedia}
+            imageSrc={data.mainMedia?.url}
             year={String(data.year)}
           />
         ))}
