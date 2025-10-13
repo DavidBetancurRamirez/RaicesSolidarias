@@ -2,21 +2,18 @@ import { Edit, Trash2 } from 'lucide-react';
 
 import { Action } from '@components/layout/PageLayout';
 
-import { UserRoles } from '@/constants/roles';
-
-import { useAuthStore } from '@/stores/authStore';
-
 interface AdminActionsProps {
   deleteOnClick?: () => void;
   editOnClick?: () => void;
+  isAdmin?: boolean;
 }
 
-const AdminActions = ({ deleteOnClick, editOnClick }: AdminActionsProps) => {
-  const user = useAuthStore((state) => state.user);
-
-  if (!user || !user.roles.includes(UserRoles.ADMIN)) {
-    return;
-  }
+const AdminActions = ({
+  deleteOnClick,
+  editOnClick,
+  isAdmin = false,
+}: AdminActionsProps) => {
+  if (!isAdmin) return undefined;
 
   const actions: Action[] = [
     ...(editOnClick

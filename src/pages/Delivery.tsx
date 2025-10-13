@@ -17,6 +17,9 @@ import {
   ResponseData,
 } from '@/constants/interfaces';
 
+import { useAuthStore } from '@/stores/authStore';
+import { UserRoles } from '@/constants/roles';
+
 import { API_ROUTES, WEB_ROUTES } from '@utils/routes';
 import AdminActions from '@utils/AdminActions';
 
@@ -24,6 +27,8 @@ const DeliveryPage = () => {
   const { id } = useParams<{ id?: string }>();
 
   const navigate = useNavigate();
+
+  const user = useAuthStore((state) => state.user);
 
   const [delivery, setDelivery] = useState<DeliveryPlaces>(
     initialStateDeliveryPlaces,
@@ -51,6 +56,7 @@ const DeliveryPage = () => {
       actions={AdminActions({
         editOnClick: () =>
           navigate(WEB_ROUTES.adminDeliveryById(String(delivery._id))),
+        isAdmin: !!user && user.roles.includes(UserRoles.ADMIN),
       })}
       title={{
         button: {
