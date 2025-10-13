@@ -1,4 +1,3 @@
-import { PlusSquare } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,8 +10,10 @@ import { UserRoles } from '@/constants/roles';
 
 import { Delivery, ResponseData } from '@/constants/interfaces';
 
-import { API_ROUTES, WEB_ROUTES } from '@utils/routes';
 import { useAuthStore } from '@/stores/authStore';
+
+import { API_ROUTES, WEB_ROUTES } from '@utils/routes';
+import AdminActions from '@utils/AdminActions';
 
 const Deliveries = () => {
   const user = useAuthStore((state) => state.user);
@@ -37,17 +38,12 @@ const Deliveries = () => {
     fetchDeliveries();
   }, []);
 
-  const actions = [
-    {
-      className: 'bg-green-800 hover:bg-green-600',
-      icon: PlusSquare,
-      onClick: () => navigate(WEB_ROUTES.adminDeliveries),
-    },
-  ];
-
   return (
     <PageLayout
-      actions={user?.roles.includes(UserRoles.ADMIN) ? actions : undefined}
+      actions={AdminActions({
+        addOnClick: () => navigate(WEB_ROUTES.adminDeliveries),
+        isAdmin: !!user && user.roles.includes(UserRoles.ADMIN),
+      })}
       title={{ title: 'Entregas' }}
     >
       <div className="flex flex-wrap gap-4 md:gap-6 xl:gap-8">

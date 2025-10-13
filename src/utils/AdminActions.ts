@@ -1,14 +1,16 @@
-import { Edit, Trash2 } from 'lucide-react';
+import { Edit, PlusSquare, Trash2 } from 'lucide-react';
 
 import { Action } from '@components/layout/PageLayout';
 
 interface AdminActionsProps {
+  addOnClick?: () => void;
   deleteOnClick?: () => void;
   editOnClick?: () => void;
   isAdmin?: boolean;
 }
 
 const AdminActions = ({
+  addOnClick,
   deleteOnClick,
   editOnClick,
   isAdmin = false,
@@ -16,6 +18,15 @@ const AdminActions = ({
   if (!isAdmin) return undefined;
 
   const actions: Action[] = [
+    ...(addOnClick
+      ? [
+          {
+            className: 'bg-green-800 hover:bg-green-600',
+            icon: PlusSquare,
+            onClick: addOnClick,
+          },
+        ]
+      : []),
     ...(editOnClick
       ? [
           {
