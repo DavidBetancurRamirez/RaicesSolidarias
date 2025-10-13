@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, Moon, Slash, Sun, X } from 'lucide-react';
 import {
@@ -33,7 +33,7 @@ const CustomNavbar = () => {
 
   const [open, setOpen] = useState(false);
   const [visible, setVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     window.addEventListener(
@@ -43,24 +43,24 @@ const CustomNavbar = () => {
   }, []);
 
   // Show navbar on scroll up, hide on scroll down
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY <= 0) {
-        setVisible(true);
-      } else if (currentScrollY > lastScrollY && currentScrollY > 50) {
-        // scrolled down
-        setVisible(false);
-      } else if (currentScrollY < lastScrollY) {
-        // scrolled up
-        setVisible(true);
-      }
-      setLastScrollY(currentScrollY);
-    };
+  const handleScroll = useCallback(() => {
+    const currentScrollY = window.scrollY;
+    if (currentScrollY <= 0) {
+      setVisible(true);
+    } else if (currentScrollY > lastScrollY.current && currentScrollY > 50) {
+      // scrolled down
+      setVisible(false);
+    } else if (currentScrollY < lastScrollY.current) {
+      // scrolled up
+      setVisible(true);
+    }
+    lastScrollY.current = currentScrollY;
+  }, []);
 
+  useEffect(() => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
+  }, [handleScroll]);
 
   useEffect(() => {
     setMenuItemsShow([
