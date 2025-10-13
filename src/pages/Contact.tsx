@@ -40,17 +40,16 @@ const Contact = () => {
   };
 
   const bankInfo = [
-    { label: 'Banco', value: 'Bancolombia' },
+    { label: 'Banco', value: 'Banco Ejemplo' },
     { label: 'Tipo de cuenta', value: 'Ahorros' },
-    { label: 'Número de cuenta', value: '123-456-78900' },
+    { label: 'Número de cuenta', value: 'XXXX-XXXX-XXXX' },
     { label: 'Titular', value: 'Fundación Raíces Solidarias' },
-    { label: 'NIT', value: '900.123.456-7' },
   ];
 
   const whatsappContacts = [
-    { name: 'María González', number: '+57 300 123 4567' },
-    { name: 'Juan Pérez', number: '+57 310 987 6543' },
-    { name: 'Ana Rodríguez', number: '+57 320 456 7890' },
+    { name: 'Contacto 1', number: '+57 3XX XXX XXXX' },
+    { name: 'Contacto 2', number: '+57 3XX XXX XXXX' },
+    { name: 'Contacto 3', number: '+57 3XX XXX XXXX' },
   ];
 
   return (
@@ -148,7 +147,7 @@ const Contact = () => {
             Correo electrónico
           </Typography>
           <Typography variant="small" className="text-text dark:text-dk_text">
-            contacto@raicessolidarias.org
+            contacto@ejemplo.com
           </Typography>
         </div>
       </div>
