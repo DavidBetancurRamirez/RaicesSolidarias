@@ -1,7 +1,5 @@
 export const API_BASE_URL =
-  import.meta.env.VITE_API_URL ||
-  'https://raices-solidarias-backend-bqg3bba6a5b2a0cu.eastus-01.azurewebsites.net/api';
-// import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+  import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 
 export const API_ROUTES = {
   delivery: `${API_BASE_URL}/delivery`,
