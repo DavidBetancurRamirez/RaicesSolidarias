@@ -28,6 +28,11 @@ export interface StatisticDto {
   value: number;
 }
 
+export const initialStateStatistic: StatisticDto = {
+  name: '',
+  value: 0,
+};
+
 //? Media
 export type TypeOfMedia = 'image' | 'video' | 'other';
 
@@ -56,6 +61,7 @@ export interface ThankYouDto {
 export interface Delivery {
   _id?: string;
   description: string;
+  goals: StatisticDto[];
   mainMedia?: Media;
   statistics?: StatisticDto[];
   thankYou: ThankYouDto;
@@ -64,6 +70,7 @@ export interface Delivery {
 
 export const initialStateDelivery: Delivery = {
   description: '',
+  goals: [],
   mainMedia: { type: 'image', url: '' },
   statistics: [],
   thankYou: {

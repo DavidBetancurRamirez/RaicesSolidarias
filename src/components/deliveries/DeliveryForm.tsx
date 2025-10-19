@@ -6,10 +6,12 @@ import CustomInputFiles from '@components/forms/CustomInputFiles';
 import CustomInputNumber from '@components/forms/CustomInputNumber';
 import CustomTextarea from '@components/forms/CustomTextarea';
 import GridTwoColumns from '@components/common/GridTwoColumns';
+import StatisticsForm from '@components/statistics/StatisticsForm';
 
 import api from '@/config/api';
 import fileApi from '@/config/fileApi';
 
+import { goals } from '@/constants/goals';
 import {
   Delivery,
   FilesController,
@@ -163,13 +165,12 @@ const DeliveryForm = () => {
       <CustomInputNumber
         label="Año"
         name="year"
-        placeholder={new Date().getFullYear().toString()}
         required
-        type="number"
         value={Number(formData.year)}
-        onChange={(value) =>
-          handleChange({ name: 'year', value }, setFormData, true)
-        }
+        onChange={(value) => {
+          console.log('value', value);
+          handleChange({ name: 'year', value }, setFormData, true);
+        }}
       />
 
       <CustomTextarea
@@ -197,6 +198,15 @@ const DeliveryForm = () => {
             setFormData,
           )
         }
+      />
+
+      <StatisticsForm
+        arrayKey="goals"
+        emptyMessage="No hay metas agregadas."
+        label="Metas"
+        options={goals}
+        setState={setFormData}
+        statistics={formData.goals}
       />
 
       <GridTwoColumns>
