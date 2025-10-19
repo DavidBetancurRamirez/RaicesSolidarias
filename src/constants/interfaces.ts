@@ -24,7 +24,9 @@ export interface User {
 
 //? Statistic
 export interface StatisticDto {
+  goal?: number;
   name: string;
+  unit?: string;
   value: number;
 }
 
@@ -61,7 +63,6 @@ export interface ThankYouDto {
 export interface Delivery {
   _id?: string;
   description: string;
-  goals: StatisticDto[];
   mainMedia?: Media;
   statistics?: StatisticDto[];
   thankYou: ThankYouDto;
@@ -70,7 +71,6 @@ export interface Delivery {
 
 export const initialStateDelivery: Delivery = {
   description: '',
-  goals: [],
   mainMedia: { type: 'image', url: '' },
   statistics: [],
   thankYou: {

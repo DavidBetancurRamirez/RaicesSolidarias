@@ -3,12 +3,14 @@ import { IconButton } from '@material-tailwind/react';
 import { Plus, Trash2 } from 'lucide-react';
 
 import ButtonWithIcon from '@components/common/ButtonWithIcon';
-import GridTwoColumns from '@components/common/GridTwoColumns';
 import CustomInputNumber from '@components/forms/CustomInputNumber';
 import CustomLabel from '@components/forms/CustomLabel';
 import CustomSelect from '@components/forms/CustomSelect';
+import GridTwoColumns from '@components/common/GridTwoColumns';
+import type { CustomSelectOption } from '@components/forms/CustomSelect';
 
 import { initialStateStatistic, StatisticDto } from '@/constants/interfaces';
+import { statistics as statisticsConst } from '@/constants/statistics';
 
 import {
   handleArrayAdd,
@@ -20,7 +22,7 @@ interface StatisticsFormProps<T> {
   arrayKey: keyof T;
   emptyMessage?: string;
   label?: string;
-  options: { label: string; value: string }[];
+  options?: CustomSelectOption[];
   setState: React.Dispatch<React.SetStateAction<T>>;
   statistics: StatisticDto[];
 }
@@ -29,12 +31,39 @@ const StatisticsForm = <T,>({
   arrayKey,
   emptyMessage = 'No hay estadísticas agregadas.',
   label = 'Estadísticas',
-  options,
+  options = statisticsConst,
   setState,
   statistics,
 }: StatisticsFormProps<T>) => {
+  const handleNameChange = (index: number, value: string | undefined) => {
+    if (!value) return;
+
+    // Search for the selected option to get its unit
+    const selectedOption = options.find((option) => option.value === value);
+    if (!selectedOption) return;
+
+    const selectedValue = selectedOption.value;
+    const selectedUnit = selectedOption.unit || undefined;
+
+    // Update the state with name and unit
+    setState((prev) => {
+      const array = prev[arrayKey] as unknown[];
+      const newArray = [...array];
+      newArray[index] = {
+        ...(newArray[index] as Record<string, unknown>),
+        name: selectedValue,
+        unit: selectedUnit || undefined,
+      };
+
+      return {
+        ...prev,
+        [arrayKey]: newArray,
+      };
+    });
+  };
+
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-2">
       <div className="flex gap-2 items-start justify-between">
         <CustomLabel label={label} />
         <ButtonWithIcon
@@ -55,41 +84,52 @@ const StatisticsForm = <T,>({
           {statistics.map((statistic, index) => (
             <div
               key={index}
-              className="flex gap-3 items-center border-b border-dashed pb-3"
+              className="flex flex-col gap-2 p-4 rounded-lg border !border-text dark:!border-dk_text"
             >
               <IconButton
                 color="red"
-                size="md"
+                size="sm"
+                className="self-end -mb-2"
                 onClick={() => handleArrayRemove(arrayKey, index, setState)}
               >
                 <Trash2 size={16} />
               </IconButton>
 
+              <CustomSelect
+                label="Nombre"
+                name={`statistic-name-${index}`}
+                options={options}
+                required
+                value={statistic.name}
+                onChange={(value) => handleNameChange(index, value)}
+              />
+
               <GridTwoColumns>
-                <CustomSelect
-                  label="Nombre"
-                  name={`statistic-name-${index}`}
-                  options={options}
-                  value={statistic.name}
-                  onChange={(value) =>
-                    handleArrayChange(
-                      arrayKey,
-                      index,
-                      'name',
-                      value || '',
-                      setState,
-                    )
-                  }
-                />
                 <CustomInputNumber
                   label="Cantidad"
                   name={`statistic-value-${index}`}
+                  required
                   value={Number(statistic.value)}
                   onChange={(value) =>
                     handleArrayChange(
                       arrayKey,
                       index,
                       'value',
+                      value,
+                      setState,
+                      true,
+                    )
+                  }
+                />
+                <CustomInputNumber
+                  label="Meta"
+                  name={`statistic-goal-${index}`}
+                  value={Number(statistic.goal || 0)}
+                  onChange={(value) =>
+                    handleArrayChange(
+                      arrayKey,
+                      index,
+                      'goal',
                       value,
                       setState,
                       true,

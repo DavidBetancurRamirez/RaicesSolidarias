@@ -4,10 +4,16 @@ import { ChevronDown } from 'lucide-react';
 
 import CustomLabel from './CustomLabel';
 
+export type CustomSelectOption = {
+  label: string;
+  unit?: string;
+  value: string;
+};
+
 interface CustomSelectProps extends Omit<SelectProps, 'children'> {
   emptyMessage?: string;
   label: string;
-  options: { label: string; value: string }[];
+  options: CustomSelectOption[];
   required?: boolean;
 }
 

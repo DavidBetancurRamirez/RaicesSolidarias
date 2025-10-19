@@ -6,12 +6,10 @@ import CustomInputFiles from '@components/forms/CustomInputFiles';
 import CustomInputNumber from '@components/forms/CustomInputNumber';
 import CustomTextarea from '@components/forms/CustomTextarea';
 import GridTwoColumns from '@components/common/GridTwoColumns';
-import StatisticsForm from '@components/statistics/StatisticsForm';
 
 import api from '@/config/api';
 import fileApi from '@/config/fileApi';
 
-import { goals } from '@/constants/goals';
 import {
   Delivery,
   FilesController,
@@ -100,6 +98,7 @@ const DeliveryForm = () => {
         return false;
       }
 
+      setAlert('Archivos subidos correctamente');
       return true;
     } catch (error) {
       console.error('Error uploading media:', error);
@@ -153,7 +152,6 @@ const DeliveryForm = () => {
         return;
       }
 
-      setAlert('Archivos subidos correctamente');
       setFormData(initialStateDelivery);
     } catch (error) {
       console.error('Error submitting delivery:', error);
@@ -198,15 +196,6 @@ const DeliveryForm = () => {
             setFormData,
           )
         }
-      />
-
-      <StatisticsForm
-        arrayKey="goals"
-        emptyMessage="No hay metas agregadas."
-        label="Metas"
-        options={goals}
-        setState={setFormData}
-        statistics={formData.goals}
       />
 
       <GridTwoColumns>
