@@ -64,7 +64,7 @@ export interface Delivery {
   _id?: string;
   description: string;
   mainMedia?: Media;
-  statistics?: StatisticDto[];
+  statistics: StatisticDto[];
   thankYou: ThankYouDto;
   year: string | number;
 }
