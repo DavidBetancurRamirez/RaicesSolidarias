@@ -24,9 +24,16 @@ export interface User {
 
 //? Statistic
 export interface StatisticDto {
+  goal?: number;
   name: string;
+  unit?: string;
   value: number;
 }
+
+export const initialStateStatistic: StatisticDto = {
+  name: '',
+  value: 0,
+};
 
 //? Media
 export type TypeOfMedia = 'image' | 'video' | 'other';
@@ -57,7 +64,7 @@ export interface Delivery {
   _id?: string;
   description: string;
   mainMedia?: Media;
-  statistics?: StatisticDto[];
+  statistics: StatisticDto[];
   thankYou: ThankYouDto;
   year: string | number;
 }

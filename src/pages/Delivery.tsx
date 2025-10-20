@@ -1,5 +1,5 @@
-import { Typography } from '@material-tailwind/react';
 import React, { useEffect, useState } from 'react';
+import { Typography } from '@material-tailwind/react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import CarouselContainer from '@components/common/CarouselContainer';
@@ -7,6 +7,7 @@ import GridTwoColumns from '@components/common/GridTwoColumns';
 import PageLayout from '@components/layout/PageLayout';
 import PlaceCard from '@components/places/PlaceCard';
 import SafeMedia from '@components/common/SafeMedia';
+import StatisticsCard from '@components/statistics/StatisticsCard';
 import Title from '@components/common/Title';
 
 import api from '@/config/api';
@@ -82,40 +83,32 @@ const DeliveryPage = () => {
             variant="h4"
             title={`Mensaje ${delivery.year}`}
           />
-          {delivery?.statistics?.length ? (
-            <GridTwoColumns>
-              <SafeMedia
-                alt="Imagen o video de agradecimiento"
-                className="!h-60"
-                src={delivery.thankYou.media?.url}
-                type={delivery.thankYou.media?.type}
-              />
-              <DeliveryDescription
-                text={delivery.thankYou.message}
-                maxHeight="max-h-60"
-              />
-            </GridTwoColumns>
-          ) : (
-            <DeliveryDescription
-              text={delivery.thankYou.message}
-              maxHeight="max-h-60"
-            />
-          )}
+          <DeliveryDescription
+            text={delivery.thankYou.message}
+            maxHeight="max-h-60"
+          />
         </div>
 
-        {delivery?.statistics?.length ? (
-          <div className="bg-card dark:bg-dk_card rounded-lg p-4">
-            <p className="text-text dark:text-dk_text">Estadísticas</p>
-          </div>
-        ) : (
-          <SafeMedia
-            alt="Imagen o video de agradecimiento"
-            className="!h-60"
-            src={delivery.thankYou.media?.url}
-            type={delivery.thankYou.media?.type}
-          />
-        )}
+        <SafeMedia
+          alt="Imagen o video de agradecimiento"
+          className="!h-60"
+          src={delivery.thankYou.media?.url}
+          type={delivery.thankYou.media?.type}
+        />
       </GridTwoColumns>
+
+      <Title variant="h4" title="Estadisticas" />
+      {delivery?.statistics?.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {delivery.statistics.map((statistic, index) => (
+            <StatisticsCard key={index} statistic={statistic} />
+          ))}
+        </div>
+      ) : (
+        <Typography className="text-text dark:text-dk_text">
+          No hay estadísticas disponibles.
+        </Typography>
+      )}
 
       {delivery?.places?.length > 0 && (
         <React.Fragment>

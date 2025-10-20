@@ -25,6 +25,7 @@ import { UserRoles } from '@/constants/roles';
 
 import { API_ROUTES, WEB_ROUTES } from '@utils/routes';
 import AdminActions from '@utils/AdminActions';
+import StatisticsCard from '@components/statistics/StatisticsCard';
 
 const PlacePage = () => {
   const navigate = useNavigate();
@@ -135,6 +136,19 @@ const PlacePage = () => {
           </p>
         </div>
       </GridTwoColumns>
+
+      <Title variant="h4" title="Estadisticas" />
+      {place?.statistics?.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {place.statistics.map((statistic, index) => (
+            <StatisticsCard key={index} statistic={statistic} />
+          ))}
+        </div>
+      ) : (
+        <Typography className="text-text dark:text-dk_text">
+          No hay estadísticas disponibles.
+        </Typography>
+      )}
 
       <Title variant="h4" title="Galeria" />
       {place?.galleryMedia?.length > 0 ? (

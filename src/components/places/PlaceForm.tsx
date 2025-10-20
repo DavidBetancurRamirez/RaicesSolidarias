@@ -9,6 +9,7 @@ import CustomInputFiles from '@components/forms/CustomInputFiles';
 import CustomSelect from '@components/forms/CustomSelect';
 import CustomTextarea from '@components/forms/CustomTextarea';
 import GridTwoColumns from '@components/common/GridTwoColumns';
+import StatisticsForm from '@components/statistics/StatisticsForm';
 
 import api from '@/config/api';
 import fileApi from '@/config/fileApi';
@@ -180,7 +181,6 @@ const PlaceForm = () => {
         return;
       }
 
-      setAlert('Archivos subidos correctamente');
       setFormData(initialStatePlace);
     } catch (error) {
       console.error('Error submitting delivery:', error);
@@ -214,6 +214,7 @@ const PlaceForm = () => {
         return false;
       }
 
+      setAlert('Archivos subidos correctamente');
       return true;
     } catch (error) {
       console.error('Error uploading media:', error);
@@ -289,6 +290,14 @@ const PlaceForm = () => {
             setFormData,
           )
         }
+      />
+
+      <StatisticsForm
+        arrayKey="statistics"
+        emptyMessage="No hay estadísticas agregadas."
+        label="Estadísticas"
+        setState={setFormData}
+        statistics={formData?.statistics ?? []}
       />
 
       <GridTwoColumns>

@@ -98,6 +98,7 @@ const DeliveryForm = () => {
         return false;
       }
 
+      setAlert('Archivos subidos correctamente');
       return true;
     } catch (error) {
       console.error('Error uploading media:', error);
@@ -151,7 +152,6 @@ const DeliveryForm = () => {
         return;
       }
 
-      setAlert('Archivos subidos correctamente');
       setFormData(initialStateDelivery);
     } catch (error) {
       console.error('Error submitting delivery:', error);
@@ -163,13 +163,12 @@ const DeliveryForm = () => {
       <CustomInputNumber
         label="Año"
         name="year"
-        placeholder={new Date().getFullYear().toString()}
         required
-        type="number"
         value={Number(formData.year)}
-        onChange={(value) =>
-          handleChange({ name: 'year', value }, setFormData, true)
-        }
+        onChange={(value) => {
+          console.log('value', value);
+          handleChange({ name: 'year', value }, setFormData, true);
+        }}
       />
 
       <CustomTextarea
