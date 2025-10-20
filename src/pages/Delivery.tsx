@@ -1,5 +1,5 @@
-import { Typography } from '@material-tailwind/react';
 import React, { useEffect, useState } from 'react';
+import { Typography } from '@material-tailwind/react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import CarouselContainer from '@components/common/CarouselContainer';

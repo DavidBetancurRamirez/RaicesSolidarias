@@ -16,7 +16,7 @@ const StatisticsCard: React.FC<StatisticsCardProps> = ({ statistic }) => {
   const hasGoal = goal && goal > 0;
 
   return (
-    <div className="flex flex-col gap-3 p-4 rounded-lg border border-gray-300 dark:border-gray-600 bg-card dark:bg-dk_card shadow-sm hover:shadow-md transition-shadow">
+    <div className="flex flex-col gap-3 p-4 rounded-lg border border-text dark:border-dk_text bg-card dark:bg-dk_card shadow-sm dark:shadow-[0_4px_6px_-1px_rgba(255,255,255,0.1),0_2px_4px_-2px_rgba(255,255,255,0.1)] hover:shadow-lg dark:hover:shadow-[0_10px_15px_-3px_rgba(255,255,255,0.15),0_4px_6px_-4px_rgba(255,255,255,0.1)] transition-shadow">
       <div className="flex items-center justify-between gap-2">
         <h3 className="text-lg font-semibold text-text dark:text-dk_text">
           {statistics.find((stat) => stat.value === name)?.label || name}

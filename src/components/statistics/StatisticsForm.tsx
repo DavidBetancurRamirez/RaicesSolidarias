@@ -124,6 +124,7 @@ const StatisticsForm = <T,>({
                 <CustomInputNumber
                   label="Meta"
                   name={`statistic-goal-${index}`}
+                  required
                   value={Number(statistic.goal || 0)}
                   onChange={(value) =>
                     handleArrayChange(
