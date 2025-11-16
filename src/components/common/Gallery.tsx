@@ -67,8 +67,8 @@ const Gallery: React.FC<GalleryProps> = ({
           <SafeMedia
             alt="gallery-image"
             key={media.url}
-            src={media.url}
-            type={media.type}
+            // fit="contain"
+            media={media}
           />
         ))}
       </div>

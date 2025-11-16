@@ -71,7 +71,8 @@ const DeliveryPage = () => {
         <SafeMedia
           alt="Imagen principal de la entrega"
           className="!h-80"
-          src={delivery.mainMedia?.url}
+          media={delivery.mainMedia}
+          fit="contain"
         />
         <DeliveryDescription text={delivery.description} maxHeight="max-h-80" />
       </GridTwoColumns>
@@ -91,9 +92,9 @@ const DeliveryPage = () => {
 
         <SafeMedia
           alt="Imagen o video de agradecimiento"
-          className="!h-60"
-          src={delivery.thankYou.media?.url}
-          type={delivery.thankYou.media?.type}
+          className="!h-80"
+          media={delivery.thankYou.media}
+          fit="contain"
         />
       </GridTwoColumns>
 
@@ -118,8 +119,8 @@ const DeliveryPage = () => {
               <PlaceCard
                 date={new Date(place.deliveryDate)}
                 description={place.description}
-                image={place.mainMedia?.url}
                 key={index}
+                media={place.mainMedia}
                 place={place.name}
                 onClick={() =>
                   navigate(WEB_ROUTES.placeById(String(place._id)))

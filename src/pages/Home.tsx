@@ -40,7 +40,7 @@ const Home = () => {
 
   return (
     <React.Fragment>
-      <SafeMedia className="rounded-none !h-screen" />
+      <SafeMedia className="rounded-none !h-screen" fit="cover" />
 
       <div className="flex flex-col sm:flex-row items-center justify-center gap-4 p-4 mt-2 border-y-2 border-text dark:border-dk_text border-dashed">
         <Typography
@@ -60,7 +60,7 @@ const Home = () => {
 
       <PageLayout>
         <GridTwoColumns>
-          <SafeMedia className="!h-96" />
+          <SafeMedia />
 
           <div className="flex flex-col gap-4">
             <Title title="Descripción" />
@@ -98,8 +98,8 @@ const Home = () => {
                 <PlaceCard
                   date={new Date(place.deliveryDate)}
                   description={place.description}
-                  image={place.mainMedia?.url}
                   key={index}
+                  media={place.mainMedia}
                   place={place.name}
                   onClick={() =>
                     navigate(WEB_ROUTES.placeById(String(place._id)))

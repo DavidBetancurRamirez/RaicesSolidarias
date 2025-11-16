@@ -94,6 +94,7 @@ const CustomInputFiles: React.FC<CustomInputFilesProps> = ({
             let src: string;
             let type: TypeOfMedia = 'image';
 
+            // TODO: Add new media props
             if (isMedia) {
               // file is Media
               const mediaFile = file as Media;
@@ -115,7 +116,7 @@ const CustomInputFiles: React.FC<CustomInputFilesProps> = ({
                   multiple ? '' : 'w-full'
                 }`}
               >
-                <SafeMedia src={src} type={type} />
+                <SafeMedia media={{ type, url: src }} />
                 <button
                   className="absolute top-1 right-1 p-1 rounded bg-red-600 hover:bg-red-700 text-white opacity-80 group-hover:opacity-100"
                   title="Eliminar archivo"

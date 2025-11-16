@@ -7,11 +7,12 @@ import {
 
 import ButtonWithIcon from '../common/ButtonWithIcon';
 import SafeMedia from '../common/SafeMedia';
+import { Media } from '@/constants/interfaces';
 
 interface DeliveryCardProps {
   buttonText?: string;
   description: string;
-  imageUrl?: string;
+  media?: Media;
   onClick: () => void;
   reverse?: boolean;
   year: number;
@@ -20,7 +21,7 @@ interface DeliveryCardProps {
 const DeliveryCard: React.FC<DeliveryCardProps> = ({
   buttonText = 'Ver más',
   description,
-  imageUrl,
+  media,
   onClick,
   reverse = false,
   year,
@@ -41,7 +42,8 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({
         <SafeMedia
           alt={`Año ${year}`}
           className="rounded-none"
-          src={imageUrl}
+          fit="cover"
+          media={media}
         />
       </CardHeader>
 
