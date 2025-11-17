@@ -118,15 +118,16 @@ const PlacePage = () => {
       <SafeMedia
         alt="Imagen principal del lugar"
         className="h-96 md:h-[600px]"
-        src={place.mainMedia?.url}
+        media={place.mainMedia}
+        fit="contain"
       />
 
       <GridTwoColumns reverseOnMobile>
         <SafeMedia
           alt="Imagen secundaria del lugar"
           className="!h-80"
-          src={place.secondaryMedia?.url}
-          type={place.secondaryMedia?.type}
+          media={place.secondaryMedia}
+          fit="contain"
         />
 
         <div>

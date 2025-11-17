@@ -50,7 +50,7 @@ const About = () => {
 
       <GridTwoColumns reverseOnMobile>
         {/* // TODO: Add video about the organization */}
-        <SafeMedia className="!h-96" />
+        <SafeMedia />
 
         <Typography className="text-text dark:text-dk_text" variant="paragraph">
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident
@@ -74,7 +74,7 @@ const About = () => {
         {deliveries.map((data, index) => (
           <DeliveryCircle
             key={index}
-            imageSrc={data.mainMedia?.url}
+            media={data.mainMedia}
             year={String(data.year)}
           />
         ))}

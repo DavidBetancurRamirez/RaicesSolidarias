@@ -83,10 +83,10 @@ const CustomNavbar = () => {
     <Navbar
       className={`fixed top-0 left-0 right-0 z-50 transform transition-transform duration-300 ${
         visible ? 'translate-y-0' : '-translate-y-full'
-      } !bg-primary dark:!bg-dk_primary px-4 py-6 border-none`}
+      } !bg-primary dark:!bg-dk_primary px-4 py-6 border-none h-24 content-center`}
       fullWidth
     >
-      <div className="flex items-center justify-between text-white gap-2">
+      <div className="flex items-center content-center justify-between text-white gap-2">
         <div className="flex items-center gap-2">
           <Typography
             className="transition-colors duration-500 ease-in-out hover:text-text dark:hover:text-dk_text"
